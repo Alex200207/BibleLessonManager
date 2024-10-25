@@ -22,9 +22,12 @@ const Form = ({
   loading,
 }: FormProps): JSX.Element => {
   return (
-    <form className="mt-8 space-y-6" onSubmit={onSubmit}>
+    <form className="mt-8 space-y-6 " onSubmit={onSubmit}>
       <div>
-        <label htmlFor="inputEmailAddress" className="block mb-1 text-sm font-medium text-gray-600">
+        <label
+          htmlFor="inputEmailAddress"
+          className="block mb-1 text-sm font-medium text-gray-600"
+        >
           Ingresa usuario
         </label>
         <input
@@ -38,7 +41,10 @@ const Form = ({
         />
       </div>
       <div>
-        <label htmlFor="inputChoosePassword" className="block mb-1 text-sm font-medium text-gray-600">
+        <label
+          htmlFor="inputChoosePassword"
+          className="block mb-1 text-sm font-medium text-gray-600"
+        >
           Contraseña
         </label>
         <input
@@ -54,7 +60,10 @@ const Form = ({
 
       <div className="flex items-center justify-between">
         <label className="inline-flex items-center">
-          <input type="checkbox" className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" />
+          <input
+            type="checkbox"
+            className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+          />
           <span className="ml-2 text-sm text-gray-600">Recordarme</span>
         </label>
         <Link to="#" className="text-sm text-indigo-600 hover:underline">
@@ -63,7 +72,6 @@ const Form = ({
       </div>
 
       <div>
-
         {/*tuve que investigar esto...   :'(     */}
         <button
           type="submit"
@@ -102,10 +110,10 @@ const Form = ({
 
       <div className="mt-4 text-center">
         <span className="text-sm text-gray-600">¿No tienes cuenta? </span>
-        <Link to="/register" className="text-sm text-indigo-600 hover:underline pointer-events-none opacity-50"
-        >
-          Registrarse
-        </Link>
+        <p>
+          Solicita una Cuenta
+          <a className="text-sky-500" href="3"> Clik aqui</a>
+        </p>
       </div>
     </form>
   );
