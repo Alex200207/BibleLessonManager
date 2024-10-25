@@ -13,7 +13,7 @@ const Header = () => {
               alt="Logo"
               className="w-8 h-8 rounded-full transform transition-transform duration-500 hover:scale-110 hover:rotate-6"
             />
-            <h1 className="text-xl font-semibold text-white tracking-wider transition-transform duration-500 transform hover:scale-110 hover:text-indigo-300">
+            <h1 className="text-xl font-semibold text-black tracking-wider transition-transform duration-500 transform hover:scale-110 hover:text-slate-900">
               AlexApp
             </h1>
           </div>
@@ -22,13 +22,13 @@ const Header = () => {
           <nav className="flex space-x-4">
             <Link
               to="/about"
-              className="text-white px-4 py-2 border border-white/20 hover:border-white rounded-md transition-all duration-300 ease-in-out hover:bg-white/10 transform hover:scale-105 hover:shadow-lg"
+              className="text-black px-4 py-2 border border-white/20 hover:border-white rounded-md transition-all duration-300 ease-in-out hover:bg-white/10 transform hover:scale-105 hover:shadow-lg"
             >
               Acerca de
             </Link>
             <Link
               to="/register"
-              className="text-white px-4 py-2 border border-white/20 hover:border-white rounded-md transition-all duration-300 ease-in-out hover:bg-white/10 transform hover:scale-105 hover:shadow-lg"
+              className="text-black px-4 py-2 border border-white/20 hover:border-white rounded-md transition-all duration-300 ease-in-out hover:bg-white/10 transform hover:scale-105 hover:shadow-lg"
             >
               Registrarse
             </Link>

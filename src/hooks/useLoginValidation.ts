@@ -9,6 +9,7 @@ export const useLoginValidation = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const validateEmail = () => {
     if (!email) {
@@ -43,18 +44,20 @@ export const useLoginValidation = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    
     if (validateEmail() && validatePassword()) {
+      setLoading(true); // Inicia el loader
+
       try {
         await login({ email, password });
         Swal.fire({
           icon: "success",
           title: "Éxito",
-          text: "Ingreso exitoso. Redirigiendo...",
+          text: "Ingreso exitoso.",
           showConfirmButton: false,
           timer: 1500,
         }).then(() => {
-          navigate("/adminPage");
+          navigate("/home");
         });
       } catch {
         Swal.fire({
@@ -62,6 +65,8 @@ export const useLoginValidation = () => {
           title: "Error",
           text: "Correo electrónico o contraseña incorrectos",
         });
+      } finally {
+        setLoading(false); // Detiene el loader al finalizar
       }
     }
   };
@@ -72,6 +77,7 @@ export const useLoginValidation = () => {
     setEmail,
     setPassword,
     handleSubmit,
+    loading,
     validateEmail,
     validatePassword,
   };

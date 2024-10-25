@@ -19,7 +19,7 @@ const PrivateRoutes = () => {
   }
 
   if (role === 'maestra') {
-    return <Navigate to="/adminPage" />;
+    return <Navigate to="/home" />;
   }
 
   return <Navigate to="/login" />;

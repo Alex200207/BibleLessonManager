@@ -9,7 +9,7 @@ const Aside = ({ isOpened }: asideProps) => {
     <>
       <aside
         id="default-sidebar"
-        className={`fixed inset-y-18 left-0 z-10  h-full w-64 bg-white dark:bg-gray-800 shadow-lg dark:shadow-none transform transition-transform duration-300 ease-in-out ${
+        className={`fixed inset-y-18 left-0 z-10  h-full w-64 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200  transform transition-transform duration-300 ease-in-out ${
           isOpened ? "translate-x-0" : "-translate-x-full"
         }`}
         aria-label="Sidebar"

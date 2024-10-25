@@ -1,10 +1,10 @@
 module.exports = {
+  darkMode: 'class', // O 'media' si prefieres que se base en la configuración del sistema
   content: [
-    './index.html',
-    './src/**/*.{js,ts,jsx,tsx}',
+    "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
     extend: {},
   },
   plugins: [],
-};
+}

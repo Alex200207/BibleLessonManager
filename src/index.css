@@ -1,3 +1,11 @@
+/* En tu archivo CSS principal (index.css o tailwind.css) */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Personalización para el modo oscuro */
+.dark {
+  --tw-bg-opacity: 1;
+  background-color: rgba(31, 41, 55, var(--tw-bg-opacity)); /* gris oscuro */
+  color: white; /* Color de texto para el modo oscuro */
+}
