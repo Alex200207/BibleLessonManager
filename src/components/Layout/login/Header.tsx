@@ -71,17 +71,19 @@ const Header = () => {
           <Link
             to="/about"
             className="text-black px-4 py-2 hover:bg-gray-200 rounded-md transition-all duration-300 ease-in-out"
-            onClick={() => setIsMenuOpen(false)} // Close menu on click
+            onClick={() => setIsMenuOpen(false)} 
           >
             Acerca de
           </Link>
+          <hr />
           <Link
             to="/register"
             className="text-black px-4 py-2 hover:bg-gray-200 rounded-md transition-all duration-300 ease-in-out"
-            onClick={() => setIsMenuOpen(false)} // Close menu on click
+            onClick={() => setIsMenuOpen(false)} 
           >
             Registrarse
           </Link>
+
         </div>
       </aside>
     </>
