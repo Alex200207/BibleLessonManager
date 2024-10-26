@@ -30,7 +30,7 @@ const Login = () => {
         >
           <div className="w-full max-w-md p-8 space-y-6 bg-white shadow-md rounded-lg">
             <h4 className="text-2xl font-bold text-center text-gray-700">
-              Bienvenido a AlexApp
+              Bienvenido a BibleLesson
             </h4>
             <p className="text-center text-gray-500">Ingrese tus datos</p>
             <Form

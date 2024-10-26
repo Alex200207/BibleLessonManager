@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { GiHamburgerMenu } from 'react-icons/gi'; // Hamburger icon
 import { AiOutlineClose } from 'react-icons/ai'; // Close icon
+import icon from '../../../assets/image/icon.webp'
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -17,16 +18,16 @@ const Header = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <img
-                src="https://via.placeholder.com/40"
+                src={icon}
                 alt="Logo"
                 className="w-8 h-8 rounded-full transform transition-transform duration-500 hover:scale-110 hover:rotate-6"
               />
-              <h1 className="text-xl font-semibold text-black tracking-wider transition-transform duration-500 transform hover:scale-110 hover:text-slate-900">
-                AlexApp
+              <h1 className="text-xl font-bold text-white tracking-wider transition-transform duration-500 transform hover:scale-110 hover:text-gray-500">
+                BibleLesson
               </h1>
             </div>
 
-            {/* Hamburger button for mobile */}
+  
             <button
               onClick={toggleMenu}
               className="lg:hidden flex items-center text-black focus:outline-none"
@@ -34,7 +35,6 @@ const Header = () => {
               <GiHamburgerMenu className="w-6 h-6" />
             </button>
 
-            {/* Navigation */}
             <nav className="hidden lg:flex lg:space-x-4">
               <Link
                 to="/about"
@@ -53,7 +53,7 @@ const Header = () => {
         </div>
       </header>
 
-      {/* Sidebar */}
+   
       <div
         className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-40 transition-opacity duration-300 ${isMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
         onClick={toggleMenu}
