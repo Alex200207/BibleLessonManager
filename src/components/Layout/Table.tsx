@@ -6,7 +6,7 @@ import {
   Search,
 } from "lucide-react";
 import { group, kids, score } from "../../Types/index";
-import { useState } from "react";
+import {  useState } from "react";
 import Modal from "../Layout/modal/Modal";
 
 
@@ -17,9 +17,16 @@ interface TableProps {
   
 }
 
+
 function Table({ students, score, group }: TableProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+
+// Dependencia en 'reload'
+  
+
+
 
   const filteredKids = students.filter((kid) =>
     kid.nombre.toLowerCase().includes(searchTerm.toLowerCase())
@@ -41,6 +48,8 @@ function Table({ students, score, group }: TableProps) {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+ 
 
   return (
     <div className="bg-white shadow-md rounded-lg overflow-hidden">

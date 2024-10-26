@@ -4,6 +4,7 @@ import { PlusCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import { useStudentModal } from '../../../hooks/useAddStudent';
 
 
+
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -12,6 +13,7 @@ interface ModalProps {
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   
   const { newStudent, handleInputChange, handleSubmit } = useStudentModal();
+
 
   
 
@@ -83,6 +85,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             <button
               type="submit"
               className="flex items-center bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
+              
             >
               <PlusCircleIcon className="h-5 w-5 mr-2" aria-hidden="true" />
               Guardar
