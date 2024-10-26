@@ -8,6 +8,8 @@ import {
 import { group, kids, score } from "../../Types/index";
 import {  useState } from "react";
 import Modal from "../Layout/modal/Modal";
+import { useStudent } from "../../hooks/useStudent";
+
 
 
 interface TableProps {
@@ -21,11 +23,9 @@ interface TableProps {
 function Table({ students, score, group }: TableProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { reloadData } = useStudent();
 
-
-// Dependencia en 'reload'
-  
-
+ 
 
 
   const filteredKids = students.filter((kid) =>
@@ -75,7 +75,7 @@ function Table({ students, score, group }: TableProps) {
             >
               Agregar
             </button>
-            <Modal isOpen={isModalOpen} onClose={closeModal}  />
+            <Modal isOpen={isModalOpen} onClose={closeModal} reloadData={reloadData}   />
           </div>
         </div>
       </div>

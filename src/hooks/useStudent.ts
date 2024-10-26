@@ -9,13 +9,17 @@ export const useStudent = () => {
   const [reload, setReload] = useState(false); 
 
   useEffect(() => {
-    console.log('Fetching data');
+   
     fetchData();
     getGroupData();
   }, [reload]); // Dependencia en 'reload'
 
+
+  
+
   const fetchData = async () => {
     try {
+     
       const studentsData = await getStudents();
       setStudents(studentsData);
 
@@ -38,16 +42,27 @@ export const useStudent = () => {
   const createKid = async (newKid: kids) => {
     try {
       await addKid(newKid);
-      setReload(prev => !prev); 
     } catch (error) {
       console.error('Error al crear el estudiante:', error);
     }
   };
+  
+  const reloadData = () => {
+    console.log('Reloading data');
+    setReload((prev) => {
+      console.log('Previous reload state:', prev);
+      const newState = !prev; // Calcula el nuevo estado
+      console.log('New reload state:', newState); // Log del nuevo estado
+      return newState; // Devuelve el nuevo estado
+    });
+  };
+  
 
   return {
     students,
     score,
     group,
     createKid, 
+    reloadData,
   };
 };

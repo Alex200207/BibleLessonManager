@@ -106,7 +106,7 @@ function DropdownUser() {
             <div className="w-10 h-10 flex items-center justify-center bg-indigo-600 text-white font-bold rounded-full mr-2">
               {firstLetter}
             </div>
-            <h5 className="text-sm font-medium text-gray-800 dark:text-gray-200">Hola, {user?.name}</h5>
+            <h1 className="text-lg font-bold  text-gray-800 dark:text-gray-200">Hola, {user?.name}</h1>
           </div>
           <a
             href="#/profile"
@@ -126,9 +126,9 @@ function DropdownUser() {
           <a
             href="/"
             onClick={handleLogout}
-            className="flex items-center p-2 text-red-600 hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-200 rounded-lg"
+            className="flex items-center p-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-200 rounded-lg"
           >
-            <CiLogout className="mr-2" /> Cerrar sesión
+            <CiLogout className="mr-2 h-6 w-6" /> Cerrar sesión
           </a>
         </div>
       )}

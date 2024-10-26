@@ -4,11 +4,12 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { addStudent } from "../services/studentService";
 import { kids } from "../Types";
-
+import { useStudent } from "./useStudent";
 
 const MySwal = withReactContent(Swal);
 
 export const useStudentModal = () => {
+  const { reloadData: reloadStudentData } = useStudent();
 
   const [newStudent, setNewStudent] = useState<kids>({
     id: 0,
@@ -41,13 +42,14 @@ export const useStudentModal = () => {
       confirmButtonText: "Sí, agregar",
       cancelButtonText: "Cancelar",
     });
-
+  
     if (result.isConfirmed) {
       try {
         await addStudent(newStudent); // Agrega el nuevo estudiante
         
-
-
+        // Llama a reloadStudentData sin await
+        reloadStudentData(); // Recarga los datos
+  
         await MySwal.fire({
           title: "¡Éxito!",
           text: "Estudiante agregado exitosamente.",
@@ -55,9 +57,8 @@ export const useStudentModal = () => {
           showConfirmButton: false,
           timer: 2000,
         });
-        window.location.reload(); // Recarga la página
-
-       
+  
+        // Reinicia el estado de newStudent
         setNewStudent({
           id: 0,
           nombre: "",
@@ -66,7 +67,7 @@ export const useStudentModal = () => {
           genero: "",
           grupo_id: 0,
         });
-
+  
         onClose(); // Cierra el modal
       } catch (error) {
         await MySwal.fire({
@@ -77,7 +78,6 @@ export const useStudentModal = () => {
       }
     }
   };
-
   return {
     newStudent,
     handleInputChange,

@@ -8,9 +8,11 @@ import { useStudentModal } from '../../../hooks/useAddStudent';
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
+  reloadData: () => void;
+  
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, }) => {
   
   const { newStudent, handleInputChange, handleSubmit } = useStudentModal();
 
