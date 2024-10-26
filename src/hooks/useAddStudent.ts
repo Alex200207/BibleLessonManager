@@ -57,7 +57,7 @@ export const useStudentModal = () => {
         });
         window.location.reload(); // Recarga la página
 
-        // Reset the form after successful submission
+       
         setNewStudent({
           id: 0,
           nombre: "",
