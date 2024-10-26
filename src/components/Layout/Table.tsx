@@ -52,7 +52,7 @@ function Table({ students, score, group }: TableProps) {
  
 
   return (
-    <div className="bg-white shadow-md rounded-lg overflow-hidden">
+    <div className="bg-white shadow-md rounded-lg overflow-hidden ">
       <div className="p-4 border-b border-gray-200">
         <div className="flex flex-col sm:flex-row justify-between items-center mb-4">
           <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-2 sm:mb-0">
