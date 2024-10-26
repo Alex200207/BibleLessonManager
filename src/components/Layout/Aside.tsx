@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 
 interface asideProps {
   isOpened: boolean;
+  style?: React.CSSProperties;
 }
 
 const Aside = ({ isOpened }: asideProps) => {
