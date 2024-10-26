@@ -9,10 +9,12 @@ import { group, kids, score } from "../../Types/index";
 import { useState } from "react";
 import Modal from "../Layout/modal/Modal";
 
+
 interface TableProps {
   students: kids[];
   score: score[];
   group: group[];
+  
 }
 
 function Table({ students, score, group }: TableProps) {
@@ -64,7 +66,7 @@ function Table({ students, score, group }: TableProps) {
             >
               Agregar
             </button>
-            <Modal isOpen={isModalOpen} onClose={closeModal} />
+            <Modal isOpen={isModalOpen} onClose={closeModal}  />
           </div>
         </div>
       </div>

@@ -1,5 +1,8 @@
-import React, { useState } from "react";
-import { PlusCircleIcon, XCircleIcon } from '@heroicons/react/24/solid' // Asegúrate de tener instalada la biblioteca de Heroicons
+// src/components/Modal.tsx
+import React from "react";
+import { PlusCircleIcon, XCircleIcon } from '@heroicons/react/24/solid'; 
+import { useStudentModal } from '../../../hooks/useAddStudent';
+
 
 interface ModalProps {
   isOpen: boolean;
@@ -7,55 +10,48 @@ interface ModalProps {
 }
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
+  
+  const { newStudent, handleInputChange, handleSubmit } = useStudentModal();
 
-  const [nombre, setNombre] = useState("");
-  const [grupo, setGrupo] = useState("");
-  const [maestra, setMaestra] = useState("");
-  const [edad, setEdad] = useState("");
-  const [genero, setGenero] = useState("");
+  
 
   if (!isOpen) return null;
-
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    console.log({ nombre, grupo, maestra, edad, genero });
-    onClose(); 
-  };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
       <div className="bg-white rounded-lg shadow-lg p-6 w-11/12 md:w-2/3 lg:w-1/2">
         <h2 className="text-xl font-semibold text-gray-800">Agregar Estudiante</h2>
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+        <form onSubmit={(e) => { e.preventDefault(); handleSubmit(onClose); }} className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
           <div>
             <label className="block text-sm font-medium text-gray-700">Nombre</label>
             <input
               type="text"
+              name="nombre"
               placeholder="Nombre del Estudiante"
-              value={nombre}
-              onChange={(e) => setNombre(e.target.value)}
+              value={newStudent.nombre}
+              onChange={handleInputChange}
               className="border border-gray-300 rounded-md p-3 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700">Grupo</label>
             <input
-              type="text"
+              type="number"
+              name="grupo_id"
               placeholder="Grupo"
-              value={grupo}
-              onChange={(e) => setGrupo(e.target.value)}
+              value={newStudent.grupo_id}
+              onChange={handleInputChange}
               className="border border-gray-300 rounded-md p-3 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700">Maestra</label>
             <input
-              type="text"
+              type="number"
+              name="id_maestra"
               placeholder="Nombre de la Maestra"
-              value={maestra}
-              onChange={(e) => setMaestra(e.target.value)}
+              value={newStudent.id_maestra}
+              onChange={handleInputChange}
               className="border border-gray-300 rounded-md p-3 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
@@ -63,17 +59,19 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             <label className="block text-sm font-medium text-gray-700">Edad</label>
             <input
               type="number"
+              name="edad"
               placeholder="Edad"
-              value={edad}
-              onChange={(e) => setEdad(e.target.value)}
+              value={newStudent.edad}
+              onChange={handleInputChange}
               className="border border-gray-300 rounded-md p-3 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <div className="col-span-1 md:col-span-2">
             <label className="block text-sm font-medium text-gray-700">Género</label>
             <select
-              value={genero}
-              onChange={(e) => setGenero(e.target.value)}
+              name="genero"
+              value={newStudent.genero}
+              onChange={handleInputChange}
               className="border border-gray-300 rounded-md p-3 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">Seleccione un género</option>

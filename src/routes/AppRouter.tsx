@@ -7,6 +7,7 @@ import Register from "../pages/Register";
 
 
 
+
 const AppRouter = () => {
   const { students ,score, group} = useStudent();
   return (
@@ -17,7 +18,7 @@ const AppRouter = () => {
 
       <Route element={<PrivateRoutes />}>
         <Route path="/home" element={<h1>Hola</h1>} />
-        <Route path="/kid" element={<Table students={students}  score={score} group={group}/>} />
+        <Route path="/kid" element={<Table students={students} score={score} group={group} />} />
         <Route path="/group" element={<h2>Hola2</h2>} />
       </Route>
     </Routes>
