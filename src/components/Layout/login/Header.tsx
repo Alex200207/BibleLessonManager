@@ -12,7 +12,7 @@ const Header = () => {
 
   return (
     <>
-      <header className="backdrop-blur-md bg-white/30 border-b border-white/10 py-4 fixed w-full top-0 z-50 transition-all duration-500 ease-in-out">
+      <header className="backdrop-blur-mdborder-b border-white/10 py-4 fixed w-full top-0 z-50 transition-all duration-500 ease-in-out">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">

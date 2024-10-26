@@ -15,21 +15,14 @@ function Header({ toggleAside }: HeaderProps) {
         <button onClick={toggleAside} className="h-8 w-auto">
           <RiMenu2Fill className="w-6 h-6" />
         </button>
-        <div className="flex lg:flex-1">
-          <span className="sr-only">Your Company</span>
+
+        <div className="flex-1 flex justify-center lg:justify-start">
+          <span className="text-lg font-semibold text-gray-900 dark:text-gray-200">
+            AlexApp
+          </span>
         </div>
-        <div className="hidden lg:flex lg:gap-x-12">
-          <div className="relative">
-            <button
-              type="button"
-              className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900 dark:text-gray-200"
-              aria-expanded="false"
-            >
-              AlexApp
-            </button>
-          </div>
-        </div>
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+
+        <div className="flex lg:flex-1 justify-end">
           <DropdownUser />
         </div>
       </nav>
