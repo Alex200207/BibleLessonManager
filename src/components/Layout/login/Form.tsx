@@ -8,7 +8,7 @@ interface FormProps {
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
   validatePassword: () => boolean;
   validateEmail: () => boolean;
-  loading: boolean; // Cambiado para ser un booleano
+  loading: boolean; 
 }
 
 const Form = ({
@@ -72,7 +72,6 @@ const Form = ({
       </div>
 
       <div>
-        {/*tuve que investigar esto...   :'(     */}
         <button
           type="submit"
           className="w-full px-4 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
@@ -81,24 +80,12 @@ const Form = ({
           {loading ? (
             <div className="flex items-center justify-center">
               <svg
-                className="w-5 h-5 mr-2 animate-spin text-white" // Ruedita de carga
+                className="w-6 h-6 mr-2 animate-spin text-white" // Biblia giratoria
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+                fill="currentColor"
               >
-                <circle cx="12" cy="12" r="10" />
-                <line x1="12" y1="2" x2="12" y2="6" />
-                <line x1="12" y1="18" x2="12" y2="22" />
-                <line x1="2" y1="12" x2="6" y2="12" />
-                <line x1="18" y1="12" x2="22" y2="12" />
-                <line x1="4.22" y1="4.22" x2="6.34" y2="6.34" />
-                <line x1="17.66" y1="17.66" x2="19.78" y2="19.78" />
-                <line x1="4.22" y1="19.78" x2="6.34" y2="17.66" />
-                <line x1="17.66" y1="6.34" x2="19.78" y2="4.22" />
+                <path d="M4 2H14C15.1 2 16 2.9 16 4V20C16 21.1 15.1 22 14 22H4C2.9 22 2 21.1 2 20V4C2 2.9 2.9 2 4 2ZM10 4V20H4V4H10ZM14 4V20H12V4H14ZM18 6H20C21.1 6 22 6.9 22 8V16C22 17.1 21.1 18 20 18H18V6Z" />
               </svg>
               Cargando...
             </div>

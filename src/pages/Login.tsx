@@ -27,8 +27,9 @@ const Login = () => {
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
-        >
-          <div className="w-full max-w-md p-8 space-y-6 bg-white shadow-md rounded-lg">
+        >{/*<div className="w-full max-w-md p-8 space-y-6 bg-white shadow-md rounded-lg mx-4 sm:mx-8 md:mx-auto">
+          */}
+          <div className="w-full max-w-md p-5 space-y-6 bg-white shadow-md rounded-lg mx-1">
             <h4 className="text-2xl font-bold text-center text-gray-700">
               Bienvenido a BibleLesson
             </h4>
