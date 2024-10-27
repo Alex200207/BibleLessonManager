@@ -27,13 +27,13 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [token, setToken] = useState<string>(sessionStorage.getItem('token') || '');
-  const [role, setRole] = useState<string>(sessionStorage.getItem('role') || '');
+  const [token, setToken] = useState<string>(localStorage.getItem('token') || '');
+  const [role, setRole] = useState<string>(localStorage.getItem('role') || '');
 
   useEffect(() => {
     const handleStorageChange = () => {
-      setToken(sessionStorage.getItem('token') || '');
-      setRole(sessionStorage.getItem('role') || '');
+      setToken(localStorage.getItem('token') || '');
+      setRole(localStorage.getItem('role') || '');
     };
 
     window.addEventListener('storage', handleStorageChange);
@@ -47,13 +47,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       console.log('Datos de inicio de sesión:', { email, password });
       const response = await fetch(`${API_URL}/auth/login`, {
-        
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email, password }),
-        
       });
 
       if (!response.ok) {
@@ -64,8 +62,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setToken(data.token);
       setRole(data.role);
 
-      sessionStorage.setItem('token', data.token);
-      sessionStorage.setItem('role', data.role);
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('role', data.role);
 
       return data;
     } catch (error) {
@@ -78,8 +76,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setToken('');
     setRole('');
 
-    sessionStorage.removeItem('token');
-    sessionStorage.removeItem('role');
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
   };
 
   const isAuthenticated = !!token;
@@ -91,7 +89,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   return <AuthContext.Provider value={authContextValue}>{children}</AuthContext.Provider>;
 };
-
 
 export const useAuth = () => {
   const context = useContext(AuthContext);

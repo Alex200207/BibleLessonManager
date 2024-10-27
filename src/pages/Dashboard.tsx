@@ -17,7 +17,7 @@ const Dashboard: FC<DashboardProps> = ({ children }) => {
     <>
       <Header toggleAside={toggleAside} />
 
-      <div className="flex transition-all duration-300">
+      <div className="flex transition-all duration-300 ">
         <Aside
           isOpened={isOpened}
           style={{
@@ -31,7 +31,7 @@ const Dashboard: FC<DashboardProps> = ({ children }) => {
         />
 
         <main
-          className={`transition-all duration-300 p-4 ${
+          className={`transition-all duration-300 p-5 ${
             isOpened ? "ml-0 lg:ml-64" : "ml-0"
           }`}
           style={{

@@ -4,7 +4,12 @@ import { API_URL } from "../constant/index";
 
 const getStudents = async () => {
   try {
-    const response = await axios.get(`${API_URL}/students`);
+    const response = await axios.get(`${API_URL}/students`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     if (response.status === 200) {
       return response.data;
     } else {
@@ -12,12 +17,18 @@ const getStudents = async () => {
     }
   } catch (err) {
     console.log(err, "No se pudo obtener los datos");
+    return []; 
   }
 };
 
 const getStudentById = async (id: kids["id"]) => {
   try {
-    const response = await axios.get(`${API_URL}/students/${id}`);
+    const response = await axios.get(`${API_URL}/students/${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     if (response.status === 200) {
       return response.data;
     } else {
@@ -25,12 +36,18 @@ const getStudentById = async (id: kids["id"]) => {
     }
   } catch (err) {
     console.log(err, "No se pudo obtener los datos");
+    return []; 
   }
 };
 
 const getScore = async () => {
   try {
-    const response = await axios.get(`${API_URL}/score`);
+    const response = await axios.get(`${API_URL}/score`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     if (response.status === 200) {
       return response.data;
     } else {
@@ -38,12 +55,18 @@ const getScore = async () => {
     }
   } catch (err) {
     console.log(err, "No se pudo obtener los datos");
+    return [];
   }
 };
 
 const getGroup = async () => {
   try {
-    const response = await axios.get(`${API_URL}/group`);
+    const response = await axios.get(`${API_URL}/group`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     if (response.status === 200) {
       return response.data;
     } else {
@@ -51,11 +74,18 @@ const getGroup = async () => {
     }
   } catch (err) {
     console.log(err, "No se pudo obtener los datos");
+    return []; 
   }
 };
+
 const addKid = async (newKid: kids): Promise<kids> => {
   try {
-    const response = await axios.post(`${API_URL}/students`, newKid);
+    const response = await axios.post(`${API_URL}/students`, newKid, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     if (response.status === 201) {
       return response.data;
     } else {
@@ -72,18 +102,25 @@ const addStudent = async (newStudent: kids) => {
     const response = await axios.post(`${API_URL}/students`, newStudent, {
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
 
     return response.data;
-  } catch {
+  } catch (err) {
+    console.error(err, "Error al agregar el estudiante");
     throw new Error("Error al agregar el estudiante");
   }
 };
 
 const getUsers = async () => {
   try {
-    const response = await axios.get(`${API_URL}/auth`);
+    const response = await axios.get(`${API_URL}/auth`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     if (response.status === 200) {
       return response.data;
     } else {
@@ -91,6 +128,7 @@ const getUsers = async () => {
     }
   } catch (err) {
     console.log(err, "No se pudo obtener los datos");
+    return []; 
   }
 };
 

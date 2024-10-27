@@ -13,3 +13,12 @@
 .custom-top{
   top: 4rem;
 }
+.custom-z{
+  z-index: 1000 !important;
+}
+.custom-z-h{
+  z-index: 50 !important;
+}
+.custom-z-a{
+  z-index: 50 !important;
+}
