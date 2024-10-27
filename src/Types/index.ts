@@ -18,3 +18,9 @@ export interface kids {
     nombre: string;
     descripcion: string;
   }
+  export interface users {
+    id:number;
+    name: string;
+    email: string;
+    password: string;
+  }

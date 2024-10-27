@@ -43,7 +43,7 @@ const Header = () => {
                 Acerca de
               </Link>
               <Link
-                to="/register"
+                to="/"
                 className="text-black px-4 py-2 border border-white/20 hover:border-white rounded-md transition-all duration-300 ease-in-out hover:bg-white/10 transform hover:scale-105 hover:shadow-lg"
               >
                 Registrarse
@@ -76,13 +76,7 @@ const Header = () => {
             Acerca de
           </Link>
           <hr />
-          <Link
-            to="/register"
-            className="text-black px-4 py-2 hover:bg-gray-200 rounded-md transition-all duration-300 ease-in-out"
-            onClick={() => setIsMenuOpen(false)} 
-          >
-            Registrarse
-          </Link>
+        
 
         </div>
       </aside>
