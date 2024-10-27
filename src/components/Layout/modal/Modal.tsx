@@ -11,7 +11,7 @@ interface ModalProps {
   reloadData: () => void;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, reloadData }) => {
   const { newStudent, handleInputChange, handleSubmit } = useStudentModal();
   const { group } = useStudent();
   const { userList: teachers } = useUser();
@@ -27,7 +27,10 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            handleSubmit(onClose);
+            handleSubmit(() => {
+              reloadData();
+              onClose();
+            });
           }}
           className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4"
         >

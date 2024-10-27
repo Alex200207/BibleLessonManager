@@ -2,15 +2,13 @@
 import { useState } from "react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import { addStudent } from "../services/studentService";
 import { kids } from "../Types";
 import { useStudent } from "./useStudent";
 
 const MySwal = withReactContent(Swal);
 
 export const useStudentModal = () => {
-  const { reloadData: reloadStudentData } = useStudent();
-
+  const { createKid, reloadData } = useStudent();
   const [newStudent, setNewStudent] = useState<kids>({
     id: 0,
     nombre: "",
@@ -26,10 +24,9 @@ export const useStudentModal = () => {
     const { name, value } = e.target;
     setNewStudent((prev) => ({
       ...prev,
-      [name]:
-        name === "grupo_id" || name === "id_maestra" || name === "edad"
-          ? Number(value)
-          : value,
+      [name]: name === "grupo_id" || name === "id_maestra" || name === "edad"
+        ? Number(value)
+        : value,
     }));
   };
 
@@ -42,14 +39,10 @@ export const useStudentModal = () => {
       confirmButtonText: "Sí, agregar",
       cancelButtonText: "Cancelar",
     });
-  
+
     if (result.isConfirmed) {
       try {
-        await addStudent(newStudent); // Agrega el nuevo estudiante
-        
-        // Llama a reloadStudentData sin await
-        reloadStudentData(); // Recarga los datos
-  
+        await createKid(newStudent);
         await MySwal.fire({
           title: "¡Éxito!",
           text: "Estudiante agregado exitosamente.",
@@ -57,8 +50,7 @@ export const useStudentModal = () => {
           showConfirmButton: false,
           timer: 2000,
         });
-  
-        // Reinicia el estado de newStudent
+
         setNewStudent({
           id: 0,
           nombre: "",
@@ -67,8 +59,9 @@ export const useStudentModal = () => {
           genero: "",
           grupo_id: 0,
         });
-  
-        onClose(); // Cierra el modal
+
+        reloadData();
+        onClose();
       } catch (error) {
         await MySwal.fire({
           title: "Error",
@@ -78,10 +71,10 @@ export const useStudentModal = () => {
       }
     }
   };
+
   return {
     newStudent,
     handleInputChange,
     handleSubmit,
-    setNewStudent,
   };
 };
