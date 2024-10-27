@@ -7,7 +7,7 @@ interface HeaderProps {
 
 function Header({ toggleAside }: HeaderProps) {
   return (
-    <header className="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 ">
+    <header className="fixed top-0 left-0 w-full z-10 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 shadow-md">
       <nav
         className="mx-auto flex items-center justify-between p-3 lg:px-8 shadow-sm"
         aria-label="Global"

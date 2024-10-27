@@ -74,19 +74,18 @@ function DropdownUser() {
     }
   }, [darkMode]);
 
-  // Detectar clics fuera del dropdown
+ 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      // Verificar si el clic fue fuera del dropdown
+     
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     };
 
-    // Agregar el evento de escucha
+
     document.addEventListener("mousedown", handleClickOutside);
 
-    // Limpiar el evento de escucha al desmontar
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };

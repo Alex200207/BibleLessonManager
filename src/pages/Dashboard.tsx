@@ -31,7 +31,7 @@ const Dashboard: FC<DashboardProps> = ({ children }) => {
         />
 
         <main
-          className={`transition-all duration-300 p-2 ${
+          className={`transition-all duration-300 p-4 ${
             isOpened ? "ml-0 lg:ml-64" : "ml-0"
           }`}
           style={{
@@ -39,6 +39,7 @@ const Dashboard: FC<DashboardProps> = ({ children }) => {
             width: "100%",
             position: "relative",
             zIndex: 0,
+            marginTop: "1rem", // Ajusta este valor según sea necesario
           }}
         >
           <div className="w-full overflow-x-auto">{children}</div>

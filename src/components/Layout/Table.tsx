@@ -58,9 +58,47 @@ const Table: React.FC = () => {
       ),
     },
   ];
+  const customStyles = {
+    table: {
+      style: {
+        borderRadius: "20px 20px 0 0",
+        overflow: "hidden",
+      },
+    },
+    headCells: {
+      style: {
+        backgroundColor: "#ebf8ff",
+        color: "#2d3748",
+        fontWeight: "600",
+      },
+    },
+    cells: {
+      style: {
+        paddingLeft: "24px",
+        paddingRight: "24px",
+        color: "#4a5568",
+      },
+    },
+    rows: {
+      style: {
+        backgroundColor: "#ffffff",
+        padding: "16px",
+        "&:hover": {
+          backgroundColor: "#f7fafc",
+        },
+      },
+    },
+    pagination: {
+      style: {
+        backgroundColor: "#edf2f7",
+        color: "#4a5568",
+        borderRadius: "0 0 20px 20px",
+      },
+    },
+  };
 
   return (
-    <div className="container mx-auto my-5 p-5">
+    <div className="container mx-auto my-5 p-5 dark:bg-gray-900 text-gray-800 dark:text-gray-200 ">
       <div className="flex justify-between mb-4">
         <input
           type="text"
@@ -78,7 +116,7 @@ const Table: React.FC = () => {
         columns={columns}
         data={filteredStudents}
         pagination
-        customStyles={{ table: { style: { borderRadius: "20px" } } }}
+        customStyles={customStyles}
       />
 
       <Modal isOpen={isModalOpen} onClose={toggleModal} reloadData={reloadData} />
