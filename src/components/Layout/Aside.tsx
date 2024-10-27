@@ -10,7 +10,7 @@ const Aside = ({ isOpened }: asideProps) => {
     <>
       <aside
         id="default-sidebar"
-        className={`fixed left-0 top-16 z-10 h-full  w-42 sm:w-56 bg-white dark:bg-black text-gray-800 dark:text-gray-200 transform transition-transform duration-300 ease-in-out  ${
+        className={`fixed left-0 custom-top z-10 h-full w-42 sm:w-56 bg-white dark:bg-black text-gray-800 dark:text-gray-200 transform transition-transform duration-300 ease-in-out inset-shadow-top ${
           isOpened ? "translate-x-0" : "-translate-x-full"
         }`}
         aria-label="Sidebar"
@@ -37,7 +37,9 @@ const Aside = ({ isOpened }: asideProps) => {
             </li>
             <li>
               <Link to="/kid" className="nav-link">
-                <span className="flex-1 ms-3 whitespace-nowrap">Estudiantes</span>
+                <span className="flex-1 ms-3 whitespace-nowrap">
+                  Estudiantes
+                </span>
                 <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300"></span>
               </Link>
             </li>

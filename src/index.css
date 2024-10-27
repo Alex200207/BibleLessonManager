@@ -9,3 +9,7 @@
   background-color: rgba(31, 41, 55, var(--tw-bg-opacity)); /* gris oscuro */
   color: white; /* Color de texto para el modo oscuro */
 }
+
+.custom-top{
+  top: 4rem;
+}
