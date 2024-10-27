@@ -98,7 +98,7 @@ const Table: React.FC<TableProps> = ({ students, score, group }) => {
   const customStyles = {
     table: {
       style: {
-        borderRadius: "20px",
+        borderRadius: "20px 20px 0 0",
         overflow: "hidden",
       },
     },
