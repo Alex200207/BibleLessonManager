@@ -1,0 +1,11 @@
+version: 1
+services:
+  - type: web
+    name: BibleLesson
+    env: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./build
+    routes:
+      - type: rewrite
+        path: /*
+        destination: /
