@@ -54,16 +54,16 @@ const Table: React.FC = () => {
     {
       name: "Acciones",
       cell: (row: Row) => (
-        <div className="flex space-x-2 justify-between"> {/* Cambiar a justify-between */}
+        <div className="flex space-x-1 justify-between"> {/* Reducir espacio entre iconos */}
           <button>
-            <MdOutlineEdit className="h-6 w-6" />
+            <MdOutlineEdit className="h-5 w-5" /> {/* Reducir tamaño del icono */}
           </button>
           <button onClick={() => handleDelete(row.id)}>
-            <MdDeleteOutline className="h-6 w-6 text-red-600" />
+            <MdDeleteOutline className="h-5 w-5 text-red-600" /> {/* Reducir tamaño del icono */}
           </button>
         </div>
       ),
-      width: '100px', // Establecer un ancho específico para la columna de acciones
+      width: '80px', // Reducir ancho de la columna de acciones
     },
   ];
 
@@ -72,6 +72,7 @@ const Table: React.FC = () => {
       style: {
         borderRadius: "20px 20px 0 0",
         overflow: "hidden",
+        maxWidth: '100%', // Asegurarse de que no exceda el contenedor
       },
     },
     headCells: {
@@ -83,15 +84,15 @@ const Table: React.FC = () => {
     },
     cells: {
       style: {
-        paddingLeft: "24px",
-        paddingRight: "24px",
+        paddingLeft: "8px", // Reducir padding
+        paddingRight: "8px", // Reducir padding
         color: "#4a5568",
       },
     },
     rows: {
       style: {
         backgroundColor: "#ffffff",
-        padding: "16px",
+        padding: "8px", // Reducir padding
         "&:hover": {
           backgroundColor: "#f7fafc",
         },
@@ -133,12 +134,14 @@ const Table: React.FC = () => {
         </button>
       </div>
 
-      <DataTable
-        columns={columns.filter(column => !column.omit || column.name === "Nombre" || column.name === "Acciones")} // Mantener Nombre y Acciones
-        data={filteredStudents}
-        pagination
-        customStyles={customStyles}
-      />
+      <div className="overflow-x-auto"> {/* Contenedor para permitir scroll horizontal si es necesario */}
+        <DataTable
+          columns={columns.filter(column => !column.omit || column.name === "Nombre" || column.name === "Acciones")} // Mantener Nombre y Acciones
+          data={filteredStudents}
+          pagination
+          customStyles={customStyles}
+        />
+      </div>
 
       <Modal
         isOpen={isModalOpen}
