@@ -1,7 +1,6 @@
-// src/components/Table.tsx
+
 import React, { useState } from "react";
 import DataTable from "react-data-table-component";
-import {  score, group } from "../../Types";
 import Modal from "../Layout/modal/Modal";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { MdOutlineEdit, MdDeleteOutline } from "react-icons/md";
@@ -16,9 +15,8 @@ interface Row {
   grupo_id: number;
 }
 
-
 const Table: React.FC = () => {
-  const { students, score, group, reloadData } = useStudent();
+  const { students, score, group, reloadData, deleteStudents } = useStudent();
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -29,17 +27,22 @@ const Table: React.FC = () => {
   );
 
   const findScoreForStudent = (studentId: number) => {
-    const studentScore = score.find((s: score) => s.estudiante_id === studentId);
+    const studentScore = score.find((s) => s.estudiante_id === studentId);
     return studentScore ? studentScore.puntuacion : "sin puntos";
   };
 
   const findGroupName = (groupId: number) => {
-    const groupData = group.find((g: group) => g.id === groupId);
+    const groupData = group.find((g) => g.id === groupId);
     return groupData ? groupData.nombre : "sin grupo";
   };
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
+  };
+
+  const handleDelete = async (id: number) => {
+    await deleteStudents(id); // Llama a la función de eliminación del hook
+    reloadData(); // Recarga la lista de estudiantes después de eliminar
   };
 
   const columns = [
@@ -50,14 +53,19 @@ const Table: React.FC = () => {
     { name: "Puntuación", cell: (row: Row) => findScoreForStudent(row.id) },
     {
       name: "Acciones",
-      cell: () => (
-        <div>
-          <button><MdOutlineEdit className="h-6 w-6" /></button>
-          <button><MdDeleteOutline className="h-6 w-6" /></button>
+      cell: (row: Row) => (
+        <div className="flex space-x-2">
+          <button>
+            <MdOutlineEdit className="h-6 w-6" />
+          </button>
+          <button onClick={() => handleDelete(row.id)}>
+            <MdDeleteOutline className="h-6 w-6 text-red-600" />
+          </button>
         </div>
       ),
     },
   ];
+
   const customStyles = {
     table: {
       style: {
@@ -119,7 +127,11 @@ const Table: React.FC = () => {
         customStyles={customStyles}
       />
 
-      <Modal isOpen={isModalOpen} onClose={toggleModal} reloadData={reloadData} />
+      <Modal
+        isOpen={isModalOpen}
+        onClose={toggleModal}
+        reloadData={reloadData}
+      />
     </div>
   );
 };

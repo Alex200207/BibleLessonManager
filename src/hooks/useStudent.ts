@@ -1,6 +1,6 @@
-// src/hooks/useStudent.ts
 import { useEffect, useState } from 'react';
-import { getStudents, getScore, getGroup, addKid } from '../services/studentService';
+import Swal from 'sweetalert2'; // Importa SweetAlert2
+import { getStudents, getScore, getGroup, addKid, deleteStudent } from '../services/studentService';
 import { kids, score as scoreType, group as groupType } from '../Types/index';
 
 export const useStudent = () => {
@@ -26,6 +26,42 @@ export const useStudent = () => {
     }
   };
 
+ 
+  const deleteStudents = async (id: kids['id']) => {
+    const result = await Swal.fire({
+      title: '¿Estás seguro?',
+      text: "¡No podrás recuperar este estudiante después de eliminarlo!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminarlo',
+      cancelButtonText: 'Cancelar'
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await deleteStudent(id);
+        Swal.fire(
+          'Eliminado!',
+          'El estudiante ha sido eliminado.',
+          'success'
+        );
+        const studentsData = await getStudents(); 
+        setStudents(studentsData);
+      } catch (error) {
+        Swal.fire(
+          'Error!',
+          'No se pudo eliminar el estudiante.',
+          'error'
+        );
+        console.error('Error al eliminar el estudiante:', error);
+      }
+    } else {
+      Swal.fire('Cancelado', 'El estudiante no ha sido eliminado', 'info');
+    }
+  };
+
   const getGroupData = async () => {
     try {
       const groupData = await getGroup();
@@ -38,7 +74,7 @@ export const useStudent = () => {
   const createKid = async (newKid: kids) => {
     try {
       await addKid(newKid);
-      reloadData(); // Recarga los datos al agregar un estudiante nuevo
+      reloadData(); 
     } catch (error) {
       console.error('Error al crear el estudiante:', error);
     }
@@ -54,5 +90,6 @@ export const useStudent = () => {
     group,
     createKid,
     reloadData,
+    deleteStudents,
   };
 };

@@ -17,7 +17,7 @@ const getStudents = async () => {
     }
   } catch (err) {
     console.log(err, "No se pudo obtener los datos");
-    return []; 
+    return [];
   }
 };
 
@@ -36,7 +36,21 @@ const getStudentById = async (id: kids["id"]) => {
     }
   } catch (err) {
     console.log(err, "No se pudo obtener los datos");
-    return []; 
+    return [];
+  }
+};
+
+const deleteStudent = async (id: kids["id"]) => {
+  try {
+    const response = await axios.delete(`${API_URL}/students/${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    return response.data;
+  } catch (err) {
+    throw `error al eliminar ${err} `;
   }
 };
 
@@ -74,7 +88,7 @@ const getGroup = async () => {
     }
   } catch (err) {
     console.log(err, "No se pudo obtener los datos");
-    return []; 
+    return [];
   }
 };
 
@@ -128,8 +142,17 @@ const getUsers = async () => {
     }
   } catch (err) {
     console.log(err, "No se pudo obtener los datos");
-    return []; 
+    return [];
   }
 };
 
-export { getStudents, getStudentById, getScore, getGroup, addKid, addStudent, getUsers };
+export {
+  getStudents,
+  getStudentById,
+  getScore,
+  getGroup,
+  addKid,
+  addStudent,
+  getUsers,
+  deleteStudent,
+};
