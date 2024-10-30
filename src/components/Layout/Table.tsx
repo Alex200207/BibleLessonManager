@@ -46,7 +46,11 @@ const Table: React.FC = () => {
   };
 
   const columns = [
-    { name: "Nombre", selector: (row: Row) => row.nombre },
+    {
+      name: "Nombre",
+      selector: (row: Row) => row.nombre,
+      cell: (row: Row) => <div className="overflow-wrap break-word">{row.nombre}</div>, // Permitir que el nombre se divida
+    },
     { name: "Edad", selector: (row: Row) => row.edad, omit: isMobile },
     { name: "Género", selector: (row: Row) => row.genero, omit: isMobile },
     { name: "Grupo", cell: (row: Row) => findGroupName(row.grupo_id), omit: isMobile },
@@ -54,16 +58,16 @@ const Table: React.FC = () => {
     {
       name: "Acciones",
       cell: (row: Row) => (
-        <div className="flex space-x-1 justify-between"> {/* Reducir espacio entre iconos */}
+        <div className="flex space-x-2 justify-between">
           <button>
-            <MdOutlineEdit className="h-5 w-5" /> {/* Reducir tamaño del icono */}
+            <MdOutlineEdit className="h-6 w-6" />
           </button>
           <button onClick={() => handleDelete(row.id)}>
-            <MdDeleteOutline className="h-5 w-5 text-red-600" /> {/* Reducir tamaño del icono */}
+            <MdDeleteOutline className="h-6 w-6 text-red-600" />
           </button>
         </div>
       ),
-      width: '80px', // Reducir ancho de la columna de acciones
+      width: '100px',
     },
   ];
 
@@ -72,7 +76,6 @@ const Table: React.FC = () => {
       style: {
         borderRadius: "20px 20px 0 0",
         overflow: "hidden",
-        maxWidth: '100%', // Asegurarse de que no exceda el contenedor
       },
     },
     headCells: {
@@ -84,15 +87,15 @@ const Table: React.FC = () => {
     },
     cells: {
       style: {
-        paddingLeft: "8px", // Reducir padding
-        paddingRight: "8px", // Reducir padding
+        paddingLeft: "24px",
+        paddingRight: "24px",
         color: "#4a5568",
       },
     },
     rows: {
       style: {
         backgroundColor: "#ffffff",
-        padding: "8px", // Reducir padding
+        padding: "16px",
         "&:hover": {
           backgroundColor: "#f7fafc",
         },
@@ -134,9 +137,9 @@ const Table: React.FC = () => {
         </button>
       </div>
 
-      <div className="overflow-x-auto"> {/* Contenedor para permitir scroll horizontal si es necesario */}
+      <div className="overflow-x-auto"> {/* Agregar un contenedor con overflow-x-auto */}
         <DataTable
-          columns={columns.filter(column => !column.omit || column.name === "Nombre" || column.name === "Acciones")} // Mantener Nombre y Acciones
+          columns={columns.filter(column => !column.omit || column.name === "Nombre" || column.name === "Acciones")}
           data={filteredStudents}
           pagination
           customStyles={customStyles}
