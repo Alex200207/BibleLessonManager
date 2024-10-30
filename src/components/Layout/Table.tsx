@@ -1,5 +1,4 @@
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import Modal from "../Layout/modal/Modal";
 import { IoAddCircleOutline } from "react-icons/io5";
@@ -19,6 +18,7 @@ const Table: React.FC = () => {
   const { students, score, group, reloadData, deleteStudents } = useStudent();
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   const filteredStudents = students.filter(
     (student) =>
@@ -41,20 +41,20 @@ const Table: React.FC = () => {
   };
 
   const handleDelete = async (id: number) => {
-    await deleteStudents(id); // Llama a la función de eliminación del hook
-    reloadData(); // Recarga la lista de estudiantes después de eliminar
+    await deleteStudents(id);
+    reloadData();
   };
 
   const columns = [
     { name: "Nombre", selector: (row: Row) => row.nombre },
-    { name: "Edad", selector: (row: Row) => row.edad },
-    { name: "Género", selector: (row: Row) => row.genero },
-    { name: "Grupo", cell: (row: Row) => findGroupName(row.grupo_id) },
-    { name: "Puntuación", cell: (row: Row) => findScoreForStudent(row.id) },
+    { name: "Edad", selector: (row: Row) => row.edad, omit: isMobile },
+    { name: "Género", selector: (row: Row) => row.genero, omit: isMobile },
+    { name: "Grupo", cell: (row: Row) => findGroupName(row.grupo_id), omit: isMobile },
+    { name: "Puntuación", cell: (row: Row) => findScoreForStudent(row.id), omit: isMobile },
     {
       name: "Acciones",
       cell: (row: Row) => (
-        <div className="flex space-x-2">
+        <div className="flex space-x-2 justify-between"> {/* Cambiar a justify-between */}
           <button>
             <MdOutlineEdit className="h-6 w-6" />
           </button>
@@ -63,6 +63,7 @@ const Table: React.FC = () => {
           </button>
         </div>
       ),
+      width: '100px', // Establecer un ancho específico para la columna de acciones
     },
   ];
 
@@ -105,8 +106,20 @@ const Table: React.FC = () => {
     },
   };
 
+  // Hook para detectar el tamaño de la ventana
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768); // Cambiar 768 por tu breakpoint deseado
+    };
+
+    handleResize(); // Verificar el tamaño al cargar el componente
+    window.addEventListener("resize", handleResize); // Agregar listener
+
+    return () => window.removeEventListener("resize", handleResize); // Limpiar el listener
+  }, []);
+
   return (
-    <div className="container mx-auto my-5 p-5 dark:bg-gray-900 text-gray-800 dark:text-gray-200 z-10">
+    <div className="container mx-auto my-5 p-2 dark:bg-gray-900 text-gray-800 dark:text-gray-200 z-10">
       <div className="flex justify-between mb-4">
         <input
           type="text"
@@ -121,7 +134,7 @@ const Table: React.FC = () => {
       </div>
 
       <DataTable
-        columns={columns}
+        columns={columns.filter(column => !column.omit || column.name === "Nombre" || column.name === "Acciones")} // Mantener Nombre y Acciones
         data={filteredStudents}
         pagination
         customStyles={customStyles}
