@@ -7,6 +7,7 @@ import { useStudent } from "../../hooks/useStudent";
 import EditModal from "./modal/EditModal";
 import { kids } from "../../Types";
 import { useUser } from "../../hooks/useUser";
+import { FaUser } from "react-icons/fa"; // Importar el ícono de usuario
 
 interface Row {
   id: number;
@@ -38,6 +39,9 @@ const Table: React.FC = () => {
       student.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
       student.id.toString().includes(searchTerm)
   );
+
+  // Agregar el conteo de estudiantes filtrados
+  const studentCount = filteredStudents.length;
 
   const findScoreForStudent = (studentId: number) => {
     const studentScore = score.find((s) => s.estudiante_id === studentId);
@@ -170,6 +174,13 @@ const Table: React.FC = () => {
         <button onClick={toggleModal} className="btn btn-success">
           <IoAddCircleOutline className="ml-5 h-10 w-10" />
         </button>
+      </div>
+
+      <div className="rounded-lg shadow-md p-2 mb-4 flex items-center">
+        <FaUser className="text-blue-600 h-6 w-6 mr-2" />
+        <span className="text-lg">
+          Cantidad de estudiantes: <strong>{studentCount}</strong>
+        </span>
       </div>
 
       <div className="overflow-x-auto">
