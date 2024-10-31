@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-
+import { PiStudentLight } from "react-icons/pi";
 interface AsideProps {
   isOpened: boolean;
   style?: React.CSSProperties;
@@ -45,8 +45,8 @@ const Aside = ({ isOpened }: AsideProps) => {
           <li>
             <Link
               to="/kid"
-              className="flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
-            >
+              className="flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-200 transition-colors duration-200"
+            ><PiStudentLight  className="h-6 w-6 mr-2"/>
               <span className="flex-1">Estudiantes</span>
               <span className="inline-flex items-center justify-center px-2 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
                 10
