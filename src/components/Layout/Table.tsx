@@ -4,6 +4,9 @@ import Modal from "../Layout/modal/Modal";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { MdOutlineEdit, MdDeleteOutline } from "react-icons/md";
 import { useStudent } from "../../hooks/useStudent";
+import EditModal from "./modal/EditModal";
+import { kids } from "../../Types";
+import { useUser } from "../../hooks/useUser";
 
 interface Row {
   id: number;
@@ -15,9 +18,19 @@ interface Row {
 }
 
 const Table: React.FC = () => {
-  const { students, score, group, reloadData, deleteStudents } = useStudent();
+  const {
+    students,
+    score,
+    group,
+    reloadData,
+    deleteStudents,
+    editStudentData,
+  } = useStudent();
+  const { userList } = useUser();
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [selectedStudent, setSelectedStudent] = useState<kids | null>(null);
   const [isMobile, setIsMobile] = useState(false);
 
   const filteredStudents = students.filter(
@@ -31,6 +44,11 @@ const Table: React.FC = () => {
     return studentScore ? studentScore.puntuacion : "sin puntos";
   };
 
+  const findTeacherForStudent = (teacherId: number) => {
+    const teacher = userList.find((u) => u.id === teacherId);
+    return teacher ? teacher.name : "sin maestro";
+  };
+
   const findGroupName = (groupId: number) => {
     const groupData = group.find((g) => g.id === groupId);
     return groupData ? groupData.nombre : "sin grupo";
@@ -38,6 +56,22 @@ const Table: React.FC = () => {
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
+  };
+
+  const openEditModal = (student: kids) => {
+    setSelectedStudent(student);
+    setIsEditModalOpen(true);
+  };
+
+  const closeEditModal = () => {
+    setIsEditModalOpen(false);
+    setSelectedStudent(null);
+  };
+
+  const handleEditSave = async (updatedData: kids) => {
+    await editStudentData(updatedData.id, updatedData);
+    reloadData();
+    closeEditModal();
   };
 
   const handleDelete = async (id: number) => {
@@ -49,17 +83,32 @@ const Table: React.FC = () => {
     {
       name: "Nombre",
       selector: (row: Row) => row.nombre,
-      cell: (row: Row) => <div className="overflow-wrap break-word">{row.nombre}</div>, // Permitir que el nombre se divida
+      cell: (row: Row) => (
+        <div className="overflow-wrap break-word">{row.nombre}</div>
+      ),
     },
     { name: "Edad", selector: (row: Row) => row.edad, omit: isMobile },
     { name: "Género", selector: (row: Row) => row.genero, omit: isMobile },
-    { name: "Grupo", cell: (row: Row) => findGroupName(row.grupo_id), omit: isMobile },
-    { name: "Puntuación", cell: (row: Row) => findScoreForStudent(row.id), omit: isMobile },
+    {
+      name: "Grupo",
+      cell: (row: Row) => findGroupName(row.grupo_id),
+      omit: isMobile,
+    },
+    {
+      name: "Puntuación",
+      cell: (row: Row) => findScoreForStudent(row.id),
+      omit: isMobile,
+    },
+    {
+      name: "Maestro",
+      cell: (row: Row) => findTeacherForStudent(row.id_maestra),
+      omit: isMobile,
+    },
     {
       name: "Acciones",
       cell: (row: Row) => (
         <div className="flex space-x-2 justify-between">
-          <button>
+          <button onClick={() => openEditModal(row)}>
             <MdOutlineEdit className="h-6 w-6" />
           </button>
           <button onClick={() => handleDelete(row.id)}>
@@ -67,17 +116,12 @@ const Table: React.FC = () => {
           </button>
         </div>
       ),
-      width: '100px',
+      width: "100px",
     },
   ];
 
   const customStyles = {
-    table: {
-      style: {
-        borderRadius: "20px 20px 0 0",
-        overflow: "hidden",
-      },
-    },
+    table: { style: { borderRadius: "20px 20px 0 0", overflow: "hidden" } },
     headCells: {
       style: {
         backgroundColor: "#ebf8ff",
@@ -86,19 +130,13 @@ const Table: React.FC = () => {
       },
     },
     cells: {
-      style: {
-        paddingLeft: "24px",
-        paddingRight: "24px",
-        color: "#4a5568",
-      },
+      style: { paddingLeft: "24px", paddingRight: "24px", color: "#4a5568" },
     },
     rows: {
       style: {
         backgroundColor: "#ffffff",
         padding: "16px",
-        "&:hover": {
-          backgroundColor: "#f7fafc",
-        },
+        "&:hover": { backgroundColor: "#f7fafc" },
       },
     },
     pagination: {
@@ -110,16 +148,13 @@ const Table: React.FC = () => {
     },
   };
 
-  // Hook para detectar el tamaño de la ventana
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 768); // Cambiar 768 por tu breakpoint deseado
+      setIsMobile(window.innerWidth < 768);
     };
-
-    handleResize(); // Verificar el tamaño al cargar el componente
-    window.addEventListener("resize", handleResize); // Agregar listener
-
-    return () => window.removeEventListener("resize", handleResize); // Limpiar el listener
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (
@@ -137,9 +172,14 @@ const Table: React.FC = () => {
         </button>
       </div>
 
-      <div className="overflow-x-auto"> {/* Agregar un contenedor con overflow-x-auto */}
+      <div className="overflow-x-auto">
         <DataTable
-          columns={columns.filter(column => !column.omit || column.name === "Nombre" || column.name === "Acciones")}
+          columns={columns.filter(
+            (column) =>
+              !column.omit ||
+              column.name === "Nombre" ||
+              column.name === "Acciones"
+          )}
           data={filteredStudents}
           pagination
           customStyles={customStyles}
@@ -150,6 +190,12 @@ const Table: React.FC = () => {
         isOpen={isModalOpen}
         onClose={toggleModal}
         reloadData={reloadData}
+      />
+      <EditModal
+        isOpen={isEditModalOpen}
+        onClose={closeEditModal}
+        student={selectedStudent}
+        onSave={handleEditSave}
       />
     </div>
   );

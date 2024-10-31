@@ -40,6 +40,25 @@ const getStudentById = async (id: kids["id"]) => {
   }
 };
 
+const editStudent = async (id: kids["id"], updatedStudent: Partial<kids>) => {
+  try {
+    const response = await axios.put(`${API_URL}/students/${id}`, updatedStudent, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error("Failed to update student");
+    }
+  } catch (err) {
+    console.log(err, "No se pudo actualizar los datos");
+    throw err;
+  }
+};
+
 const deleteStudent = async (id: kids["id"]) => {
   try {
     const response = await axios.delete(`${API_URL}/students/${id}`, {
@@ -149,6 +168,7 @@ const getUsers = async () => {
 export {
   getStudents,
   getStudentById,
+  editStudent,
   getScore,
   getGroup,
   addKid,

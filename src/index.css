@@ -14,7 +14,7 @@
   top: 4rem;
 }
 .custom-z{
-  z-index: 1000 !important;
+  z-index: 9999;
 }
 .custom-z-h{
   z-index: 50 !important;

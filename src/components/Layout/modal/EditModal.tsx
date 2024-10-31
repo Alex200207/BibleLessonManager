@@ -1,62 +1,70 @@
-import React from "react";
-import { useStudentModal } from "../../../hooks/useAddStudent";
-import { useStudent } from "../../../hooks/useStudent";
+import React, { useEffect, useState } from "react";
 import { CiSaveDown2 } from "react-icons/ci";
 import { IoMdClose } from "react-icons/io";
+import { useStudent } from "../../../hooks/useStudent";
 import { useUser } from "../../../hooks/useUser";
+import { kids } from "../../../Types";
 
-
-interface ModalProps {
+interface EditModalProps {
   isOpen: boolean;
   onClose: () => void;
-  reloadData: () => void;
-  
+  student: kids | null;
+  onSave: (updatedData: kids) => void;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, reloadData }) => {
-  const { newStudent, handleInputChange, handleSubmit } = useStudentModal();
+const EditModal: React.FC<EditModalProps> = ({ isOpen, onClose, student, onSave }) => {
   const { group } = useStudent();
   const { userList: teachers } = useUser();
+  const [editedStudent, setEditedStudent] = useState<kids>(student || {
+    id: 0,
+    nombre: "",
+    edad: 0,
+    genero: "",
+    grupo_id: 0,
+    id_maestra: 0,
+  });
+
+  useEffect(() => {
+    if (student) {
+      setEditedStudent(student); // Inicializar el modal con los datos del estudiante seleccionado
+    }
+  }, [student]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setEditedStudent((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSave(editedStudent); // Llamar a onSave con los datos editados
+    onClose();
+  };
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center custom-z bg-black bg-opacity-50 ">
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-white rounded-lg shadow-lg p-6 w-11/12 md:w-2/3 lg:w-1/2">
-        <h2 className="text-xl font-semibold text-gray-800">
-          Agregar Estudiante
-        </h2>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleSubmit(() => {
-              reloadData();
-              onClose();
-            });
-          }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4"
-        >
+        <h2 className="text-xl font-semibold text-gray-800">Editar Estudiante</h2>
+        <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Nombre
-            </label>
+            <label className="block text-sm font-medium text-gray-700">Nombre</label>
             <input
               type="text"
               name="nombre"
               placeholder="Nombre del Estudiante"
-              value={newStudent.nombre}
-              onChange={handleInputChange}
+              value={editedStudent.nombre}
+              onChange={handleChange}
               className="border border-gray-300 rounded-md p-3 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Grupo
-            </label>
+            <label className="block text-sm font-medium text-gray-700">Grupo</label>
             <select
               name="grupo_id"
-              value={newStudent.grupo_id}
-              onChange={handleInputChange}
+              value={editedStudent.grupo_id}
+              onChange={handleChange}
               className="border border-gray-300 rounded-md p-3 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">Seleccione un grupo</option>
@@ -68,16 +76,14 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, reloadData }) => {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Maestra
-            </label>
+            <label className="block text-sm font-medium text-gray-700">Maestra</label>
             <select
               name="id_maestra"
-              value={newStudent.id_maestra}
-              onChange={handleInputChange}
+              value={editedStudent.id_maestra}
+              onChange={handleChange}
               className="border border-gray-300 rounded-md p-3 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
-              <option value="">Seleccione una maestro</option>
+              <option value="">Seleccione una maestra</option>
               {teachers.map((teacher) => (
                 <option key={teacher.id} value={teacher.id}>
                   {teacher.name}
@@ -86,26 +92,22 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, reloadData }) => {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Edad
-            </label>
+            <label className="block text-sm font-medium text-gray-700">Edad</label>
             <input
               type="number"
               name="edad"
               placeholder="Edad"
-              value={newStudent.edad}
-              onChange={handleInputChange}
+              value={editedStudent.edad}
+              onChange={handleChange}
               className="border border-gray-300 rounded-md p-3 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <div className="col-span-1 md:col-span-2">
-            <label className="block text-sm font-medium text-gray-700">
-              Género
-            </label>
+            <label className="block text-sm font-medium text-gray-700">Género</label>
             <select
               name="genero"
-              value={newStudent.genero}
-              onChange={handleInputChange}
+              value={editedStudent.genero}
+              onChange={handleChange}
               className="border border-gray-300 rounded-md p-3 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">Seleccione un género</option>
@@ -136,4 +138,4 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, reloadData }) => {
   );
 };
 
-export default Modal;
+export default EditModal;

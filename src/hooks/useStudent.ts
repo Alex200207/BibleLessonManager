@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2'; // Importa SweetAlert2
-import { getStudents, getScore, getGroup, addKid, deleteStudent } from '../services/studentService';
+import { getStudents, getScore, getGroup, addKid, deleteStudent, editStudent } from '../services/studentService';
 import { kids, score as scoreType, group as groupType } from '../Types/index';
 
 export const useStudent = () => {
@@ -80,9 +80,48 @@ export const useStudent = () => {
     }
   };
 
+  const editStudentData = async (id: kids['id'], updatedStudent: kids) => {
+    const result = await Swal.fire({
+      title: '¿Estás seguro?',
+      text: "¿Deseas guardar los cambios realizados en este estudiante?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, guardar cambios',
+      cancelButtonText: 'Cancelar'
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await editStudent(id, updatedStudent);
+        Swal.fire(
+          'Guardado!',
+          'Los cambios han sido guardados.',
+          'success'
+        );
+        const studentsData = await getStudents();
+        setStudents(studentsData);
+      } catch (error) {
+        Swal.fire(
+          'Error!',
+          'No se pudieron guardar los cambios.',
+          'error'
+        );
+        console.error('Error al editar el estudiante:', error);
+      }
+    } else {
+      Swal.fire('Cancelado', 'Los cambios no han sido guardados', 'info');
+    }
+  };
+
+ 
+
   const reloadData = () => {
     setReload(prev => !prev);
   };
+
+  
 
   return {
     students,
@@ -91,5 +130,6 @@ export const useStudent = () => {
     createKid,
     reloadData,
     deleteStudents,
+    editStudentData,
   };
 };
