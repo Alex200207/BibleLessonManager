@@ -31,6 +31,7 @@ export const useStudentModal = () => {
   };
 
   const handleSubmit = async (onClose: () => void) => {
+    onClose()
     const result = await MySwal.fire({
       title: "¿Estás seguro?",
       text: "¿Quieres agregar este estudiante?",

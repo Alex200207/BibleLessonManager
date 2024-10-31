@@ -116,6 +116,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, reloadData }) => {
           <div className="flex justify-between col-span-1 md:col-span-2 mt-6">
             <button
               type="submit"
+              
               className="flex items-center border-2 border-blue-500 text-blue-500 px-4 py-2 rounded-md transition hover:bg-blue-500 hover:text-white"
             >
               <CiSaveDown2 className="h-5 w-5 mr-2" aria-hidden="true" />
