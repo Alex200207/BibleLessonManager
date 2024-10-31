@@ -44,7 +44,7 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onClose, student, onSave 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="fixed inset-0 flex items-center justify-center custom-z bg-black bg-opacity-50">
       <div className="bg-white rounded-lg shadow-lg p-6 w-11/12 md:w-2/3 lg:w-1/2">
         <h2 className="text-xl font-semibold text-gray-800">Editar Estudiante</h2>
         <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
