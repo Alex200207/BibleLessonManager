@@ -128,12 +128,12 @@ const Table: React.FC = () => {
           </button>
         </div>
       ),
-      width: "100px", // Asegúrate de que el ancho sea suficiente para los íconos
+      width: "100px",
     },
   ];
 
   const customStyles = {
-    table: { style: { borderRadius: "20px 20px 0 0", overflow: "hidden" } },
+    table: { style: { minWidth: "600px", width: "100%", borderRadius: "8px" } },
     headCells: {
       style: {
         backgroundColor: "#ebf8ff",
@@ -191,7 +191,7 @@ const Table: React.FC = () => {
         </span>
       </div>
 
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto max-w-full">
         <DataTable
           columns={columns.filter(
             (column) =>
