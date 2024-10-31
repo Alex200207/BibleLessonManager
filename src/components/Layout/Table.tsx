@@ -8,6 +8,8 @@ import EditModal from "./modal/EditModal";
 import { kids } from "../../Types";
 import { useUser } from "../../hooks/useUser";
 import { FaUser } from "react-icons/fa"; // Importar el ícono de usuario
+import StudentDetailModal from "./modal/StudentDetailModal"; // Importar el nuevo modal
+import { GrView } from "react-icons/gr";
 
 interface Row {
   id: number;
@@ -33,6 +35,7 @@ const Table: React.FC = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState<kids | null>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false); // Nuevo estado para el modal de detalles
 
   const filteredStudents = students.filter(
     (student) =>
@@ -40,7 +43,6 @@ const Table: React.FC = () => {
       student.id.toString().includes(searchTerm)
   );
 
-  // Agregar el conteo de estudiantes filtrados
   const studentCount = filteredStudents.length;
 
   const findScoreForStudent = (studentId: number) => {
@@ -83,15 +85,19 @@ const Table: React.FC = () => {
     reloadData();
   };
 
+  const openDetailModal = (student: kids) => {
+    if (isMobile) {
+      // Solo abrir el modal si está en un dispositivo móvil
+      setSelectedStudent(student);
+      setIsDetailModalOpen(true); // Abrir el modal de detalles
+    }
+  };
+
   const columns = [
-    {
-      name: "Nombre",
-      selector: (row: Row) => row.nombre,
-      cell: (row: Row) => (
-        <div className="overflow-wrap break-word">{row.nombre}</div>
-      ),
-    },
+    { name: "Edad", selector: (row: Row) => row.nombre },
+
     { name: "Edad", selector: (row: Row) => row.edad, omit: isMobile },
+
     { name: "Género", selector: (row: Row) => row.genero, omit: isMobile },
     {
       name: "Grupo",
@@ -104,7 +110,7 @@ const Table: React.FC = () => {
       omit: isMobile,
     },
     {
-      name: "Maestro",
+      name: "Maestr@",
       cell: (row: Row) => findTeacherForStudent(row.id_maestra),
       omit: isMobile,
     },
@@ -112,6 +118,11 @@ const Table: React.FC = () => {
       name: "Acciones",
       cell: (row: Row) => (
         <div className="flex space-x-2 justify-between">
+          {isMobile && ( 
+            <button onClick={() => openDetailModal(row)}>
+              <GrView className="h-6 w-6" />
+            </button>
+          )}
           <button onClick={() => openEditModal(row)}>
             <MdOutlineEdit className="h-6 w-6" />
           </button>
@@ -176,7 +187,7 @@ const Table: React.FC = () => {
         </button>
       </div>
 
-      <div className="rounded-lg shadow-md p-2 mb-4 flex items-center">
+      <div className="rounded-lg  p-2 mb-4 flex items-center">
         <FaUser className="text-blue-600 h-6 w-6 mr-2" />
         <span className="text-lg">
           Cantidad de estudiantes: <strong>{studentCount}</strong>
@@ -207,6 +218,15 @@ const Table: React.FC = () => {
         onClose={closeEditModal}
         student={selectedStudent}
         onSave={handleEditSave}
+      />
+      <StudentDetailModal
+        isOpen={isDetailModalOpen}
+        onClose={() => setIsDetailModalOpen(false)}
+        student={selectedStudent}
+        score={score}
+        group={group}
+        teacher={userList}
+
       />
     </div>
   );
