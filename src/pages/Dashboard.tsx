@@ -38,7 +38,6 @@ const Dashboard: FC<DashboardProps> = ({ children }) => {
             marginLeft: isOpened && window.innerWidth >= 1024 ? "16rem" : "0",
             width: "100%",
             position: "relative",
-            zIndex: 0,
             marginTop: "1rem", // Ajusta este valor según sea necesario
           }}
         >
