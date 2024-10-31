@@ -7,8 +7,8 @@ import { useStudent } from "../../hooks/useStudent";
 import EditModal from "./modal/EditModal";
 import { kids } from "../../Types";
 import { useUser } from "../../hooks/useUser";
-import { FaUser } from "react-icons/fa"; // Importar el ícono de usuario
-import StudentDetailModal from "./modal/StudentDetailModal"; // Importar el nuevo modal
+import { FaUser } from "react-icons/fa"; 
+import StudentDetailModal from "./modal/StudentDetailModal"; 
 import { GrView } from "react-icons/gr";
 
 interface Row {
@@ -35,7 +35,7 @@ const Table: React.FC = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState<kids | null>(null);
   const [isMobile, setIsMobile] = useState(false);
-  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false); // Nuevo estado para el modal de detalles
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false); 
 
   const filteredStudents = students.filter(
     (student) =>
@@ -87,9 +87,8 @@ const Table: React.FC = () => {
 
   const openDetailModal = (student: kids) => {
     if (isMobile) {
-      // Solo abrir el modal si está en un dispositivo móvil
       setSelectedStudent(student);
-      setIsDetailModalOpen(true); // Abrir el modal de detalles
+      setIsDetailModalOpen(true);
     }
   };
 
@@ -143,12 +142,12 @@ const Table: React.FC = () => {
       },
     },
     cells: {
-      style: { paddingLeft: "24px", paddingRight: "24px", color: "#4a5568" },
+      style: { paddingLeft: "12px", paddingRight: "12px", color: "#4a5568" }, // Reducir padding
     },
     rows: {
       style: {
         backgroundColor: "#ffffff",
-        padding: "16px",
+        padding: "8px", // Reducir padding
         "&:hover": { backgroundColor: "#f7fafc" },
       },
     },
@@ -185,14 +184,14 @@ const Table: React.FC = () => {
         </button>
       </div>
 
-      <div className="rounded-lg  p-2 mb-4 flex items-center">
+      <div className="rounded-lg p-2 mb-4 flex items-center">
         <FaUser className="text-blue-600 h-6 w-6 mr-2" />
         <span className="text-lg">
           Cantidad de estudiantes: <strong>{studentCount}</strong>
         </span>
       </div>
 
-      <div className="overflow-hidden">
+      <div className="overflow-x-auto max-w-full"> {/* Cambiado a overflow-x-auto */}
         <DataTable
           columns={columns.filter(
             (column) =>
@@ -203,7 +202,7 @@ const Table: React.FC = () => {
           data={filteredStudents}
           pagination
           customStyles={customStyles}
-          responsive // Añadir esta propiedad
+          responsive
         />
       </div>
 
