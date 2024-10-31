@@ -7,8 +7,8 @@ import { useStudent } from "../../hooks/useStudent";
 import EditModal from "./modal/EditModal";
 import { kids } from "../../Types";
 import { useUser } from "../../hooks/useUser";
-import { FaUser } from "react-icons/fa"; // Importar el ícono de usuario
-import StudentDetailModal from "./modal/StudentDetailModal"; // Importar el nuevo modal
+import { FaUser } from "react-icons/fa";
+import StudentDetailModal from "./modal/StudentDetailModal";
 import { GrView } from "react-icons/gr";
 
 interface Row {
@@ -35,7 +35,7 @@ const Table: React.FC = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState<kids | null>(null);
   const [isMobile, setIsMobile] = useState(false);
-  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false); // Nuevo estado para el modal de detalles
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 
   const filteredStudents = students.filter(
     (student) =>
@@ -87,17 +87,14 @@ const Table: React.FC = () => {
 
   const openDetailModal = (student: kids) => {
     if (isMobile) {
-      // Solo abrir el modal si está en un dispositivo móvil
       setSelectedStudent(student);
-      setIsDetailModalOpen(true); // Abrir el modal de detalles
+      setIsDetailModalOpen(true);
     }
   };
 
   const columns = [
-    { name: "Edad", selector: (row: Row) => row.nombre },
-
+    { name: "Nombre", selector: (row: Row) => row.nombre },
     { name: "Edad", selector: (row: Row) => row.edad, omit: isMobile },
-
     { name: "Género", selector: (row: Row) => row.genero, omit: isMobile },
     {
       name: "Grupo",
@@ -118,7 +115,7 @@ const Table: React.FC = () => {
       name: "Acciones",
       cell: (row: Row) => (
         <div className="flex space-x-2 justify-between">
-          {isMobile && ( 
+          {isMobile && (
             <button onClick={() => openDetailModal(row)}>
               <GrView className="h-6 w-6" />
             </button>
@@ -131,7 +128,7 @@ const Table: React.FC = () => {
           </button>
         </div>
       ),
-      width: "100px",
+      width: "100px", // Asegúrate de que el ancho sea suficiente para los íconos
     },
   ];
 
@@ -145,7 +142,7 @@ const Table: React.FC = () => {
       },
     },
     cells: {
-      style: { paddingLeft: "24px", paddingRight: "24px", color: "#4a5568" },
+      style: { paddingLeft: "16px", paddingRight: "16px", color: "#4a5568" },
     },
     rows: {
       style: {
@@ -187,7 +184,7 @@ const Table: React.FC = () => {
         </button>
       </div>
 
-      <div className="rounded-lg  p-2 mb-4 flex items-center">
+      <div className="rounded-lg p-2 mb-4 flex items-center">
         <FaUser className="text-blue-600 h-6 w-6 mr-2" />
         <span className="text-lg">
           Cantidad de estudiantes: <strong>{studentCount}</strong>
@@ -226,7 +223,6 @@ const Table: React.FC = () => {
         score={score}
         group={group}
         teacher={userList}
-
       />
     </div>
   );
