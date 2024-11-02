@@ -53,7 +53,7 @@ const Aside = ({ isOpened }: AsideProps) => {
       }`}
       aria-label="Sidebar"
     >
-      <div className="h-full px-4 py-6 overflow-y-auto bg-white dark:bg-gray-800">
+      <div className="h-full px-4 py-6 overflow-y-auto bg-white dark:bg-gray-950">
         <ul className="space-y-4 font-normal">
           <li>
             <Link

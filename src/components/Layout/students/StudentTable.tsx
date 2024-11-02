@@ -138,26 +138,39 @@ const StudentTable: React.FC = () => {
     {
       name: "Acciones",
       cell: (row: Row) => (
-        <div className="flex space-x-2 justify-between">
-          {isMobile && (
+        <div className="flex space-x-2 justify-between ">
+          {showDeleted ? ( 
             <button
+              className="ml-10"
               onClick={() => openDetailModal(row)}
               data-tip="Ver detalles"
               data-for="detailTooltip"
             >
               <GrView className="h-6 w-6" />
             </button>
+          ) : (
+            <>
+              {isMobile && (
+                <button
+                  onClick={() => openDetailModal(row)}
+                  data-tip="Ver detalles"
+                  data-for="detailTooltip"
+                >
+                  <GrView className="h-6 w-6" />
+                </button>
+              )}
+              <Tippy content="Editar" placement="top">
+                <button onClick={() => openEditModal(row)}>
+                  <MdOutlineEdit className="h-6 w-6" />
+                </button>
+              </Tippy>
+              <Tippy content="Eliminar" placement="top">
+                <button onClick={() => handleDelete(row.id)}>
+                  <MdDeleteOutline className="h-6 w-6 text-red-600" />
+                </button>
+              </Tippy>
+            </>
           )}
-          <Tippy content="Editar" placement="top">
-            <button onClick={() => openEditModal(row)}>
-              <MdOutlineEdit className="h-6 w-6" />
-            </button>
-          </Tippy>
-          <Tippy content="Eliminar" placement="top">
-            <button onClick={() => handleDelete(row.id)}>
-              <MdDeleteOutline className="h-6 w-6 text-red-600" />
-            </button>
-          </Tippy>
         </div>
       ),
       width: "100px",

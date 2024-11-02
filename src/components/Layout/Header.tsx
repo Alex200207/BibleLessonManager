@@ -17,7 +17,7 @@ function Header({ toggleAside }: HeaderProps) {
         </button>
 
         <div className="flex-1 flex justify-center lg:justify-start">
-          <span className="text-lg font-semibold text-gray-900 dark:text-gray-200">
+          <span className="text-lg ml-4 font-semibold text-gray-900 dark:text-gray-200">
             AlexApp
           </span>
         </div>
