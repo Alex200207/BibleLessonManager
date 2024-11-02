@@ -2,23 +2,14 @@ import React, { useState, useEffect } from "react";
 import Modal from "../modal/Modal";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { MdOutlineEdit, MdDeleteOutline } from "react-icons/md";
+import { FcDeleteDatabase } from "react-icons/fc";
+import { FcAcceptDatabase } from "react-icons/fc";
 import { useStudent } from "../../../hooks/useStudent";
 import EditModal from "../modal/EditModal";
 import { kids } from "../../../Types";
 import { useUser } from "../../../hooks/useUser";
-import { FaUser } from "react-icons/fa"; 
-import StudentDetailModal from "../modal/StudentDetailModal"; 
-import { GrView } from "react-icons/gr";
-import Table from "../Table"; // Importar el componente reutilizable
-
-interface Row {
-  id: number;
-  nombre: string;
-  edad: number;
-  id_maestra: number;
-  genero: string;
-  grupo_id: number;
-}
+import { FaUser } from "react-icons/fa";
+import Table from "../Table";
 
 const StudentTable: React.FC = () => {
   const {
@@ -28,6 +19,7 @@ const StudentTable: React.FC = () => {
     reloadData,
     deleteStudents,
     editStudentData,
+    studentDeletedList,
   } = useStudent();
   const { userList } = useUser();
   const [searchTerm, setSearchTerm] = useState("");
@@ -35,7 +27,7 @@ const StudentTable: React.FC = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState<kids | null>(null);
   const [isMobile, setIsMobile] = useState(false);
-  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [showDeleted, setShowDeleted] = useState(false);
 
   const filteredStudents = students.filter(
     (student) =>
@@ -43,7 +35,11 @@ const StudentTable: React.FC = () => {
       student.id.toString().includes(searchTerm)
   );
 
-  const studentCount = filteredStudents.length;
+  const visibleStudents = showDeleted
+    ? filteredStudents.filter((student) => student.deleted_at) // Filtra solo los eliminados
+    : filteredStudents.filter((student) => !student.deleted_at); // Filtra solo los activos
+
+  const studentCount = visibleStudents.length;
 
   const findScoreForStudent = (studentId: number) => {
     const studentScore = score.find((s) => s.estudiante_id === studentId);
@@ -85,47 +81,44 @@ const StudentTable: React.FC = () => {
     reloadData();
   };
 
-  const openDetailModal = (student: kids) => {
-    if (isMobile) {
-      setSelectedStudent(student);
-      setIsDetailModalOpen(true);
+  const toggleShowDeleted = async () => {
+    setShowDeleted((prev) => !prev); // Alterna la visualización de eliminados
+    if (!showDeleted) {
+      await studentDeletedList(); // Obtiene estudiantes eliminados solo si se está mostrando eliminados
+    } else {
+      await reloadData(); // Recarga los datos si se está mostrando activos
     }
   };
 
   const columns = [
     {
       name: "Nombre",
-      selector: (row: Row) => row.nombre,
-      cell: (row: Row) => (
+      selector: (row: kids) => row.nombre,
+      cell: (row: kids) => (
         <div className="whitespace-normal break-words">{row.nombre}</div>
       ),
     },
-    { name: "Edad", selector: (row: Row) => row.edad, omit: isMobile },
-    { name: "Género", selector: (row: Row) => row.genero, omit: isMobile },
+    { name: "Edad", selector: (row: kids) => row.edad, omit: isMobile },
+    { name: "Género", selector: (row: kids) => row.genero, omit: isMobile },
     {
       name: "Grupo",
-      cell: (row: Row) => findGroupName(row.grupo_id),
+      cell: (row: kids) => findGroupName(row.grupo_id),
       omit: isMobile,
     },
     {
       name: "Puntuación",
-      cell: (row: Row) => findScoreForStudent(row.id),
+      cell: (row: kids) => findScoreForStudent(row.id),
       omit: isMobile,
     },
     {
       name: "Maestr@",
-      cell: (row: Row) => findTeacherForStudent(row.id_maestra),
+      cell: (row: kids) => findTeacherForStudent(row.id_maestra),
       omit: isMobile,
     },
     {
       name: "Acciones",
-      cell: (row: Row) => (
+      cell: (row: kids) => (
         <div className="flex space-x-2 justify-between">
-          {isMobile && (
-            <button onClick={() => openDetailModal(row)}>
-              <GrView className="h-6 w-6" />
-            </button>
-          )}
           <button onClick={() => openEditModal(row)}>
             <MdOutlineEdit className="h-6 w-6" />
           </button>
@@ -195,10 +188,13 @@ const StudentTable: React.FC = () => {
         <span className="text-lg">
           Cantidad de estudiantes: <strong>{studentCount}</strong>
         </span>
+        <button onClick={toggleShowDeleted} className="ml-4">
+          {showDeleted ? <FcAcceptDatabase className="h-6 w-6" /> : <FcDeleteDatabase  className="h-6 w-6"/>}
+        </button>
       </div>
 
       <Table
-        data={filteredStudents}
+        data={visibleStudents}
         columns={columns.filter(
           (column) =>
             !column.omit ||
@@ -218,14 +214,6 @@ const StudentTable: React.FC = () => {
         onClose={closeEditModal}
         student={selectedStudent}
         onSave={handleEditSave}
-      />
-      <StudentDetailModal
-        isOpen={isDetailModalOpen}
-        onClose={() => setIsDetailModalOpen(false)}
-        student={selectedStudent}
-        score={score}
-        group={group}
-        teacher={userList}
       />
     </div>
   );
