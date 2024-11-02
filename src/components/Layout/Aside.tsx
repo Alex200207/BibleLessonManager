@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { PiStudentLight } from "react-icons/pi";
-import { useStudent } from "../../hooks/useStudent"; // Asegúrate de importar useStudent
+import { FaHome, FaUsers, FaClipboardList, FaChartLine } from "react-icons/fa"; 
+import { useStudent } from "../../hooks/useStudent";
 
 interface AsideProps {
   isOpened: boolean;
@@ -10,17 +11,28 @@ interface AsideProps {
 
 const Aside = ({ isOpened }: AsideProps) => {
   const [isGroupOpen, setIsGroupOpen] = useState(false);
-  const [isNewGroupOpen, setIsNewGroupOpen] = useState(false);
+  const [isMovimientosOpen, setIsMovimientosOpen] = useState(false);
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
   
-  // Usar el hook useStudent para acceder a los estudiantes
-  const { students } = useStudent(); // Obtener la lista de estudiantes
+  
+  const { students } = useStudent(); 
   
   const toggleGroup = () => {
     setIsGroupOpen(!isGroupOpen);
+    setIsMovimientosOpen(false); 
+    setIsPanelOpen(false); 
   };
 
-  const toggleNewGroup = () => {
-    setIsNewGroupOpen(!isNewGroupOpen);
+  const toggleMovimientos = () => {
+    setIsMovimientosOpen(!isMovimientosOpen);
+    setIsGroupOpen(false);
+    setIsPanelOpen(false);
+  };
+
+  const togglePanel = () => {
+    setIsPanelOpen(!isPanelOpen);
+    setIsGroupOpen(false); 
+    setIsMovimientosOpen(false); 
   };
 
   return (
@@ -38,16 +50,7 @@ const Aside = ({ isOpened }: AsideProps) => {
               to="/home"
               className="flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
             >
-              <svg
-                className="w-5 h-5 text-gray-500 dark:text-gray-400"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 22 21"
-              >
-                <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z" />
-                <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z" />
-              </svg>
+              <FaHome className="w-5 h-5 text-gray-500 dark:text-gray-400" /> 
               <span className="ml-3">Home</span>
             </Link>
           </li>
@@ -60,7 +63,7 @@ const Aside = ({ isOpened }: AsideProps) => {
               <PiStudentLight className="h-6 w-6 mr-2" />
               <span className="flex-1">Estudiantes</span>
               <span className="inline-flex items-center justify-center px-2 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
-                {students.length} {/* Muestra la cantidad de estudiantes */}
+                {students.length}
               </span>
             </Link>
           </li>
@@ -69,6 +72,7 @@ const Aside = ({ isOpened }: AsideProps) => {
               className="flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 cursor-pointer"
               onClick={toggleGroup}
             >
+              <FaUsers className="w-5 h-5 mr-2" />
               <span className="flex-1">Grupos</span>
               <svg
                 className={`w-5 h-5 transition-transform duration-200 ${
@@ -112,12 +116,13 @@ const Aside = ({ isOpened }: AsideProps) => {
           <li>
             <div
               className="flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 cursor-pointer"
-              onClick={toggleNewGroup}
+              onClick={toggleMovimientos}
             >
+              <FaClipboardList className="w-5 h-5 mr-2" /> 
               <span className="flex-1">Movimientos</span>
               <svg
                 className={`w-5 h-5 transition-transform duration-200 ${
-                  isNewGroupOpen ? "rotate-90" : ""
+                  isMovimientosOpen ? "rotate-90" : ""
                 }`}
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -133,7 +138,7 @@ const Aside = ({ isOpened }: AsideProps) => {
                 />
               </svg>
             </div>
-            {isNewGroupOpen && (
+            {isMovimientosOpen && (
               <ul className="ml-6 space-y-2 mt-2">
                 <li>
                   <Link
@@ -141,6 +146,44 @@ const Aside = ({ isOpened }: AsideProps) => {
                     className="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
                   >
                     <span className="flex-1">Estudiantes</span>
+                  </Link>
+                </li>
+              </ul>
+            )}
+          </li>
+          <li>
+            <div
+              className="flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 cursor-pointer"
+              onClick={togglePanel}
+            >
+              <FaChartLine className="w-5 h-5 mr-2" /> {/* Icono de Panel */}
+              <span className="flex-1">Panel</span>
+              <svg
+                className={`w-5 h-5 transition-transform duration-200 ${
+                  isPanelOpen ? "rotate-90" : ""
+                }`}
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </div>
+            {isPanelOpen && (
+              <ul className="ml-6 space-y-2 mt-2">
+                <li>
+                  <Link
+                    to="/"
+                    className="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+                  >
+                    <span className="flex-1">Roles</span>
                   </Link>
                 </li>
               </ul>

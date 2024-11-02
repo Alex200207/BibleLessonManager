@@ -5,7 +5,6 @@ import DataTable from "react-data-table-component";
 interface TableProps<T> {
   data: T[];
   columns: any[];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   customStyles: any;
 }
 
