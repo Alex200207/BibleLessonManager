@@ -5,6 +5,7 @@ import { useStudent } from "../../hooks/useStudent"; // Asegúrate de importar u
 
 interface AsideProps {
   isOpened: boolean;
+  style?: React.CSSProperties;
 }
 
 const Aside = ({ isOpened }: AsideProps) => {
