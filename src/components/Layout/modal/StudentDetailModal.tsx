@@ -1,6 +1,6 @@
 import React from "react";
 import { group, kids, score ,users} from "../../../Types";
-
+import { IoCloseOutline } from "react-icons/io5";
 
 
 interface StudentDetailModalProps {
@@ -80,12 +80,12 @@ const StudentDetailModal: React.FC<StudentDetailModalProps> = ({
           </p>
         </div>
         <div className="mt-6 flex justify-end">
-          <button
-            className="bg-blue-600 text-white py-2 px-4 rounded-lg shadow hover:bg-blue-500 transition duration-200"
+            <button
+            className="border border-red-500 text-red-500 py-2 px-4 rounded-lg shadow hover: transition duration-200"
             onClick={onClose}
-          >
-            Cerrar
-          </button>
+            >
+            <IoCloseOutline className="h-6 w-6" />
+            </button>
         </div>
       </div>
     </div>

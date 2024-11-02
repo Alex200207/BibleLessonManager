@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { PiStudentLight } from "react-icons/pi";
 import { FaHome, FaUsers, FaClipboardList, FaUserShield } from "react-icons/fa";
+import { FaBookOpen } from "react-icons/fa";
 import { useStudent } from "../../hooks/useStudent";
 
 interface AsideProps {
@@ -112,11 +113,12 @@ const Aside = ({ isOpened }: AsideProps) => {
                 </li>
                 <li>
                   <Link
-                    to="/planificacion"
+                    to="/lesson"
                     className="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
                   >
+                    <FaBookOpen className="h-6 w-6 mr-2 text-gray-600 dark:text-gray-400" />
                     <span className="flex-1 text-gray-800 dark:text-gray-200">
-                      Planificación 2
+                      Lecciones
                     </span>
                   </Link>
                 </li>

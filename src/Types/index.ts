@@ -8,6 +8,16 @@ export interface kids {
     deleted_at?: Date;
   }
 
+  export interface lesson {
+    id: number;
+    tema: string;
+    descripcion: string;
+    pasaje_biblico: string;
+    fecha: Date;
+    id_maestra: number;
+    id_grupo: number;
+  }
+
   export interface score {
     id: number;
     estudiante_id: number;
