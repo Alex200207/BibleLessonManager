@@ -221,8 +221,11 @@ const StudentTable: React.FC = () => {
 
       <div className="rounded-lg p-2 mb-4 flex items-center">
         <FaUser className="text-blue-600 h-6 w-6 mr-2" />
-        <span className="text-lg">
-          Cantidad de estudiantes: <strong>{studentCount}</strong>
+        <span className="text-sm">
+          {showDeleted
+            ? `Cantidad de estudiantes eliminados: `
+            : `Cantidad de estudiantes Activos: `}
+          <strong>{studentCount}</strong>
         </span>
         <button onClick={toggleShowDeleted} className="ml-4">
           {showDeleted ? (
