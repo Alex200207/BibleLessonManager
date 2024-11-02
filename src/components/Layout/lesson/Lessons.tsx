@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 import { useLesson } from "../../../hooks/useLesson";
 import Table from "../Table";
 import { useEffect, useState } from "react";
@@ -63,7 +61,7 @@ const Lesson = () => {
     },
     {
       name: "Acciones",
-      cell: (row: Row) => (
+      cell: () => (
         <div className="flex space-x-2 justify-between ">
           <button>
             <MdOutlineEdit className="h-6 w-6" />
