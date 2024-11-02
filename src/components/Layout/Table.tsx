@@ -28,6 +28,8 @@ const Table: React.FC = () => {
     reloadData,
     deleteStudents,
     editStudentData,
+    
+
   } = useStudent();
   const { userList } = useUser();
   const [searchTerm, setSearchTerm] = useState("");

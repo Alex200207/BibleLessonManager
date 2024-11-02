@@ -165,6 +165,46 @@ const getUsers = async () => {
   }
 };
 
+// Función para restaurar un estudiante
+const restoreStudent = async (id: kids["id"]) => {
+  try {
+    const response = await axios.patch(`${API_URL}/students/restore/${id}`, {}, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error("Failed to restore student");
+    }
+  } catch (err) {
+    console.error(err, "No se pudo restaurar el estudiante");
+    throw err;
+  }
+};
+
+const getDeletedStudents = async () => {
+
+  try {
+    const response = await axios.get(`${API_URL}/students/students/deleted`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      return [];
+    }
+  } catch (err) {
+    console.log(err, "No se pudo obtener los datos");
+    
+  }
+}
+
 export {
   getStudents,
   getStudentById,
@@ -175,4 +215,6 @@ export {
   addStudent,
   getUsers,
   deleteStudent,
+  restoreStudent,
+  getDeletedStudents,
 };

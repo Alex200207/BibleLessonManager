@@ -5,6 +5,7 @@ export interface kids {
     id_maestra: number;
     genero: string;
     grupo_id: number;
+    deleted_at?: Date;
   }
 
   export interface score {
