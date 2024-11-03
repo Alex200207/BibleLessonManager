@@ -47,7 +47,7 @@ function DropdownUser({ options, onSelect }: DropdownUserProps) {
         onClick={toggleDropdown}
         className="flex items-center p-1 text-gray-700 dark:text-gray-300 focus:outline-none  dark:border-gray-600 rounded"
       >
-       <RiFilterLine  className="h-6 w-6"/>
+       <RiFilterLine  className="h-7 w-7"/>
         
       </button>
       {isOpen && (
