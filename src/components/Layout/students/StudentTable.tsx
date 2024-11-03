@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Modal from "../modal/Modal";
+import AddCustom from "../modal/AddCustom";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { MdOutlineEdit, MdDeleteOutline } from "react-icons/md";
 import { FcDeleteDatabase } from "react-icons/fc";
@@ -10,6 +10,7 @@ import { kids } from "../../../Types";
 import { useUser } from "../../../hooks/useUser";
 import { FaUser } from "react-icons/fa";
 import StudentDetailModal from "../modal/StudentDetailModal";
+import { VscSettings } from "react-icons/vsc";
 import { GrView } from "react-icons/gr";
 import Table from "../Table"; // Importar el componente reutilizable
 import Tippy from "@tippyjs/react"; // Importa Tippy
@@ -42,6 +43,7 @@ const StudentTable: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [showDeleted, setShowDeleted] = useState(false);
+
 
   const filteredStudents = students.filter(
     (student) =>
@@ -137,9 +139,10 @@ const StudentTable: React.FC = () => {
     },
     {
       name: "Acciones",
+
       cell: (row: Row) => (
         <div className="flex space-x-2 justify-between ">
-          {showDeleted ? ( 
+          {showDeleted ? (
             <button
               className="ml-10"
               onClick={() => openDetailModal(row)}
@@ -232,7 +235,7 @@ const StudentTable: React.FC = () => {
         </Tippy>
       </div>
 
-      <div className="rounded-lg p-2 mb-4 flex items-center">
+      <div className="rounded-lg p-2 flex items-center">
         <FaUser className="text-blue-600 h-6 w-6 mr-2" />
         <span className="text-sm">
           {showDeleted
@@ -240,12 +243,17 @@ const StudentTable: React.FC = () => {
             : `Cantidad de estudiantes Activos: `}
           <strong>{studentCount}</strong>
         </span>
-        <button onClick={toggleShowDeleted} className="ml-4">
+        <button onClick={toggleShowDeleted} className="ml-4 mr-2">
           {showDeleted ? (
             <FcAcceptDatabase className="h-6 w-6" />
           ) : (
             <FcDeleteDatabase className="h-6 w-6" />
           )}
+        </button>
+
+        <button className="flex items-center px-2 py-2 ml-auto  text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+          <VscSettings  className="h-4 w-4 " />
+          Filters
         </button>
       </div>
 
@@ -260,7 +268,7 @@ const StudentTable: React.FC = () => {
         customStyles={customStyles}
       />
 
-      <Modal
+      <AddCustom
         isOpen={isModalOpen}
         onClose={toggleModal}
         reloadData={reloadData}
@@ -279,6 +287,7 @@ const StudentTable: React.FC = () => {
         group={group}
         teacher={userList}
       />
+      
     </div>
   );
 };

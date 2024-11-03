@@ -4,6 +4,7 @@ import { PiStudentLight } from "react-icons/pi";
 import { FaHome, FaUsers, FaClipboardList, FaUserShield } from "react-icons/fa";
 import { FaBookOpen } from "react-icons/fa";
 import { useStudent } from "../../hooks/useStudent";
+import { useLesson } from "../../hooks/useLesson";
 
 interface AsideProps {
   isOpened: boolean;
@@ -16,7 +17,8 @@ const Aside = ({ isOpened }: AsideProps) => {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [isPlanificacionOpen, setIsPlanificacionOpen] = useState(false); // Nuevo estado para el grupo Planificación
 
-  const { students } = useStudent();
+  const { students} = useStudent();
+  const {lessons} = useLesson();
 
   const toggleGroup = () => {
     setIsGroupOpen(!isGroupOpen);
@@ -119,6 +121,9 @@ const Aside = ({ isOpened }: AsideProps) => {
                     <FaBookOpen className="h-6 w-6 mr-2 text-gray-600 dark:text-gray-400" />
                     <span className="flex-1 text-gray-800 dark:text-gray-200">
                       Lecciones
+                    </span>
+                    <span className="inline-flex items-center justify-center px-2 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
+                      {lessons.length}
                     </span>
                   </Link>
                 </li>
