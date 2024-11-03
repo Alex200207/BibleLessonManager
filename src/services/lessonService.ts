@@ -1,5 +1,6 @@
 import axios from "axios";
 import { API_URL } from "../constant/index";
+import { lesson } from "../Types/index";
 
 
 
@@ -21,7 +22,31 @@ const getLesson = async () => {
         console.log(err, "No se pudo obtener los datos");
         return [];
     }
+
 }
+
+
+    const addLesson = async (newLesson: lesson) => {
+
+        try {
+            const response = await axios.post(`${API_URL}/lessons/`, newLesson, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            });
+            if (response.status === 201) {
+                return response.data;
+            } else {
+                throw new Error("Failed to add lesson");
+            }
+        } catch (err) {
+            console.log(err, "No se pudo agregar los datos");
+            throw err;
+        }
+    }
+
 export{
     getLesson,
+    addLesson,
 }

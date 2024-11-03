@@ -13,7 +13,6 @@ export interface kids {
     tema: string;
     descripcion: string;
     pasaje_biblico: string;
-    fecha: Date;
     id_maestra: number;
     id_grupo: number;
   }

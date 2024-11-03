@@ -109,6 +109,7 @@ export const useStudent = () => {
   };
 
   const reloadData = () => {
+    
     setReload((prev) => !prev);
   };
 
@@ -162,5 +163,6 @@ export const useStudent = () => {
     editStudentData,
     restoreStudentData,
     studentDeletedList,
+   
   };
 };

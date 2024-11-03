@@ -2,6 +2,12 @@ import { useLesson } from "../../../hooks/useLesson";
 import Table from "../Table";
 import { useEffect, useState } from "react";
 import { MdOutlineEdit, MdDeleteOutline } from "react-icons/md";
+import { useStudent } from "../../../hooks/useStudent";
+import { useUser } from "../../../hooks/useUser";
+import { IoAddCircleOutline } from "react-icons/io5";
+import AddLessonModal from "./AddLessonModal";
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
 
 interface Row {
   id: number;
@@ -13,9 +19,38 @@ interface Row {
   id_grupo: number;
 }
 
-const Lesson = () => {
-  const { lessons } = useLesson();
+const Lesson:React.FC = () => {
+  const { lessons , reloadData} = useLesson();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { group } = useStudent();
+  const { userList } = useUser();
   const [isMobile, setIsMobile] = useState(false);
+
+  const filteredLesson = lessons.filter(
+    (lesson) =>
+      lesson.tema.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      lesson.id.toString().includes(searchTerm)
+  );
+
+
+  const dateFormater = (date: Date) => {
+    const d = new Date(date);
+    return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
+  };
+
+  const findTeacherForStudent = (teacherId: number) => {
+    const teacher = userList.find((u) => u.id === teacherId);
+    return teacher ? teacher.name : "sin maestro";
+  };
+
+  const findGroupName = (groupId: number) => {
+    const groupData = group.find((g) => g.id === groupId);
+    return groupData ? groupData.nombre : "sin grupo";
+  };
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -46,17 +81,17 @@ const Lesson = () => {
     },
     {
       name: "Fecha",
-      cell: (row: Row) => row.fecha,
+      cell: (row: Row) => dateFormater(row.fecha),
       omit: isMobile,
     },
     {
       name: "Maestr@",
-      cell: (row: Row) => row.id_maestra,
+      cell: (row: Row) => findTeacherForStudent(row.id_maestra),
       omit: isMobile,
     },
     {
       name: "Grupo",
-      cell: (row: Row) => row.id_grupo,
+      cell: (row: Row) => findGroupName(row.id_grupo),
       omit: isMobile,
     },
     {
@@ -109,11 +144,22 @@ const Lesson = () => {
           <input
             type="text"
             placeholder="Buscar estudiantes..."
+            onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full max-w-xs h-12 px-4 border rounded-full shadow-md"
           />
+          <Tippy content="Agregar" placement="top">
+            <button onClick={toggleModal} className="btn btn-success">
+              <IoAddCircleOutline className="ml-5 h-10 w-10" />
+            </button>
+          </Tippy>
         </div>
-        <Table columns={columns} data={lessons} customStyles={customStyles} />
+        <Table columns={columns} data={filteredLesson} customStyles={customStyles} />
       </div>
+      <AddLessonModal
+        isOpen={isModalOpen}
+        onClose={toggleModal}
+        reloadData={reloadData}
+      />
     </>
   );
 };

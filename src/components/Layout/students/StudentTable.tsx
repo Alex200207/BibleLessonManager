@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import AddCustom from "./AddCustom";
+import AddCustom from "./AddStudent";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { MdOutlineEdit, MdDeleteOutline } from "react-icons/md";
 import { useStudent } from "../../../hooks/useStudent";
