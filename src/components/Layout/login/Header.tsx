@@ -1,8 +1,9 @@
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
-import { GiHamburgerMenu } from 'react-icons/gi'; 
-import { AiOutlineClose } from 'react-icons/ai'; 
-import icon from '../../../assets/image/icon.webp'
+import { Link } from "react-router-dom";
+import { useState } from "react";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { AiOutlineClose } from "react-icons/ai";
+import icon from "../../../assets/image/icon.webp";
+import { FaFacebook } from "react-icons/fa6";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -27,7 +28,6 @@ const Header = () => {
               </h1>
             </div>
 
-  
             <button
               onClick={toggleMenu}
               className="lg:hidden flex items-center text-black focus:outline-none"
@@ -53,17 +53,23 @@ const Header = () => {
         </div>
       </header>
 
-   
       <div
-        className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-40 transition-opacity duration-300 ${isMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+        className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-40 transition-opacity duration-300 ${
+          isMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
         onClick={toggleMenu}
       />
       <aside
-        className={`fixed top-0 left-0 w-64 bg-white h-full shadow-lg z-50 transition-transform duration-300 transform ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}
+        className={`fixed top-0 left-0 w-64 bg-white h-full shadow-lg z-50 transition-transform duration-300 transform ${
+          isMenuOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
       >
         <div className="flex justify-between items-center p-4 border-b border-gray-300">
           <h2 className="text-lg font-semibold">Menú</h2>
-          <button onClick={toggleMenu} className="text-gray-600 hover:text-gray-900">
+          <button
+            onClick={toggleMenu}
+            className="text-gray-600 hover:text-gray-900"
+          >
             <AiOutlineClose className="w-6 h-6" />
           </button>
         </div>
@@ -71,13 +77,24 @@ const Header = () => {
           <Link
             to="/about"
             className="text-black px-4 py-2 hover:bg-gray-200 rounded-md transition-all duration-300 ease-in-out"
-            onClick={() => setIsMenuOpen(false)} 
+            onClick={() => setIsMenuOpen(false)}
           >
             Acerca de
           </Link>
           <hr />
-        
-
+            <div className="mt-4">
+              <h3 className="text-lg font-semibold mb-2">Redes sociales</h3>
+              <a
+              className="text-black px-4 py-2 hover:bg-gray-200 rounded-md transition-all duration-300 ease-in-out flex items-center relative"
+              href="https://www.facebook.com/profile.php?id=100092870447281&mibextid=LQQJ4d"
+              target="_blank"
+              rel="noopener noreferrer"
+              >
+              <FaFacebook className="mr-2 w-5 h-5" />
+              <span>Facebook</span>
+              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-black transform scale-x-0 transition-transform duration-300 ease-in-out hover:scale-x-100"></span>
+              </a>
+            </div>
         </div>
       </aside>
     </>
