@@ -1,5 +1,5 @@
 import { RiMenu2Fill } from "react-icons/ri";
-import DropdownUser from "../Layout/DropdownUser";
+import DropdownUser from "./students/DropdownUser";
 
 interface HeaderProps {
   toggleAside: () => void;

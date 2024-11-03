@@ -1,15 +1,14 @@
 import React from "react";
-import { group, kids, score ,users} from "../../../Types";
+import { group, kids, score, users } from "../../../Types";
 import { IoCloseOutline } from "react-icons/io5";
-
 
 interface StudentDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
   student: kids | null;
-  score: score[]
-  group: group[]
-  teacher: users[]
+  score: score[];
+  group: group[];
+  teacher: users[];
 }
 
 const StudentDetailModal: React.FC<StudentDetailModalProps> = ({
@@ -20,10 +19,7 @@ const StudentDetailModal: React.FC<StudentDetailModalProps> = ({
   teacher,
   group,
 }) => {
-    
   if (!isOpen || !student) return null;
-
-
 
   const findScoreForStudent = (studentId: number) => {
     const studentScore = score.find((s) => s.estudiante_id === studentId);
@@ -39,8 +35,6 @@ const StudentDetailModal: React.FC<StudentDetailModalProps> = ({
     const groupData = group.find((g) => g.id === groupId);
     return groupData ? groupData.nombre : "sin grupo";
   };
-
-  
 
   return (
     <div
@@ -76,16 +70,17 @@ const StudentDetailModal: React.FC<StudentDetailModalProps> = ({
           </p>
           <hr />
           <p className="text-gray-700">
-            <strong>Maestr@:</strong> {findTeacherForStudent(student.id_maestra)}
+            <strong>Maestr@:</strong>{" "}
+            {findTeacherForStudent(student.id_maestra)}
           </p>
         </div>
         <div className="mt-6 flex justify-end">
-            <button
+          <button
             className="border border-red-500 text-red-500 py-2 px-4 rounded-lg shadow hover: transition duration-200"
             onClick={onClose}
-            >
+          >
             <IoCloseOutline className="h-6 w-6" />
-            </button>
+          </button>
         </div>
       </div>
     </div>

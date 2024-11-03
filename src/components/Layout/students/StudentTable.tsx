@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from "react";
-import AddCustom from "../modal/AddCustom";
+import AddCustom from "./AddCustom";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { MdOutlineEdit, MdDeleteOutline } from "react-icons/md";
-import { FcDeleteDatabase } from "react-icons/fc";
-import { FcAcceptDatabase } from "react-icons/fc";
 import { useStudent } from "../../../hooks/useStudent";
-import EditModal from "../modal/EditModal";
+import EditModal from "./EditModal";
 import { kids } from "../../../Types";
 import { useUser } from "../../../hooks/useUser";
 import { FaUser } from "react-icons/fa";
-import StudentDetailModal from "../modal/StudentDetailModal";
-import { VscSettings } from "react-icons/vsc";
+import StudentDetailModal from "./StudentDetailModal";
+import Dropdown from "../Dropdown";
 import { GrView } from "react-icons/gr";
-import Table from "../Table"; // Importar el componente reutilizable
-import Tippy from "@tippyjs/react"; // Importa Tippy
-import "tippy.js/dist/tippy.css"; // Importa estilos para los tooltips
+import Table from "../Table"; 
+import Tippy from "@tippyjs/react"; 
+import "tippy.js/dist/tippy.css"; 
 
 interface Row {
   id: number;
@@ -44,6 +42,10 @@ const StudentTable: React.FC = () => {
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [showDeleted, setShowDeleted] = useState(false);
 
+  const dropdownOptions = [
+    { label: "Mostrar eliminados", value: "showDeleted" },
+    { label: "Mostrar activos", value: "showActive" },
+  ];
 
   const filteredStudents = students.filter(
     (student) =>
@@ -103,12 +105,15 @@ const StudentTable: React.FC = () => {
       setIsDetailModalOpen(true);
     }
   };
-  const toggleShowDeleted = async () => {
-    setShowDeleted((prev) => !prev); // Alterna la visualización de eliminados
-    if (!showDeleted) {
-      await studentDeletedList(); // Obtiene estudiantes eliminados solo si se está mostrando eliminados
+
+  const handleDropdownSelect = async (value: string) => {
+    if (value === "showDeleted") {
+      setShowDeleted(true);
+      await studentDeletedList(); // Llama a tu función para obtener eliminados
     } else {
-      await reloadData(); // Recarga los datos si se está mostrando activos
+      setShowDeleted(false);
+      // Aquí podrías recargar los estudiantes activos
+      await reloadData();
     }
   };
 
@@ -243,18 +248,8 @@ const StudentTable: React.FC = () => {
             : `Cantidad de estudiantes Activos: `}
           <strong>{studentCount}</strong>
         </span>
-        <button onClick={toggleShowDeleted} className="ml-4 mr-2">
-          {showDeleted ? (
-            <FcAcceptDatabase className="h-6 w-6" />
-          ) : (
-            <FcDeleteDatabase className="h-6 w-6" />
-          )}
-        </button>
 
-        <button className="flex items-center px-2 py-2 ml-auto  text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
-          <VscSettings  className="h-4 w-4 " />
-          Filters
-        </button>
+        <Dropdown options={dropdownOptions} onSelect={handleDropdownSelect} />
       </div>
 
       <Table
@@ -287,7 +282,6 @@ const StudentTable: React.FC = () => {
         group={group}
         teacher={userList}
       />
-      
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { useAuth } from "../../utils/AuthProvider";
+import { useAuth } from "../../../utils/AuthProvider";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { CiLogout } from "react-icons/ci";
@@ -24,7 +24,7 @@ function DropdownUser() {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
-  
+
   // Crear una referencia para el dropdown
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
@@ -40,7 +40,7 @@ function DropdownUser() {
       text: "Tu sesión se cerrará.",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#4F46E5", 
+      confirmButtonColor: "#4F46E5",
       cancelButtonColor: "#d33",
       confirmButtonText: "Sí, cerrar sesión",
       cancelButtonText: "Cancelar",
@@ -55,12 +55,12 @@ function DropdownUser() {
         showConfirmButton: false,
         timer: 900,
       }).then(() => {
-        navigate("/");       
+        navigate("/");
       });
     }
   };
 
-  const firstLetter = user?.name ? user.name.charAt(0).toUpperCase() : '';
+  const firstLetter = user?.name ? user.name.charAt(0).toUpperCase() : "";
 
   const toggleDarkMode = () => {
     setDarkMode((prevMode) => !prevMode);
@@ -68,21 +68,21 @@ function DropdownUser() {
 
   useEffect(() => {
     if (darkMode) {
-      document.documentElement.classList.add('dark');
+      document.documentElement.classList.add("dark");
     } else {
-      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.remove("dark");
     }
   }, [darkMode]);
 
- 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-     
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
-
 
     document.addEventListener("mousedown", handleClickOutside);
 
@@ -105,7 +105,9 @@ function DropdownUser() {
             <div className="w-10 h-10 flex items-center justify-center bg-indigo-600 text-white font-bold rounded-full mr-2">
               {firstLetter}
             </div>
-            <h1 className="text-lg font-bold  text-gray-800 dark:text-gray-200">Hola, {user?.name}</h1>
+            <h1 className="text-lg font-bold  text-gray-800 dark:text-gray-200">
+              Hola, {user?.name}
+            </h1>
           </div>
           <a
             href="#/profile"
@@ -119,8 +121,17 @@ function DropdownUser() {
           >
             <IoMdSettings className="mr-2 w-6 h-6" /> Configuraciones
           </a>
-          <div className="flex w-full items-center p-2 cursor-pointer text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-200 rounded-lg" onClick={toggleDarkMode}>
-            <span className="mr-2">{darkMode ? <IoSunnyOutline className="w-6 h-6"/>: <MdDarkMode className="w-6 h-6" /> }</span>
+          <div
+            className="flex w-full items-center p-2 cursor-pointer text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-200 rounded-lg"
+            onClick={toggleDarkMode}
+          >
+            <span className="mr-2">
+              {darkMode ? (
+                <IoSunnyOutline className="w-6 h-6" />
+              ) : (
+                <MdDarkMode className="w-6 h-6" />
+              )}
+            </span>
           </div>
           <a
             href="/"
