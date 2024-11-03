@@ -4,6 +4,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import StudentTable from "../components/Layout/students/StudentTable";
 import Lesson from "../components/Layout/lesson/Lessons";
+import About from "../pages/About";
 
 
 
@@ -14,6 +15,7 @@ const AppRouter = () => {
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/about" element={<About/>} />
       <Route path='register' element={<Register/>}/>
 
       <Route element={<PrivateRoutes />}>

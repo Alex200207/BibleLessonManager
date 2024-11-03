@@ -1,13 +1,12 @@
-/* En tu archivo CSS principal (index.css o tailwind.css) */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Personalización para el modo oscuro */
 .dark {
   --tw-bg-opacity: 1;
   background-color: rgba(31, 41, 55, var(--tw-bg-opacity)); /* gris oscuro */
-  color: white; /* Color de texto para el modo oscuro */
+  color: white; 
 }
 
 .custom-top{
@@ -21,4 +20,27 @@
 }
 .custom-z-a{
   z-index: 50 !important;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 1s ease-out forwards;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
 }

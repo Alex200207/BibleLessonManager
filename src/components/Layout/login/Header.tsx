@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import { GiHamburgerMenu } from 'react-icons/gi'; // Hamburger icon
-import { AiOutlineClose } from 'react-icons/ai'; // Close icon
+import { GiHamburgerMenu } from 'react-icons/gi'; 
+import { AiOutlineClose } from 'react-icons/ai'; 
 import icon from '../../../assets/image/icon.webp'
 
 const Header = () => {
@@ -13,7 +13,7 @@ const Header = () => {
 
   return (
     <>
-      <header className="backdrop-blur-mdborder-b border-white/10 py-4  fixed w-full top-0 z-50 transition-all duration-500 ease-in-out">
+      <header className="backdrop-blur-md  border-white/10 py-4  fixed w-full top-0 z-50 transition-all duration-500 ease-in-out">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
@@ -38,7 +38,7 @@ const Header = () => {
             <nav className="hidden lg:flex lg:space-x-4">
               <Link
                 to="/about"
-                className="text-black px-4 py-2 border border-white/20 hover:border-white rounded-md transition-all duration-300 ease-in-out hover:bg-white/10 transform hover:scale-105 hover:shadow-lg"
+                className="text-gray-50 px-4 py-2 border border-white/20 hover:border-white rounded-md transition-all duration-300 ease-in-out hover:bg-white/10 transform hover:scale-105 hover:shadow-lg"
               >
                 Acerca de
               </Link>
