@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
-import { Code, Rocket, Sparkles, Github } from 'lucide-react';
-import img from '../assets/image/iglesia.jpg';
+import { Code, Rocket,  Github } from 'lucide-react';
+import img from '../assets/image/@AlexApp.png';
 
 function About() {
   const sectionsRef = useRef<(HTMLDivElement | null)[]>([]);
@@ -39,7 +39,7 @@ function About() {
         />
         <div className="relative z-10 text-center text-white px-4">
           <h1 className="text-6xl font-bold mb-6 animate-fade-in">
-            Bienvenido a <span className="text-blue-400">Río de Agua Viva</span>
+            Bienvenido a <span className="text-blue-400">BibleLesson</span>
           </h1>
           <p className="text-xl mb-8 animate-fade-in delay-200">
             Plataforma de gestión de estudiantes y lecciones para la iglesia.
@@ -75,12 +75,6 @@ function About() {
                 Rendimiento optimizado con técnicas avanzadas de agrupamiento.
               </p>
             </div>
-            <div className="text-center">
-              <div className="flex justify-center mb-4">
-                <Sparkles className="w-12 h-12 text-blue-500" />
-              </div>
-             
-            </div>
           </div>
         </div>
       </div>
@@ -93,7 +87,7 @@ function About() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl font-bold mb-4">Acerca de Eddy Alexis Talavera Espinoza</h2>
           <p className="text-xl text-gray-600 mb-8">
-            Soy estudiante de Ingeniería en Software y estoy desarrollando una plataforma para la iglesia  <strong>Río de Agua Viva</strong>. Esta plataforma está diseñada para gestionar estudiantes, lecciones e información, facilitando la administración y el seguimiento de actividades educativas.
+            Hola, Soy estudiante de Ingeniería en Software y estoy desarrollando una plataforma para la iglesia  <strong>Río de Agua Viva</strong>. Esta plataforma está diseñada para gestionar estudiantes, lecciones e información, facilitando la administración y el seguimiento de actividades educativas.
           </p>
         </div>
       </div>
@@ -107,14 +101,14 @@ function About() {
           <h2 className="text-4xl font-bold text-white mb-8">
             ¿Listo para comenzar?
           </h2>
-          <div className="flex justify-center space-x-4">
+          {/* <div className="flex justify-center space-x-4">
             <button className="bg-white text-blue-600 font-bold py-3 px-8 rounded-full hover:bg-gray-100 transition-all transform hover:scale-105">
               Comienza Ahora
             </button>
             <button className="border-2 border-white text-white font-bold py-3 px-8 rounded-full hover:bg-white hover:text-blue-600 transition-all transform hover:scale-105">
               Documentación
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
 
