@@ -22,13 +22,12 @@ export const useLessonModal = () => {
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
+    
     const { name, value } = e.target;
     setNewLesson((prev) => ({
       ...prev,
       [name]:
-        name === "id_grupo" || name === "id_maestra"
-          ? Number(value)
-          : value,
+        name === "id_grupo" || name === "id_maestra" ? Number(value) : value,
     }));
   };
 

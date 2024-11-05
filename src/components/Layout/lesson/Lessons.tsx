@@ -20,7 +20,7 @@ interface Row {
 }
 
 const Lesson:React.FC = () => {
-  const { lessons , reloadData} = useLesson();
+  const { lessons , reloadData,deletedLesson} = useLesson();
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { group } = useStudent();
@@ -32,6 +32,8 @@ const Lesson:React.FC = () => {
       lesson.tema.toLowerCase().includes(searchTerm.toLowerCase()) ||
       lesson.id.toString().includes(searchTerm)
   );
+
+
 
 
   const dateFormater = (date: Date) => {
@@ -50,6 +52,10 @@ const Lesson:React.FC = () => {
   };
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
+  };
+  const handleDelete = async (id: number) => {
+    await deletedLesson(id);
+    reloadData();
   };
 
   useEffect(() => {
@@ -96,12 +102,12 @@ const Lesson:React.FC = () => {
     },
     {
       name: "Acciones",
-      cell: () => (
+      cell: (row: Row) => (
         <div className="flex space-x-2 justify-between ">
           <button>
             <MdOutlineEdit className="h-6 w-6" />
           </button>
-          <button>
+          <button onClick={() => handleDelete(row.id)} >
             <MdDeleteOutline className="h-6 w-6 text-red-600" />
           </button>
         </div>

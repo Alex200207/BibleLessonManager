@@ -25,6 +25,25 @@ const getLesson = async () => {
 
 }
 
+const deleteLesson = async (id: lesson["id"]) => {
+    try {
+        const response = await axios.delete(`${API_URL}/lessons/${id}`, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+        });
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            throw new Error("Failed to delete lesson");
+        }
+    } catch (err) {
+        console.log(err, "No se pudo eliminar los datos");
+        throw err;
+    }
+}
+
 
     const addLesson = async (newLesson: lesson) => {
 
@@ -49,4 +68,5 @@ const getLesson = async () => {
 export{
     getLesson,
     addLesson,
+    deleteLesson
 }
