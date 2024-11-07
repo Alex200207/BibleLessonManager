@@ -60,25 +60,36 @@ const RoleList: React.FC = () => {
       name: "Acciones",
       cell: (row: Role) => (
         <div className="flex space-x-2 justify-between">
-          <button
-            onClick={() => toggleSidebar(row)} // Abrir barra lateral
-            data-tip="Ver detalles"
-            data-for="detailTooltip"
-            className="text-blue-500"
-          >
-            <GrView className="h-6 w-6" />
-          </button>
-
-          <Tippy content="Editar" placement="top">
-            <button>
-              <MdOutlineEdit className="h-6 w-6" />
+          {showDeleted ? (
+            <button
+              onClick={() => toggleSidebar(row)} // Abrir barra lateral
+              data-tip="Ver detalles"
+              data-for="detailTooltip"
+              className="text-blue-500"
+            >
+              <GrView className="h-6 w-6" />
             </button>
-          </Tippy>
-          <Tippy content="Eliminar" placement="top">
-            <button>
-              <MdDeleteOutline className="h-6 w-6 text-red-600" />
-            </button>
-          </Tippy>
+          ) : (
+            <>
+              {isMobile && (
+                <Tippy content="Ver detalles" placement="top">
+                  <button onClick={() => toggleSidebar(row)}>
+                    <GrView className="h-6 w-6 text-blue-500" />
+                  </button>
+                </Tippy>
+              )}
+              <Tippy content="Editar" placement="top">
+                <button>
+                  <MdOutlineEdit className="h-6 w-6" />
+                </button>
+              </Tippy>
+              <Tippy content="Eliminar" placement="top">
+                <button>
+                  <MdDeleteOutline className="h-6 w-6 text-red-600" />
+                </button>
+              </Tippy>
+            </>
+          )}
         </div>
       ),
       width: "100px",
