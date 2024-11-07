@@ -5,6 +5,8 @@ import Register from "../pages/Register";
 import StudentTable from "../components/Layout/students/StudentTable";
 import Lesson from "../components/Layout/lesson/Lessons";
 import About from "../pages/About";
+import RolesPage from "../pages/RolesPage";
+import RoleForm from "../components/Layout/Roles/RoleForm";
 
 
 
@@ -22,7 +24,9 @@ const AppRouter = () => {
         <Route path="/home" element={<h1>Hola</h1>} />
         <Route path="/kid" element={<StudentTable/>} />
         <Route path="/lesson" element={<Lesson/>} />
-        <Route path="/group" element={<h2>Hola2</h2>} />
+        <Route path="/group" element={<h2>Hola2</h2>} />  
+        <Route path='/role' element={<RolesPage/>}/>
+        <Route path='/addRole' element={<RoleForm onSave={() => { /* handle save */ }} />}/>
       </Route>
     </Routes>
   );

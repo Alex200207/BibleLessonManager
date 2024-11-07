@@ -5,6 +5,7 @@ import { FaHome, FaUsers, FaClipboardList, FaUserShield } from "react-icons/fa";
 import { FaBookOpen } from "react-icons/fa";
 import { useStudent } from "../../hooks/useStudent";
 import { useLesson } from "../../hooks/useLesson";
+import { LuLayoutPanelLeft } from "react-icons/lu";
 
 interface AsideProps {
   isOpened: boolean;
@@ -17,8 +18,8 @@ const Aside = ({ isOpened }: AsideProps) => {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [isPlanificacionOpen, setIsPlanificacionOpen] = useState(false); // Nuevo estado para el grupo Planificación
 
-  const { students} = useStudent();
-  const {lessons} = useLesson();
+  const { students } = useStudent();
+  const { lessons } = useLesson();
 
   const toggleGroup = () => {
     setIsGroupOpen(!isGroupOpen);
@@ -73,7 +74,7 @@ const Aside = ({ isOpened }: AsideProps) => {
           <li>
             <div
               className="flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 cursor-pointer"
-              onClick={togglePlanificacion} 
+              onClick={togglePlanificacion}
             >
               <FaClipboardList className="w-5 h-5 mr-2 text-gray-600 dark:text-gray-400" />
               <span className="flex-1 text-gray-800 dark:text-gray-200">
@@ -214,7 +215,7 @@ const Aside = ({ isOpened }: AsideProps) => {
               <ul className="ml-6 space-y-2 mt-2">
                 <li>
                   <Link
-                    to="/"
+                    to="#"
                     className="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
                   >
                     <span className="flex-1 text-gray-800 dark:text-gray-200">
@@ -230,7 +231,7 @@ const Aside = ({ isOpened }: AsideProps) => {
               className="flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 cursor-pointer"
               onClick={togglePanel}
             >
-              <FaUserShield className="w-5 h-5 mr-2 text-gray-600 dark:text-gray-400" />
+              <LuLayoutPanelLeft className="w-5 h-5 mr-2 text-gray-600 dark:text-gray-400" />
               <span className="flex-1 text-gray-800 dark:text-gray-200">
                 Panel
               </span>
@@ -256,17 +257,18 @@ const Aside = ({ isOpened }: AsideProps) => {
               <ul className="ml-6 space-y-2 mt-2">
                 <li>
                   <Link
-                    to="/"
+                    to="/role"
                     className="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
                   >
+                    <FaUserShield className="w-5 h-5 mr-2 text-gray-600 dark:text-gray-400" />
                     <span className="flex-1 text-gray-800 dark:text-gray-200">
-                      Opción 1
+                      Roles
                     </span>
                   </Link>
                 </li>
                 <li>
                   <Link
-                    to="/"
+                    to="#"
                     className="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
                   >
                     <span className="flex-1 text-gray-800 dark:text-gray-200">

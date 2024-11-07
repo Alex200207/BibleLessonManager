@@ -10,7 +10,7 @@ const PrivateRoutes = () => {
     return <Navigate to="/login" />;
   }
 
-  if (role === 'superadmin') {
+  if (role === 'admin') {
     return (
       <Dashboard>
         <Outlet />
