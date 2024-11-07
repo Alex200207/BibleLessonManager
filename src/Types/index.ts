@@ -51,4 +51,6 @@ export interface Permission {
 export interface Role {
   id: number;
   name: string;
+  deleted_at?: Date;
+  updated_at?: Date;
 }
