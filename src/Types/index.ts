@@ -45,12 +45,14 @@ export interface Role {
 export interface Permission {
   id: number;
   name: string;
-  enabled: boolean;
+  enabled: boolean; // Nuevo campo para marcar si está habilitado
 }
 
 export interface Role {
   id: number;
   name: string;
+  guard: string;
   deleted_at?: Date;
   updated_at?: Date;
+  permissions: Permission[];  // Relación con los permisos
 }

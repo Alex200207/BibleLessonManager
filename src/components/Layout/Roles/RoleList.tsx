@@ -1,19 +1,38 @@
-import { useRole } from "../../../hooks/useRole";
+import React, { useState, useEffect } from "react";
+import { Permission, Role } from "../../../Types";
 import Table from "../Table";
-import { useState, useEffect } from "react";
 import { MdOutlineEdit, MdDeleteOutline } from "react-icons/md";
-import { Role } from "../../../Types";
 import { GrView } from "react-icons/gr";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 import { IoCloseOutline } from "react-icons/io5";
 
 const RoleList: React.FC = () => {
-  const { roles } = useRole();
+  const [roles, setRoles] = useState<Role[]>([]);
+  const [l, setl] = useState<Permission[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [isMobile, setIsMobile] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
+
+  // Obtener roles desde la API
+  useEffect(() => {
+    const fetchRoles = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/role"); // Cambia esto por tu endpoint
+        const data = await response.json();
+        setRoles(data);
+
+        const response2 = await fetch("http://localhost:3000/permissions"); // Cambia esto por tu endpoint
+        const data2 = await response2.json();
+        setl(data2);
+        console.log(l);
+      } catch (error) {
+        console.error("Error al obtener roles:", error);
+      }
+    };
+    fetchRoles();
+  }, []);
 
   // Filtrar roles según el término de búsqueda
   const filteredRoles = roles.filter(
@@ -22,13 +41,12 @@ const RoleList: React.FC = () => {
       role.id.toString().includes(searchTerm)
   );
 
-  const showDeleted = false; // Para manejar roles eliminados (se puede modificar si lo necesitas)
+  const showDeleted = false;
 
   const visibleRoles = showDeleted
     ? filteredRoles.filter((role) => role.deleted_at)
     : filteredRoles.filter((role) => !role.deleted_at);
 
-  // Cambiar la visibilidad de la barra lateral
   const toggleSidebar = (role: Role) => {
     setSelectedRole(role);
     setIsSidebarOpen(!isSidebarOpen);
@@ -53,7 +71,10 @@ const RoleList: React.FC = () => {
     },
     {
       name: "Permisos",
-      selector: (row: Role) => row.guard,
+      selector: (row: Role) => row.permissions?.length || 0,//mostramos la cantidad de permisos de cada rol
+      cell: (row: Role) => (
+        <div>{row.permissions ? row.permissions.length : 0}</div>
+      ),
       omit: isMobile,
     },
     {
@@ -154,7 +175,7 @@ const RoleList: React.FC = () => {
                   <strong>Nombre:</strong> {selectedRole.name}
                 </p>
                 <p className="text-gray-700">
-                  <strong>Guard:</strong> {selectedRole.guard}
+                  <strong>Permisos:</strong> {selectedRole.permissions?.length || 0}
                 </p>
                 <p className="text-gray-700">
                   <strong>Actualizado el:</strong>{" "}
