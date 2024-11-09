@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { PiStudentLight } from "react-icons/pi";
-import { FaHome, FaUsers, FaClipboardList, FaUserShield } from "react-icons/fa";
+import { FaHome, FaClipboardList, FaUserShield } from "react-icons/fa";
 import { FaBookOpen } from "react-icons/fa";
 import { useStudent } from "../../hooks/useStudent";
 import { useLesson } from "../../hooks/useLesson";
+import { LiaChalkboardTeacherSolid } from "react-icons/lia";
+import { MdGroup } from "react-icons/md";
 import { LuLayoutPanelLeft } from "react-icons/lu";
 
 interface AsideProps {
@@ -13,7 +15,6 @@ interface AsideProps {
 }
 
 const Aside = ({ isOpened }: AsideProps) => {
-  const [isGroupOpen, setIsGroupOpen] = useState(false);
   const [isMovimientosOpen, setIsMovimientosOpen] = useState(false);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [isPlanificacionOpen, setIsPlanificacionOpen] = useState(false); // Nuevo estado para el grupo Planificación
@@ -21,30 +22,21 @@ const Aside = ({ isOpened }: AsideProps) => {
   const { students } = useStudent();
   const { lessons } = useLesson();
 
-  const toggleGroup = () => {
-    setIsGroupOpen(!isGroupOpen);
-    setIsMovimientosOpen(false);
-    setIsPanelOpen(false);
-    setIsPlanificacionOpen(false); // Cerrar el grupo Planificación si se abre otro grupo
-  };
-
   const toggleMovimientos = () => {
     setIsMovimientosOpen(!isMovimientosOpen);
-    setIsGroupOpen(false);
+
     setIsPanelOpen(false);
     setIsPlanificacionOpen(false); // Cerrar el grupo Planificación si se abre otro grupo
   };
 
   const togglePanel = () => {
     setIsPanelOpen(!isPanelOpen);
-    setIsGroupOpen(false);
     setIsMovimientosOpen(false);
     setIsPlanificacionOpen(false); // Cerrar el grupo Planificación si se abre otro grupo
   };
 
   const togglePlanificacion = () => {
     setIsPlanificacionOpen(!isPlanificacionOpen);
-    setIsGroupOpen(false);
     setIsMovimientosOpen(false);
     setIsPanelOpen(false); // Cerrar otros grupos
   };
@@ -128,45 +120,17 @@ const Aside = ({ isOpened }: AsideProps) => {
                     </span>
                   </Link>
                 </li>
-              </ul>
-            )}
-          </li>
-          <li>
-            <div
-              className="flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 cursor-pointer"
-              onClick={toggleGroup}
-            >
-              <FaUsers className="w-5 h-5 mr-2 text-gray-600 dark:text-gray-400" />
-              <span className="flex-1 text-gray-800 dark:text-gray-200">
-                Grupos
-              </span>
-              <svg
-                className={`w-5 h-5 transition-transform duration-200 ${
-                  isGroupOpen ? "rotate-90" : ""
-                }`}
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </div>
-            {isGroupOpen && (
-              <ul className="ml-6 space-y-2 mt-2">
                 <li>
                   <Link
-                    to="/group"
+                    to="/teacher"
                     className="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
                   >
+                    <LiaChalkboardTeacherSolid className="h-6 w-6 mr-2 text-gray-600 dark:text-gray-400" />
                     <span className="flex-1 text-gray-800 dark:text-gray-200">
-                      Grupo 1
+                      Maestr@
+                    </span>
+                    <span className="inline-flex items-center justify-center px-2 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
+                      1
                     </span>
                   </Link>
                 </li>
@@ -175,15 +139,18 @@ const Aside = ({ isOpened }: AsideProps) => {
                     to="/group"
                     className="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
                   >
+                    <MdGroup className="h-6 w-6 mr-2 text-gray-600 dark:text-gray-400" />
                     <span className="flex-1 text-gray-800 dark:text-gray-200">
-                      Grupo 2
+                      Grupos
+                    </span>
+                    <span className="inline-flex items-center justify-center px-2 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
+                      1
                     </span>
                   </Link>
                 </li>
               </ul>
             )}
           </li>
-
           <li>
             <div
               className="flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 cursor-pointer"
@@ -266,7 +233,6 @@ const Aside = ({ isOpened }: AsideProps) => {
                     </span>
                   </Link>
                 </li>
-               
               </ul>
             )}
           </li>
