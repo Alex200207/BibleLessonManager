@@ -27,6 +27,7 @@ export interface group {
   id: number;
   nombre: string;
   descripcion: string;
+  deleted_at?: Date;
 }
 export interface users {
   id: number;
