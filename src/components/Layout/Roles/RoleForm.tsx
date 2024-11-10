@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Role, Permission } from "../../../Types";
 import PermissionsTable from './PermissionsTable';
+import Swal from "sweetalert2";
 
 interface RoleFormProps {
   onSave: (role: Omit<Role, "id" | "permissions"> & { permissions: string[] }) => void;
@@ -25,47 +26,61 @@ const RoleForm: React.FC<RoleFormProps> = ({ onSave, role }) => {
     fetchPermissions();
   }, []);
 
-  // Manejar cambios en los permisos seleccionados
   const handlePermissionChange = (updatedPermissions: Permission[]) => {
     setPermissions(updatedPermissions);
   };
 
-  // Enviar los datos al backend
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const selectedPermissions = permissions.filter((permission) => permission.enabled).map((permission) => permission.id.toString());
 
-    // Si el rol tiene ID, es una edición (PUT), si no, es una creación (POST)
     const roleData = {
       name,
       guard,
       permissions: selectedPermissions,
     };
 
-    try {
-      if (role) {
-        // Actualizar rol existente (PUT)
-        await fetch(`http://localhost:3000/role/create/${role.id}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(roleData),
-        });
-      } else {
-        // Crear un nuevo rol (POST)
-        await fetch("http://localhost:3000/role/create", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(roleData),
-        });
-      }
+    // Mostrar SweetAlert para confirmación antes de guardar
+    const result = await Swal.fire({
+      title: "¿Estás seguro?",
+      text: "¿Quieres guardar los cambios en este rol?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, guardar",
+      cancelButtonText: "Cancelar",
+    });
 
-      onSave(roleData); // Llamamos a onSave para actualizar el estado en RoleList o para cualquier otra acción posterior
-    } catch (error) {
-      console.error("Error al guardar el rol:", error);
+    // Solo procede si el usuario confirma
+    if (result.isConfirmed) {
+      try {
+        if (role) {
+          // Actualizar rol existente (PUT)
+          await fetch(`http://localhost:3000/role/create/${role.id}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(roleData),
+          });
+        } else {
+          // Crear un nuevo rol (POST)
+          await fetch("http://localhost:3000/role/create", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(roleData),
+          });
+        }
+
+        onSave(roleData); // Actualiza el estado en RoleList o cualquier otra acción posterior
+        Swal.fire("¡Guardado!", "El rol ha sido guardado exitosamente.", "success");
+      } catch (error) {
+        console.error("Error al guardar el rol:", error);
+        Swal.fire("Error", "Hubo un problema al guardar el rol.", "error");
+      }
     }
   };
 
@@ -82,15 +97,6 @@ const RoleForm: React.FC<RoleFormProps> = ({ onSave, role }) => {
             required
           />
         </div>
-        {/* <div className="mb-4">
-          <label className="block text-sm font-medium">Guard</label>
-          <input
-            type="text"
-            value={guard}
-            onChange={(e) => setGuard(e.target.value)}
-            className="w-full p-2 border rounded"
-          />
-        </div> */}
         <PermissionsTable
           permissions={permissions}
           onPermissionChange={handlePermissionChange}

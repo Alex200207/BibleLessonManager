@@ -186,33 +186,40 @@ const StudentTable: React.FC = () => {
   ];
 
   const customStyles = {
-    table: { style: { borderRadius: "20px 20px 0 0", overflow: "hidden" } },
+    table: {
+      style: { borderRadius: "12px", overflow: "hidden", boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)" },
+    },
     headCells: {
       style: {
-        backgroundColor: "#ebf8ff",
-        color: "#2d3748",
-        fontWeight: "600",
+        background: "linear-gradient(90deg, #6a11cb 0%, #2575fc 100%)",
+        color: "#ffffff",
+        fontWeight: "bold",
+        textTransform: "uppercase",
       },
     },
     cells: {
-      style: { paddingLeft: "24px", paddingRight: "24px", color: "#4a5568" },
+      style: {
+        padding: "16px",
+        fontSize: "14px",
+      },
     },
     rows: {
       style: {
-        backgroundColor: "#ffffff",
-        padding: "16px",
-        "&:hover": { backgroundColor: "#f7fafc" },
+        backgroundColor: "#f9fafb",
+        transition: "background-color 0.2s ease",
+        "&:hover": {
+          backgroundColor: "#ebf4ff",
+        },
       },
     },
     pagination: {
       style: {
         backgroundColor: "#edf2f7",
         color: "#4a5568",
-        borderRadius: "0 0 20px 20px",
+        borderRadius: "0 0 12px 12px",
       },
     },
   };
-
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);

@@ -7,7 +7,7 @@ import Lesson from "../components/Layout/lesson/Lessons";
 import About from "../pages/About";
 import RolesPage from "../pages/RolesPage";
 import RoleForm from "../components/Layout/Roles/RoleForm";
-import GroupTable from '../components/Layout/group/groupTable'
+import GroupTable from '../components/Layout/group/GroupTable'
 
 
 

@@ -1,40 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { Permission, Role } from "../../../Types";
+import {  Role } from "../../../Types";
 import Table from "../Table";
 import { MdOutlineEdit, MdDeleteOutline } from "react-icons/md";
 import { GrView } from "react-icons/gr";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 import { IoCloseOutline } from "react-icons/io5";
+import { useRole } from "../../../hooks/useRole";
 
 const RoleList: React.FC = () => {
-  const [roles, setRoles] = useState<Role[]>([]);
-  const [l, setl] = useState<Permission[]>([]);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [isMobile, setIsMobile] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
+  const { roles  } = useRole();
 
-  // Obtener roles desde la API
-  useEffect(() => {
-    const fetchRoles = async () => {
-      try {
-        const response = await fetch("http://localhost:3000/role"); // Cambia esto por tu endpoint
-        const data = await response.json();
-        setRoles(data);
-
-        const response2 = await fetch("http://localhost:3000/permissions"); // Cambia esto por tu endpoint
-        const data2 = await response2.json();
-        setl(data2);
-        console.log(l);
-      } catch (error) {
-        console.error("Error al obtener roles:", error);
-      }
-    };
-    fetchRoles();
-  }, []);
-
-  // Filtrar roles según el término de búsqueda
   const filteredRoles = roles.filter(
     (role) =>
       role.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -83,8 +64,7 @@ const RoleList: React.FC = () => {
         <div className="flex space-x-2 justify-between">
           {showDeleted ? (
             <button
-              onClick={() => toggleSidebar(row)} // Abrir barra lateral
-              data-tip="Ver detalles"
+              onClick={() => toggleSidebar(row)} 
               data-for="detailTooltip"
               className="text-blue-500"
             >

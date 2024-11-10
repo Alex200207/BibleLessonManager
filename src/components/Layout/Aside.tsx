@@ -8,6 +8,8 @@ import { useLesson } from "../../hooks/useLesson";
 import { LiaChalkboardTeacherSolid } from "react-icons/lia";
 import { MdGroup } from "react-icons/md";
 import { LuLayoutPanelLeft } from "react-icons/lu";
+import { GoHistory } from "react-icons/go";
+import { FiUsers } from "react-icons/fi";
 
 interface AsideProps {
   isOpened: boolean;
@@ -156,7 +158,7 @@ const Aside = ({ isOpened }: AsideProps) => {
               className="flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 cursor-pointer"
               onClick={toggleMovimientos}
             >
-              <FaClipboardList className="w-5 h-5 mr-2 text-gray-600 dark:text-gray-400" />
+              <GoHistory className="w-5 h-5 mr-2 text-gray-600 dark:text-gray-400" />
               <span className="flex-1 text-gray-800 dark:text-gray-200">
                 Movimientos
               </span>
@@ -230,6 +232,15 @@ const Aside = ({ isOpened }: AsideProps) => {
                     <FaUserShield className="w-5 h-5 mr-2 text-gray-600 dark:text-gray-400" />
                     <span className="flex-1 text-gray-800 dark:text-gray-200">
                       Roles
+                    </span>
+                  </Link>
+                  <Link
+                    to="/users"
+                    className="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+                  >
+                    <FiUsers  className="w-5 h-5 mr-2 text-gray-600 dark:text-gray-400" />
+                    <span className="flex-1 text-gray-800 dark:text-gray-200">
+                      Usuarios
                     </span>
                   </Link>
                 </li>
