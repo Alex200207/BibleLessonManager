@@ -1,6 +1,6 @@
-// src/hooks/useUser.ts
+
 import { useEffect, useState } from "react";
-import { getUsers } from "../services/studentService";
+import { getUsers } from "../services/userService";
 import { users } from "../Types";
 
 const useUser = () => {

@@ -8,7 +8,8 @@ import About from "../pages/About";
 import RolesPage from "../pages/RolesPage";
 import RoleForm from "../components/Layout/Roles/RoleForm";
 import GroupTable from '../components/Layout/group/GroupTable'
-import UserTable from '../components/Layout/users/UserTable'
+import Home from '../components/Layout/home/Home'
+import UserTable from "../components/Layout/users/UserTable";
 
 
 
@@ -24,7 +25,7 @@ const AppRouter = () => {
 
 
       <Route element={<PrivateRoutes />}>
-        <Route path="/home" element={<h1>Hola</h1>} />
+        <Route path="/home" element={<Home/>} />
         <Route path="/kid" element={<StudentTable/>} />
         <Route path="/lesson" element={<Lesson/>} />
         <Route path='/teacher' element={<h1>maestros</h1>}/>
