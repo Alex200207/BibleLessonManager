@@ -34,6 +34,8 @@ export interface users {
   name: string;
   email: string;
   password: string;
+  deleted_at?: Date;
+  updated_at?: Date;
 }
 // types.ts
 export interface Role {

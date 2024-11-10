@@ -8,6 +8,7 @@ import About from "../pages/About";
 import RolesPage from "../pages/RolesPage";
 import RoleForm from "../components/Layout/Roles/RoleForm";
 import GroupTable from '../components/Layout/group/GroupTable'
+import UserTable from '../components/Layout/users/UserTable'
 
 
 
@@ -29,7 +30,8 @@ const AppRouter = () => {
         <Route path='/teacher' element={<h1>maestros</h1>}/>
         <Route path="/group" element={<GroupTable/>} />  
         <Route path='/role' element={<RolesPage/>}/>
-        <Route path='/addRole' element={<RoleForm onSave={() => { /* handle save */ }} />}/>      
+        <Route path='/addRole' element={<RoleForm onSave={() => { /* handle save */ }} />}/>    
+        <Route path='/users' element={<UserTable/>}/>  
       </Route>
     </Routes>
   );
