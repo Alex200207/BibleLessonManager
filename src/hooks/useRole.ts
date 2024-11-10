@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { getRoles, getPermissions } from "../services/rolesService";
+import { getRoles, getPermissions} from "../services/rolesService";
 import { Role ,Permission} from "../Types/index";
 
 export const useRole = () => {
   const [roles, setRoles] = useState<Role[]>([]);
   const [permissions, setPermissions] = useState<Permission[]>([]);
+  
   const [reload, setReload] = useState(false);
 
   useEffect(() => {
@@ -19,10 +20,13 @@ export const useRole = () => {
       const permissionsData = await getPermissions();
       setPermissions(permissionsData);
 
+
     } catch (error) {
       console.error("Error al obtener los datos:", error);
     }
   };
+
+
   
 
   const reloadData = () => {

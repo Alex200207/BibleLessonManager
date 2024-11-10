@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { API_URL } from '../constant/index';
+import {users} from '../Types'
 
 
 const getUsers = async () => {
@@ -21,6 +22,29 @@ const getUsers = async () => {
         return [];
     }
 
+    
+
 }
 
-export { getUsers };
+const addUser = async (newUser: users) => {
+
+    try {
+        const response = await axios.post(`${API_URL}/auth/register`, newUser, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+        });
+        if (response.status === 201) {
+            return response.data;
+        } else {
+            throw new Error("Failed to add user");
+        }
+    } catch (err) {
+        console.log(err, "No se pudo agregar los datos");
+        throw err;
+    }
+}
+
+
+export { getUsers , addUser };

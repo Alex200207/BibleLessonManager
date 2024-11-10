@@ -54,7 +54,7 @@ const StudentTable: React.FC = () => {
   );
 
   const visibleStudents = showDeleted
-    ? filteredStudents.filter((student) => student.deleted_at) // Filtra solo los eliminados
+    ? filteredStudents.filter((student) => student.deleted_at) 
     : filteredStudents.filter((student) => !student.deleted_at);
 
   const studentCount = filteredStudents.length;

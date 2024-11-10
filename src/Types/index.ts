@@ -36,6 +36,7 @@ export interface users {
   password: string;
   deleted_at?: Date;
   updated_at?: Date;
+  role_id: number;
 }
 // types.ts
 export interface Role {
@@ -59,3 +60,4 @@ export interface Role {
   updated_at?: Date;
   permissions: Permission[];  // Relación con los permisos
 }
+

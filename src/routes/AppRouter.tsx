@@ -28,10 +28,9 @@ const AppRouter = () => {
         <Route path="/home" element={<Home/>} />
         <Route path="/kid" element={<StudentTable/>} />
         <Route path="/lesson" element={<Lesson/>} />
-        <Route path='/teacher' element={<h1>maestros</h1>}/>
         <Route path="/group" element={<GroupTable/>} />  
         <Route path='/role' element={<RolesPage/>}/>
-        <Route path='/addRole' element={<RoleForm onSave={() => { /* handle save */ }} />}/>    
+        <Route path='/addRole' element={<RoleForm onSave={() => {}} />}/>    
         <Route path='/users' element={<UserTable/>}/>  
       </Route>
     </Routes>
