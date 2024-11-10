@@ -154,7 +154,7 @@ const StudentTable: React.FC = () => {
               data-tip="Ver detalles"
               data-for="detailTooltip"
             >
-              <GrView className="h-6 w-6" />
+              <GrView className="h-6 w-6 " />
             </button>
           ) : (
             <>
@@ -174,7 +174,7 @@ const StudentTable: React.FC = () => {
               </Tippy>
               <Tippy content="Eliminar" placement="top">
                 <button onClick={() => handleDelete(row.id)}>
-                  <MdDeleteOutline className="h-6 w-6 text-red-600" />
+                  <MdDeleteOutline className="h-6 w-6 text-red-600 " />
                 </button>
               </Tippy>
             </>
@@ -199,8 +199,9 @@ const StudentTable: React.FC = () => {
     },
     cells: {
       style: {
-        padding: "16px",
+        padding: "13px",
         fontSize: "14px",
+        textAlign: "center",
       },
     },
     rows: {

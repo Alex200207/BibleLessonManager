@@ -7,15 +7,14 @@ import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 
 interface Row {
-    id: number;
-    nombre: string;
-    descripcion: string;
-    deleted_at?: Date;
-
+  id: number;
+  nombre: string;
+  descripcion: string;
+  deleted_at?: Date;
 }
 
-const GroupTable:React.FC = () => {
-  const { group , } = useGroup();
+const GroupTable: React.FC = () => {
+  const { group } = useGroup();
   const [searchTerm, setSearchTerm] = useState("");
   const [isMobile, setIsMobile] = useState(false);
 
@@ -24,8 +23,6 @@ const GroupTable:React.FC = () => {
       g.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
       g.id.toString().includes(searchTerm)
   );
-
-
 
   useEffect(() => {
     const handleResize = () => {
@@ -49,7 +46,7 @@ const GroupTable:React.FC = () => {
       selector: (row: Row) => row.descripcion,
       omit: isMobile,
     },
-    
+
     {
       name: "Acciones",
       cell: () => (
@@ -57,7 +54,7 @@ const GroupTable:React.FC = () => {
           <button>
             <MdOutlineEdit className="h-6 w-6" />
           </button>
-          <button  >
+          <button>
             <MdDeleteOutline className="h-6 w-6 text-red-600" />
           </button>
         </div>
@@ -66,29 +63,41 @@ const GroupTable:React.FC = () => {
     },
   ];
   const customStyles = {
-    table: { style: { borderRadius: "20px 20px 0 0", overflow: "hidden" } },
+    table: {
+      style: {
+        borderRadius: "12px",
+        overflow: "hidden",
+        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+      },
+    },
     headCells: {
       style: {
-        backgroundColor: "#ebf8ff",
-        color: "#2d3748",
-        fontWeight: "600",
+        background: "linear-gradient(90deg, #6a11cb 0%, #2575fc 100%)",
+        color: "#ffffff",
+        fontWeight: "bold",
+        textTransform: "uppercase",
       },
     },
     cells: {
-      style: { paddingLeft: "24px", paddingRight: "24px", color: "#4a5568" },
+      style: {
+        padding: "16px",
+        fontSize: "14px",
+      },
     },
     rows: {
       style: {
-        backgroundColor: "#ffffff",
-        padding: "16px",
-        "&:hover": { backgroundColor: "#f7fafc" },
+        backgroundColor: "#f9fafb",
+        transition: "background-color 0.2s ease",
+        "&:hover": {
+          backgroundColor: "#ebf4ff",
+        },
       },
     },
     pagination: {
       style: {
         backgroundColor: "#edf2f7",
         color: "#4a5568",
-        borderRadius: "0 0 20px 20px",
+        borderRadius: "0 0 12px 12px",
       },
     },
   };
@@ -104,12 +113,16 @@ const GroupTable:React.FC = () => {
             className="w-full max-w-xs h-12 px-4 border rounded-full shadow-md"
           />
           <Tippy content="Agregar" placement="top">
-            <button  className="btn btn-success">
+            <button className="btn btn-success">
               <IoAddCircleOutline className="ml-5 h-10 w-10" />
             </button>
           </Tippy>
         </div>
-        <Table columns={columns} data={filteredLesson} customStyles={customStyles} />
+        <Table
+          columns={columns}
+          data={filteredLesson}
+          customStyles={customStyles}
+        />
       </div>
     </>
   );

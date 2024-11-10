@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {  Role } from "../../../Types";
+import { Role } from "../../../Types";
 import Table from "../Table";
 import { MdOutlineEdit, MdDeleteOutline } from "react-icons/md";
 import { GrView } from "react-icons/gr";
@@ -7,14 +7,15 @@ import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 import { IoCloseOutline } from "react-icons/io5";
 import { useRole } from "../../../hooks/useRole";
+import RoleDetailModal from "./RoleDetailModal";
 
 const RoleList: React.FC = () => {
-
   const [searchTerm, setSearchTerm] = useState("");
   const [isMobile, setIsMobile] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
-  const { roles  } = useRole();
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const { roles } = useRole();
 
   const filteredRoles = roles.filter(
     (role) =>
@@ -28,10 +29,6 @@ const RoleList: React.FC = () => {
     ? filteredRoles.filter((role) => role.deleted_at)
     : filteredRoles.filter((role) => !role.deleted_at);
 
-  const toggleSidebar = (role: Role) => {
-    setSelectedRole(role);
-    setIsSidebarOpen(!isSidebarOpen);
-  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -41,6 +38,13 @@ const RoleList: React.FC = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  const openDetailModal = (role: Role) => {
+    if (isMobile) {
+      setSelectedRole(role);
+      setIsDetailModalOpen(true);
+    }
+  };
 
   const columns = [
     {
@@ -52,9 +56,21 @@ const RoleList: React.FC = () => {
     },
     {
       name: "Permisos",
-      selector: (row: Role) => row.permissions?.length || 0,//mostramos la cantidad de permisos de cada rol
+      selector: (row: Role) => row.permissions?.length || 0, //mostramos la cantidad de permisos de cada rol
       cell: (row: Role) => (
         <div>{row.permissions ? row.permissions.length : 0}</div>
+      ),
+      omit: isMobile,
+    },
+    {
+      name: "Actualizado el",
+      selector: (row: Role) => row.updated_at,
+      cell: (row: Role) => (
+        <div className="whitespace-normal break-words">
+          {row.updated_at
+            ? new Date(row.updated_at).toLocaleDateString()
+            : "No disponible"}
+        </div>
       ),
       omit: isMobile,
     },
@@ -64,7 +80,7 @@ const RoleList: React.FC = () => {
         <div className="flex space-x-2 justify-between">
           {showDeleted ? (
             <button
-              onClick={() => toggleSidebar(row)} 
+              onClick={() => openDetailModal(row)}
               data-for="detailTooltip"
               className="text-blue-500"
             >
@@ -74,7 +90,7 @@ const RoleList: React.FC = () => {
             <>
               {isMobile && (
                 <Tippy content="Ver detalles" placement="top">
-                  <button onClick={() => toggleSidebar(row)}>
+                  <button onClick={() => openDetailModal(row)}>
                     <GrView className="h-6 w-6 text-blue-500" />
                   </button>
                 </Tippy>
@@ -98,29 +114,41 @@ const RoleList: React.FC = () => {
   ];
 
   const customStyles = {
-    table: { style: { borderRadius: "20px 20px 0 0", overflow: "hidden" } },
+    table: {
+      style: {
+        borderRadius: "12px",
+        overflow: "hidden",
+        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+      },
+    },
     headCells: {
       style: {
-        backgroundColor: "#ebf8ff",
-        color: "#2d3748",
-        fontWeight: "600",
+        background: "linear-gradient(90deg, #6a11cb 0%, #2575fc 100%)",
+        color: "#ffffff",
+        fontWeight: "bold",
+        textTransform: "uppercase",
       },
     },
     cells: {
-      style: { paddingLeft: "24px", paddingRight: "24px", color: "#4a5568" },
+      style: {
+        padding: "16px",
+        fontSize: "14px",
+      },
     },
     rows: {
       style: {
-        backgroundColor: "#ffffff",
-        padding: "16px",
-        "&:hover": { backgroundColor: "#f7fafc" },
+        backgroundColor: "#f9fafb",
+        transition: "background-color 0.2s ease",
+        "&:hover": {
+          backgroundColor: "#ebf4ff",
+        },
       },
     },
     pagination: {
       style: {
         backgroundColor: "#edf2f7",
         color: "#4a5568",
-        borderRadius: "0 0 20px 20px",
+        borderRadius: "0 0 12px 12px",
       },
     },
   };
@@ -155,7 +183,8 @@ const RoleList: React.FC = () => {
                   <strong>Nombre:</strong> {selectedRole.name}
                 </p>
                 <p className="text-gray-700">
-                  <strong>Permisos:</strong> {selectedRole.permissions?.length || 0}
+                  <strong>Permisos:</strong>{" "}
+                  {selectedRole.permissions?.length || 0}
                 </p>
                 <p className="text-gray-700">
                   <strong>Actualizado el:</strong>{" "}
@@ -181,6 +210,11 @@ const RoleList: React.FC = () => {
           </div>
         </div>
       )}
+      <RoleDetailModal
+        isOpen={isDetailModalOpen}
+        onClose={() => setIsDetailModalOpen(false)}
+        roles={selectedRole}
+      />
     </div>
   );
 };

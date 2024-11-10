@@ -34,11 +34,11 @@ const RoleDetailModal: React.FC<StudentDetailModalProps> = ({
           </p>
           <hr />
           <p className="text-gray-700">
-            <strong>Guard:</strong> {roles.guard}
+            <strong>Permisos:</strong> {roles.permissions?.length || 'no asignados'}
           </p>
           <hr />
           <p className="text-gray-700">
-            <strong>Actualizado el:</strong> {roles.deleted_at?.toLocaleDateString()}
+            <strong>Actualizado el:</strong> {roles.updated_at ? new Date(roles.updated_at).toLocaleDateString() : "No disponible"}
           </p>
           <hr />
         </div>

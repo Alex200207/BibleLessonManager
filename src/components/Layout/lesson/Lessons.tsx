@@ -19,8 +19,8 @@ interface Row {
   id_grupo: number;
 }
 
-const Lesson:React.FC = () => {
-  const { lessons , reloadData,deletedLesson} = useLesson();
+const Lesson: React.FC = () => {
+  const { lessons, reloadData, deletedLesson } = useLesson();
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { group } = useStudent();
@@ -32,9 +32,6 @@ const Lesson:React.FC = () => {
       lesson.tema.toLowerCase().includes(searchTerm.toLowerCase()) ||
       lesson.id.toString().includes(searchTerm)
   );
-
-
-
 
   const dateFormater = (date: Date) => {
     const d = new Date(date);
@@ -107,7 +104,7 @@ const Lesson:React.FC = () => {
           <button>
             <MdOutlineEdit className="h-6 w-6" />
           </button>
-          <button onClick={() => handleDelete(row.id)} >
+          <button onClick={() => handleDelete(row.id)}>
             <MdDeleteOutline className="h-6 w-6 text-red-600" />
           </button>
         </div>
@@ -116,29 +113,41 @@ const Lesson:React.FC = () => {
     },
   ];
   const customStyles = {
-    table: { style: { borderRadius: "20px 20px 0 0", overflow: "hidden" } },
+    table: {
+      style: {
+        borderRadius: "12px",
+        overflow: "hidden",
+        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+      },
+    },
     headCells: {
       style: {
-        backgroundColor: "#ebf8ff",
-        color: "#2d3748",
-        fontWeight: "600",
+        background: "linear-gradient(90deg, #6a11cb 0%, #2575fc 100%)",
+        color: "#ffffff",
+        fontWeight: "bold",
+        textTransform: "uppercase",
       },
     },
     cells: {
-      style: { paddingLeft: "24px", paddingRight: "24px", color: "#4a5568" },
+      style: {
+        padding: "16px",
+        fontSize: "14px",
+      },
     },
     rows: {
       style: {
-        backgroundColor: "#ffffff",
-        padding: "16px",
-        "&:hover": { backgroundColor: "#f7fafc" },
+        backgroundColor: "#f9fafb",
+        transition: "background-color 0.2s ease",
+        "&:hover": {
+          backgroundColor: "#ebf4ff",
+        },
       },
     },
     pagination: {
       style: {
         backgroundColor: "#edf2f7",
         color: "#4a5568",
-        borderRadius: "0 0 20px 20px",
+        borderRadius: "0 0 12px 12px",
       },
     },
   };
@@ -159,7 +168,11 @@ const Lesson:React.FC = () => {
             </button>
           </Tippy>
         </div>
-        <Table columns={columns} data={filteredLesson} customStyles={customStyles} />
+        <Table
+          columns={columns}
+          data={filteredLesson}
+          customStyles={customStyles}
+        />
       </div>
       <AddLessonModal
         isOpen={isModalOpen}

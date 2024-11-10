@@ -12,6 +12,7 @@ const RoleForm: React.FC<RoleFormProps> = ({ onSave, role }) => {
   const [name, setName] = useState(role?.name || "");
   const [guard] = useState(role?.guard || "web");
   const [permissions, setPermissions] = useState<Permission[]>([]);
+  const [reload, setReload] = useState(false);
 
   useEffect(() => {
     const fetchPermissions = async () => {
@@ -24,7 +25,7 @@ const RoleForm: React.FC<RoleFormProps> = ({ onSave, role }) => {
       }
     };
     fetchPermissions();
-  }, []);
+  }, [reload]);
 
   const handlePermissionChange = (updatedPermissions: Permission[]) => {
     setPermissions(updatedPermissions);
@@ -54,6 +55,7 @@ const RoleForm: React.FC<RoleFormProps> = ({ onSave, role }) => {
 
     // Solo procede si el usuario confirma
     if (result.isConfirmed) {
+      reloadData();
       try {
         if (role) {
           // Actualizar rol existente (PUT)
@@ -82,6 +84,10 @@ const RoleForm: React.FC<RoleFormProps> = ({ onSave, role }) => {
         Swal.fire("Error", "Hubo un problema al guardar el rol.", "error");
       }
     }
+  };
+
+  const reloadData = () => {
+    setReload((prev) => !prev);
   };
 
   return (
