@@ -1,14 +1,19 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import {
+  FaHome,
+  FaClipboardList,
+  FaBookOpen,
+  FaUserShield,
+} from "react-icons/fa";
 import { PiStudentLight } from "react-icons/pi";
-import { FaHome, FaClipboardList, FaUserShield } from "react-icons/fa";
-import { FaBookOpen } from "react-icons/fa";
 import { useStudent } from "../../hooks/useStudent";
 import { useLesson } from "../../hooks/useLesson";
 import { MdGroup } from "react-icons/md";
 import { LuLayoutPanelLeft } from "react-icons/lu";
 import { GoHistory } from "react-icons/go";
 import { FiUsers } from "react-icons/fi";
+import { useAuth } from "../../utils/AuthProvider";
 
 interface AsideProps {
   isOpened: boolean;
@@ -18,28 +23,29 @@ interface AsideProps {
 const Aside = ({ isOpened }: AsideProps) => {
   const [isMovimientosOpen, setIsMovimientosOpen] = useState(false);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
-  const [isPlanificacionOpen, setIsPlanificacionOpen] = useState(false); // Nuevo estado para el grupo Planificación
+  const [isPlanificacionOpen, setIsPlanificacionOpen] = useState(false);
 
   const { students } = useStudent();
   const { lessons } = useLesson();
 
+  const { userRole } = useAuth(); // Aquí obtenemos el rol del usuario
+
   const toggleMovimientos = () => {
     setIsMovimientosOpen(!isMovimientosOpen);
-
     setIsPanelOpen(false);
-    setIsPlanificacionOpen(false); // Cerrar el grupo Planificación si se abre otro grupo
+    setIsPlanificacionOpen(false);
   };
 
   const togglePanel = () => {
     setIsPanelOpen(!isPanelOpen);
     setIsMovimientosOpen(false);
-    setIsPlanificacionOpen(false); // Cerrar el grupo Planificación si se abre otro grupo
+    setIsPlanificacionOpen(false);
   };
 
   const togglePlanificacion = () => {
     setIsPlanificacionOpen(!isPlanificacionOpen);
     setIsMovimientosOpen(false);
-    setIsPanelOpen(false); // Cerrar otros grupos
+    setIsPanelOpen(false);
   };
 
   return (
@@ -91,7 +97,7 @@ const Aside = ({ isOpened }: AsideProps) => {
                 />
               </svg>
             </div>
-            {isPlanificacionOpen && ( // Renderizar el contenido del grupo Planificación
+            {isPlanificacionOpen && (
               <ul className="ml-6 space-y-2 mt-2">
                 <li>
                   <Link
@@ -120,8 +126,6 @@ const Aside = ({ isOpened }: AsideProps) => {
                       {lessons.length}
                     </span>
                   </Link>
-                </li>
-                <li>
                 </li>
                 <li>
                   <Link
@@ -182,58 +186,62 @@ const Aside = ({ isOpened }: AsideProps) => {
               </ul>
             )}
           </li>
-          <li>
-            <div
-              className="flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 cursor-pointer"
-              onClick={togglePanel}
-            >
-              <LuLayoutPanelLeft className="w-5 h-5 mr-2 text-gray-600 dark:text-gray-400" />
-              <span className="flex-1 text-gray-800 dark:text-gray-200">
-                Panel
-              </span>
-              <svg
-                className={`w-5 h-5 transition-transform duration-200 ${
-                  isPanelOpen ? "rotate-90" : ""
-                }`}
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
+
+          {/* Mostrar el panel solo si el usuario es admin */}
+          {userRole === "admin" && (
+            <li>
+              <div
+                className="flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 cursor-pointer"
+                onClick={togglePanel}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </div>
-            {isPanelOpen && (
-              <ul className="ml-6 space-y-2 mt-2">
-                <li>
-                  <Link
-                    to="/role"
-                    className="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
-                  >
-                    <FaUserShield className="w-5 h-5 mr-2 text-gray-600 dark:text-gray-400" />
-                    <span className="flex-1 text-gray-800 dark:text-gray-200">
-                      Roles
-                    </span>
-                  </Link>
-                  <Link
-                    to="/users"
-                    className="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
-                  >
-                    <FiUsers  className="w-5 h-5 mr-2 text-gray-600 dark:text-gray-400" />
-                    <span className="flex-1 text-gray-800 dark:text-gray-200">
-                      Usuarios
-                    </span>
-                  </Link>
-                </li>
-              </ul>
-            )}
-          </li>
+                <LuLayoutPanelLeft className="w-5 h-5 mr-2 text-gray-600 dark:text-gray-400" />
+                <span className="flex-1 text-gray-800 dark:text-gray-200">
+                  Panel
+                </span>
+                <svg
+                  className={`w-5 h-5 transition-transform duration-200 ${
+                    isPanelOpen ? "rotate-90" : ""
+                  }`}
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </div>
+              {isPanelOpen && (
+                <ul className="ml-6 space-y-2 mt-2">
+                  <li>
+                    <Link
+                      to="/role"
+                      className="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+                    >
+                      <FaUserShield className="w-5 h-5 mr-2 text-gray-600 dark:text-gray-400" />
+                      <span className="flex-1 text-gray-800 dark:text-gray-200">
+                        Roles
+                      </span>
+                    </Link>
+                    <Link
+                      to="/users"
+                      className="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+                    >
+                      <FiUsers className="w-6 h-6 mr-2 text-gray-600 dark:text-gray-400" />
+                      <span className="flex-1 text-gray-800 dark:text-gray-200">
+                        Usuarios
+                      </span>
+                    </Link>
+                  </li>
+                </ul>
+              )}
+            </li>
+          )}
         </ul>
       </div>
     </aside>

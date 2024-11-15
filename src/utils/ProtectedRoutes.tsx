@@ -1,4 +1,3 @@
-
 import { Outlet, Navigate } from 'react-router-dom';
 import { useAuth } from './AuthProvider';
 import Dashboard from '../pages/Dashboard';
@@ -10,6 +9,7 @@ const PrivateRoutes = () => {
     return <Navigate to="/login" />;
   }
 
+  // Rutas para admin
   if (role === 'admin') {
     return (
       <Dashboard>
@@ -18,10 +18,17 @@ const PrivateRoutes = () => {
     );
   }
 
+  // Rutas para maestro, ocultando componentes específicos
   if (role === 'maestro') {
-    return <Navigate to="/home" />;
+    return (
+      <Dashboard>
+        {/* Ocultar el componente de roles y usuarios para maestros */}
+        <Outlet />
+      </Dashboard>
+    );
   }
 
+  // Redirigir si el rol no es admin o maestro
   return <Navigate to="/login" />;
 };
 

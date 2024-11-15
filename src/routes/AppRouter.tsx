@@ -10,28 +10,32 @@ import RoleForm from "../components/Layout/Roles/RoleForm";
 import GroupTable from '../components/Layout/group/GroupTable'
 import Home from '../components/Layout/home/Home'
 import UserTable from "../components/Layout/users/UserTable";
-
-
-
+import { useAuth } from "../utils/AuthProvider";
 
 const AppRouter = () => {
+  const { role } = useAuth();  // Obtenemos el rol del usuario
 
   return (
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/about" element={<About/>} />
-      <Route path='register' element={<Register/>}/>
-
+      <Route path="/about" element={<About />} />
+      <Route path="register" element={<Register />} />
 
       <Route element={<PrivateRoutes />}>
-        <Route path="/home" element={<Home/>} />
-        <Route path="/kid" element={<StudentTable/>} />
-        <Route path="/lesson" element={<Lesson/>} />
-        <Route path="/group" element={<GroupTable/>} />  
-        <Route path='/role' element={<RolesPage/>}/>
-        <Route path='/addRole' element={<RoleForm onSave={() => {}} />}/>    
-        <Route path='/users' element={<UserTable/>}/>  
+        <Route path="/home" element={<Home />} />
+        <Route path="/kid" element={<StudentTable />} />
+        <Route path="/lesson" element={<Lesson />} />
+        <Route path="/group" element={<GroupTable />} />
+        
+        {/* Renderizar solo si el rol es admin */}
+        {role === 'admin' && (
+          <>
+            <Route path='/role' element={<RolesPage />} />
+            <Route path='/addRole' element={<RoleForm onSave={() => {}} />} />
+            <Route path='/users' element={<UserTable />} />
+          </>
+        )}
       </Route>
     </Routes>
   );

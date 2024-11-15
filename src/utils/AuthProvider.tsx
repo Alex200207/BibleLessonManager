@@ -13,6 +13,7 @@ type LoginData = {
 };
 
 interface AuthContextType {
+  userRole: string; // Add this line
   isAuthenticated: boolean;
   role: string;
   login: (data: LoginData) => Promise<LoginResponse>;
@@ -83,7 +84,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const isAuthenticated = !!token;
 
   const authContextValue = useMemo(
-    () => ({ isAuthenticated, role, login, logout, token }),
+    () => ({ isAuthenticated, role, login, logout, token, userRole: role }),
     [isAuthenticated, role, token]
   );
 
