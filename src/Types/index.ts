@@ -37,6 +37,7 @@ export interface users {
   deleted_at?: Date;
   updated_at?: Date;
   role_id: number;
+  role: string; // Add the role property
 }
 // types.ts
 export interface Role {
@@ -49,9 +50,15 @@ export interface Role {
 export interface Permission {
   id: number;
   name: string;
+  guard:string,
+  deleted_at?:Date,
+  updated_at?:Date,
   enabled: boolean; // Nuevo campo para marcar si está habilitado
 }
-
+export interface PermissionResponse {
+  hasPermission: boolean;
+  // Otros campos que pueda incluir la respuesta
+}
 export interface Role {
   id: number;
   name: string;

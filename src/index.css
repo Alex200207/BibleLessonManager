@@ -8,6 +8,12 @@
   background-color: rgba(31, 41, 55, var(--tw-bg-opacity)); /* gris oscuro */
   color: white; 
 }
+/* Para activar el modo oscuro cuando el cuerpo tiene la clase dark */
+body.dark {
+  background-color: #1a202c; /* Fondo oscuro */
+  color: #e2e8f0; /* Texto claro */
+}
+
 
 .custom-top{
   top: 4rem;
@@ -44,3 +50,4 @@ body {
   margin: 0;
   padding: 0;
 }
+
