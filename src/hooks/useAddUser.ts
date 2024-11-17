@@ -14,7 +14,7 @@ export const useUserModal = () => {
     email: '',
     password: '',
     role_id: 0,
-   
+    role: '',
   });
 
 const handleInputChange = (
@@ -55,8 +55,8 @@ const handleInputChange = (
           name: "",
           email: "",
           password: "",
-          role_id:0,
-        
+          role_id: 0,
+          role: "",
         });
 
         reloadData();

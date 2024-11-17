@@ -4,21 +4,13 @@ import { users } from "../Types";
 
 const useUser = () => {
   const [userList, setUserList] = useState<users[]>([]);
-  const [currentUser, setCurrentUser] = useState<users | null>(null);
   const [reload, setReload] = useState(false);
 
   useEffect(() => {
     fetchData();
   }, [reload]);
 
-  useEffect(() => {
-    // Check localStorage for current user or use some authentication logic
-    const userId = localStorage.getItem("currentUserId");
-    if (userId) {
-      const user = userList.find((user) => user.id.toString() === userId);
-      setCurrentUser(user || null);
-    }
-  }, [userList]);
+
 
   const fetchData = async () => {
     try {
@@ -48,7 +40,6 @@ const useUser = () => {
 
   return {
     userList,
-    currentUser, // Returning the current user
     createUser,
     reloadData,
   };

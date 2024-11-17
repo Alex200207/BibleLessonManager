@@ -47,6 +47,7 @@ export interface Role {
   permissions: Permission[];
 }
 
+
 export interface Permission {
   id: number;
   name: string;

@@ -2,9 +2,17 @@ import { useEffect, useState } from "react";
 import { getRoles, getPermissions} from "../services/rolesService";
 import { Role ,Permission} from "../Types/index";
 
+
+
+
 export const useRole = () => {
   const [roles, setRoles] = useState<Role[]>([]);
   const [permissions, setPermissions] = useState<Permission[]>([]);
+
+
+
+  
+
   
   const [reload, setReload] = useState(false);
 

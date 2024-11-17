@@ -12,6 +12,8 @@
     "test": "jest"
   },
   "dependencies": {
+    "@casl/ability": "^6.7.2",
+    "@casl/react": "^4.0.0",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@heroicons/react": "^2.1.5",

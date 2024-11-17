@@ -26,6 +26,7 @@ const Lesson: React.FC = () => {
   const { group } = useStudent();
   const { userList } = useUser();
   const [isMobile, setIsMobile] = useState(false);
+  
 
   const filteredLesson = lessons.filter(
     (lesson) =>
@@ -63,6 +64,9 @@ const Lesson: React.FC = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+ 
+
+
 
   const columns = [
     {
@@ -101,17 +105,21 @@ const Lesson: React.FC = () => {
       name: "Acciones",
       cell: (row: Row) => (
         <div className="flex space-x-2 justify-between ">
-          <button>
-            <MdOutlineEdit className="h-6 w-6" />
-          </button>
-          <button onClick={() => handleDelete(row.id)}>
-            <MdDeleteOutline className="h-6 w-6 text-red-600" />
-          </button>
+          
+            <button>
+              <MdOutlineEdit className="h-6 w-6" />
+            </button>
+ 
+            <button onClick={() => handleDelete(row.id)}>
+              <MdDeleteOutline className="h-6 w-6 text-red-600" />
+            </button>
+
         </div>
       ),
       width: "100px",
     },
   ];
+
   const customStyles = {
     table: {
       style: {
@@ -151,6 +159,7 @@ const Lesson: React.FC = () => {
       },
     },
   };
+
 
   return (
     <>

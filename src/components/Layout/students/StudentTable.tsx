@@ -4,15 +4,17 @@ import { IoAddCircleOutline } from "react-icons/io5";
 import { MdOutlineEdit, MdDeleteOutline } from "react-icons/md";
 import { useStudent } from "../../../hooks/useStudent";
 import EditModal from "./EditModal";
-import { kids } from "../../../Types";
+import { kids  } from "../../../Types";
 import { useUser } from "../../../hooks/useUser";
 import { FaUser } from "react-icons/fa";
 import StudentDetailModal from "./StudentDetailModal";
+import usePermission from '../../../hooks/usePermission'
 import Dropdown from "../Dropdown";
 import { GrView } from "react-icons/gr";
-import Table from "../Table"; 
-import Tippy from "@tippyjs/react"; 
-import "tippy.js/dist/tippy.css"; 
+import Table from "../Table";
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
+
 
 interface Row {
   id: number;
@@ -34,6 +36,7 @@ const StudentTable: React.FC = () => {
     studentDeletedList,
   } = useStudent();
   const { userList } = useUser();
+  const {permission} = usePermission()
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -54,7 +57,7 @@ const StudentTable: React.FC = () => {
   );
 
   const visibleStudents = showDeleted
-    ? filteredStudents.filter((student) => student.deleted_at) 
+    ? filteredStudents.filter((student) => student.deleted_at)
     : filteredStudents.filter((student) => !student.deleted_at);
 
   const studentCount = filteredStudents.length;
@@ -116,6 +119,10 @@ const StudentTable: React.FC = () => {
       await reloadData();
     }
   };
+
+  console.log(permission)
+
+
 
   const columns = [
     {
@@ -187,7 +194,11 @@ const StudentTable: React.FC = () => {
 
   const customStyles = {
     table: {
-      style: { borderRadius: "12px", overflow: "hidden", boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)" },
+      style: {
+        borderRadius: " 12px 12px 0 0 ",
+        overflow: "hidden",
+        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+      },
     },
     headCells: {
       style: {

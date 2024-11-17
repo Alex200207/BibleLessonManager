@@ -1,23 +1,27 @@
 import { useState, useEffect } from 'react';
-import { checkPermissions } from '../services/permissionService'; // Ajusta la ruta según donde esté tu archivo de servicios
+import {  getPermissions } from '../services/permissionService'; 
+import { Permission } from '../Types';
 
 
-const usePermissions = (id: string, action: string) => {
-  const [hasPermission, setHasPermission] = useState<boolean | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+const usePermissions = () => {
+  const [permission, setPermission] = useState<Permission[]>([])
+
 
   useEffect(() => {
-    const fetchPermission = async () => {
-      const permission = await checkPermissions(id, action);
-      setHasPermission(permission);
-      setLoading(false);
-      
-    };
 
-    fetchPermission();
-  }, [id, action]);
+    fetchData();
+  }, []);
 
-  return { hasPermission, loading };
+  const fetchData = async () => {
+    try {
+      const studentsData = await getPermissions();
+      setPermission(studentsData);
+    } catch (error) {
+      console.error("Error al obtener los datos:", error);
+    }
+  };
+
+  return { permission};
   
 };
 

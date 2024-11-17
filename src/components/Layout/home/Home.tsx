@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaBook, FaCalendarAlt, FaChalkboardTeacher, FaUsers } from 'react-icons/fa';
-import { BsFillQuestionCircleFill } from 'react-icons/bs';
+
 
 const Home: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-r bg-transparent">
       <div className="container mx-auto px-4 py-12">
         
 
@@ -48,14 +48,6 @@ const Home: React.FC = () => {
           </div>
         </div>
 
-        {/* Preguntas Frecuentes */}
-        <div className="mt-12 bg-white shadow-lg rounded-3xl overflow-hidden transform hover:scale-105 transition duration-300">
-          <Link to="/preguntas" className="flex flex-col items-center p-6 text-center">
-            <BsFillQuestionCircleFill className="text-yellow-600 text-6xl mb-4" />
-            <h3 className="text-2xl font-semibold text-gray-800">Preguntas Frecuentes</h3>
-            <p className="text-gray-500 mt-2">Encuentra respuestas a las preguntas comunes sobre nuestras lecciones y actividades.</p>
-          </Link>
-        </div>
       </div>
     </div>
   );
