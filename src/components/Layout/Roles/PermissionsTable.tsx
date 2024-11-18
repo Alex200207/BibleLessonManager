@@ -28,6 +28,7 @@ const PermissionsTable: React.FC<PermissionsTableProps> = ({ permissions, onPerm
     );
   };
 
+
   return (
     <div className="p-4 sm:p-6 border rounded-lg shadow-md mt-6 bg-white dark:bg-gray-800 dark:border-gray-600">
       <h2 className="text-lg sm:text-xl font-semibold text-gray-800 dark:text-gray-100">Permisos</h2>

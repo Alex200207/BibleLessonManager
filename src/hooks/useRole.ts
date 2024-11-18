@@ -10,10 +10,6 @@ export const useRole = () => {
   const [permissions, setPermissions] = useState<Permission[]>([]);
 
 
-
-  
-
-  
   const [reload, setReload] = useState(false);
 
   useEffect(() => {
