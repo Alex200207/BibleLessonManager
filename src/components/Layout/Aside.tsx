@@ -22,32 +22,23 @@ interface AsideProps {
 }
 
 const Aside = ({ isOpened }: AsideProps) => {
-  const [isMovimientosOpen, setIsMovimientosOpen] = useState(false);
-  const [isPanelOpen, setIsPanelOpen] = useState(false);
-  const [isPlanificacionOpen, setIsPlanificacionOpen] = useState(false);
+  const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({
+    movimientos: true,
+    panel: true,
+    planificacion: true,
+  });
+
+  const toggleMenu = (menu: string) => {
+    setOpenMenus((prevState) => ({
+      ...prevState,
+      [menu]: !prevState[menu],
+    }));
+  };
+
   const { user } = useUser();
   const { students } = useStudent();
   const { lessons } = useLesson();
-
   const { userRole } = useAuth();
-
-  const toggleMovimientos = () => {
-    setIsMovimientosOpen(!isMovimientosOpen);
-    setIsPanelOpen(false);
-    setIsPlanificacionOpen(false);
-  };
-
-  const togglePanel = () => {
-    setIsPanelOpen(!isPanelOpen);
-    setIsMovimientosOpen(false);
-    setIsPlanificacionOpen(false);
-  };
-
-  const togglePlanificacion = () => {
-    setIsPlanificacionOpen(!isPlanificacionOpen);
-    setIsMovimientosOpen(false);
-    setIsPanelOpen(false);
-  };
 
   return (
     <aside
@@ -65,16 +56,14 @@ const Aside = ({ isOpened }: AsideProps) => {
               className="flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
             >
               <FaHome className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-              <span className="ml-3 text-gray-800 dark:text-gray-200">
-                Home
-              </span>
+              <span className="ml-3 text-gray-800 dark:text-gray-200">Home</span>
             </Link>
           </li>
           <hr />
           <li>
             <div
               className="flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 cursor-pointer"
-              onClick={togglePlanificacion}
+              onClick={() => toggleMenu("planificacion")}
             >
               <FaClipboardList className="w-5 h-5 mr-2 text-gray-600 dark:text-gray-400" />
               <span className="flex-1 text-gray-800 dark:text-gray-200">
@@ -82,7 +71,7 @@ const Aside = ({ isOpened }: AsideProps) => {
               </span>
               <svg
                 className={`w-5 h-5 transition-transform duration-200 ${
-                  isPlanificacionOpen ? "rotate-90" : ""
+                  openMenus.planificacion ? "rotate-90" : ""
                 }`}
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -98,20 +87,18 @@ const Aside = ({ isOpened }: AsideProps) => {
                 />
               </svg>
             </div>
-            {isPlanificacionOpen && (
+            {openMenus.planificacion && (
               <ul className="ml-6 space-y-2 mt-2">
+                {/* Submenu items */}
                 <li>
-                  <Link
-                    to="/kid"
-                    className="flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
-                  >
+                  <Link to="/kid" className="flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200">
                     <PiStudentLight className="h-6 w-6 mr-2 text-gray-600 dark:text-gray-400" />
                     <span className="flex-1 text-gray-800 dark:text-gray-200">
                       Estudiantes
                     </span>
                     <span className="inline-flex items-center justify-center px-2 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
                       {userRole === "admin"
-                        ? students.length 
+                        ? students.length
                         : students.filter(
                             (student) => student.id_maestra === user.id
                           ).length}
@@ -119,28 +106,21 @@ const Aside = ({ isOpened }: AsideProps) => {
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    to="/lesson"
-                    className="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
-                  >
+                  <Link to="/lesson" className="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
                     <FaBookOpen className="h-6 w-6 mr-2 text-gray-600 dark:text-gray-400" />
                     <span className="flex-1 text-gray-800 dark:text-gray-200">
                       Lecciones
                     </span>
                     <span className="inline-flex items-center justify-center px-2 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
-                    {userRole === "admin"
-                        ? lessons.length 
-                        : lessons.filter(
-                            (l) => l.id_maestra === user.id
-                          ).length}
+                      {userRole === "admin"
+                        ? lessons.length
+                        : lessons.filter((l) => l.id_maestra === user.id)
+                            .length}
                     </span>
-                  </Link> 
+                  </Link>
                 </li>
                 <li>
-                  <Link
-                    to="/group"
-                    className="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
-                  >
+                  <Link to="/group" className="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
                     <MdGroup className="h-6 w-6 mr-2 text-gray-600 dark:text-gray-400" />
                     <span className="flex-1 text-gray-800 dark:text-gray-200">
                       Grupos
@@ -153,13 +133,13 @@ const Aside = ({ isOpened }: AsideProps) => {
               </ul>
             )}
           </li>
-          {/* Mostrar el panel solo si el usuario es admin */}
+          {/* More menu items */}
           {userRole === "admin" && (
             <>
               <li>
                 <div
                   className="flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 cursor-pointer"
-                  onClick={toggleMovimientos}
+                  onClick={() => toggleMenu("movimientos")}
                 >
                   <GoHistory className="w-5 h-5 mr-2 text-gray-600 dark:text-gray-400" />
                   <span className="flex-1 text-gray-800 dark:text-gray-200">
@@ -167,7 +147,7 @@ const Aside = ({ isOpened }: AsideProps) => {
                   </span>
                   <svg
                     className={`w-5 h-5 transition-transform duration-200 ${
-                      isMovimientosOpen ? "rotate-90" : ""
+                      openMenus.movimientos ? "rotate-90" : ""
                     }`}
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -183,13 +163,10 @@ const Aside = ({ isOpened }: AsideProps) => {
                     />
                   </svg>
                 </div>
-                {isMovimientosOpen && (
+                {openMenus.movimientos && (
                   <ul className="ml-6 space-y-2 mt-2">
                     <li>
-                      <Link
-                        to="#"
-                        className="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
-                      >
+                      <Link to="#" className="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
                         <span className="flex-1 text-gray-800 dark:text-gray-200">
                           Estudiantes
                         </span>
@@ -201,15 +178,15 @@ const Aside = ({ isOpened }: AsideProps) => {
               <li>
                 <div
                   className="flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 cursor-pointer"
-                  onClick={togglePanel}
+                  onClick={() => toggleMenu("panel")}
                 >
                   <LuLayoutPanelLeft className="w-5 h-5 mr-2 text-gray-600 dark:text-gray-400" />
                   <span className="flex-1 text-gray-800 dark:text-gray-200">
-                    Panel
+                    Personal
                   </span>
                   <svg
                     className={`w-5 h-5 transition-transform duration-200 ${
-                      isPanelOpen ? "rotate-90" : ""
+                      openMenus.panel ? "rotate-90" : ""
                     }`}
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -225,23 +202,19 @@ const Aside = ({ isOpened }: AsideProps) => {
                     />
                   </svg>
                 </div>
-                {isPanelOpen && (
+                {openMenus.panel && (
                   <ul className="ml-6 space-y-2 mt-2">
                     <li>
-                      <Link
-                        to="/role"
-                        className="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
-                      >
-                        <FaUserShield className="w-5 h-5 mr-2 text-gray-600 dark:text-gray-400" />
+                      <Link to="/role" className="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <FaUserShield className="h-6 w-6 mr-2 text-gray-600 dark:text-gray-400" />
                         <span className="flex-1 text-gray-800 dark:text-gray-200">
                           Roles
                         </span>
                       </Link>
-                      <Link
-                        to="/users"
-                        className="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
-                      >
-                        <FiUsers className="w-6 h-6 mr-2 text-gray-600 dark:text-gray-400" />
+                    </li>
+                    <li>
+                      <Link to="/user" className="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <FiUsers className="h-6 w-6 mr-2 text-gray-600 dark:text-gray-400" />
                         <span className="flex-1 text-gray-800 dark:text-gray-200">
                           Usuarios
                         </span>
