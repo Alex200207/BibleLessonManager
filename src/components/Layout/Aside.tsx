@@ -14,6 +14,7 @@ import { LuLayoutPanelLeft } from "react-icons/lu";
 import { GoHistory } from "react-icons/go";
 import { FiUsers } from "react-icons/fi";
 import { useAuth } from "../../utils/AuthProvider";
+import { useUser } from "../../hooks/useUser";
 
 interface AsideProps {
   isOpened: boolean;
@@ -24,11 +25,11 @@ const Aside = ({ isOpened }: AsideProps) => {
   const [isMovimientosOpen, setIsMovimientosOpen] = useState(false);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [isPlanificacionOpen, setIsPlanificacionOpen] = useState(false);
-
+  const { user } = useUser();
   const { students } = useStudent();
   const { lessons } = useLesson();
 
-  const { userRole } = useAuth(); // Aquí obtenemos el rol del usuario
+  const { userRole } = useAuth();
 
   const toggleMovimientos = () => {
     setIsMovimientosOpen(!isMovimientosOpen);
@@ -109,7 +110,11 @@ const Aside = ({ isOpened }: AsideProps) => {
                       Estudiantes
                     </span>
                     <span className="inline-flex items-center justify-center px-2 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
-                      {students.length}
+                      {userRole === "admin"
+                        ? students.length 
+                        : students.filter(
+                            (student) => student.id_maestra === user.id
+                          ).length}
                     </span>
                   </Link>
                 </li>
@@ -123,9 +128,13 @@ const Aside = ({ isOpened }: AsideProps) => {
                       Lecciones
                     </span>
                     <span className="inline-flex items-center justify-center px-2 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
-                      {lessons.length}
+                    {userRole === "admin"
+                        ? lessons.length 
+                        : lessons.filter(
+                            (l) => l.id_maestra === user.id
+                          ).length}
                     </span>
-                  </Link>
+                  </Link> 
                 </li>
                 <li>
                   <Link
@@ -144,57 +153,22 @@ const Aside = ({ isOpened }: AsideProps) => {
               </ul>
             )}
           </li>
-                    {/* Mostrar el panel solo si el usuario es admin */}
-                    {userRole === "admin" && (
-          <><li>
-              <div
-                className="flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 cursor-pointer"
-                onClick={toggleMovimientos}
-              >
-                <GoHistory className="w-5 h-5 mr-2 text-gray-600 dark:text-gray-400" />
-                <span className="flex-1 text-gray-800 dark:text-gray-200">
-                  Movimientos
-                </span>
-                <svg
-                  className={`w-5 h-5 transition-transform duration-200 ${isMovimientosOpen ? "rotate-90" : ""}`}
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  aria-hidden="true"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M9 5l7 7-7 7" />
-                </svg>
-              </div>
-              {isMovimientosOpen && (
-                <ul className="ml-6 space-y-2 mt-2">
-                  <li>
-                    <Link
-                      to="#"
-                      className="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
-                    >
-                      <span className="flex-1 text-gray-800 dark:text-gray-200">
-                        Estudiantes
-                      </span>
-                    </Link>
-                  </li>
-                </ul>
-              )}
-            </li><li>
+          {/* Mostrar el panel solo si el usuario es admin */}
+          {userRole === "admin" && (
+            <>
+              <li>
                 <div
                   className="flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 cursor-pointer"
-                  onClick={togglePanel}
+                  onClick={toggleMovimientos}
                 >
-                  <LuLayoutPanelLeft className="w-5 h-5 mr-2 text-gray-600 dark:text-gray-400" />
+                  <GoHistory className="w-5 h-5 mr-2 text-gray-600 dark:text-gray-400" />
                   <span className="flex-1 text-gray-800 dark:text-gray-200">
-                    Panel
+                    Movimientos
                   </span>
                   <svg
-                    className={`w-5 h-5 transition-transform duration-200 ${isPanelOpen ? "rotate-90" : ""}`}
+                    className={`w-5 h-5 transition-transform duration-200 ${
+                      isMovimientosOpen ? "rotate-90" : ""
+                    }`}
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -205,7 +179,50 @@ const Aside = ({ isOpened }: AsideProps) => {
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth="2"
-                      d="M9 5l7 7-7 7" />
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </div>
+                {isMovimientosOpen && (
+                  <ul className="ml-6 space-y-2 mt-2">
+                    <li>
+                      <Link
+                        to="#"
+                        className="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+                      >
+                        <span className="flex-1 text-gray-800 dark:text-gray-200">
+                          Estudiantes
+                        </span>
+                      </Link>
+                    </li>
+                  </ul>
+                )}
+              </li>
+              <li>
+                <div
+                  className="flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 cursor-pointer"
+                  onClick={togglePanel}
+                >
+                  <LuLayoutPanelLeft className="w-5 h-5 mr-2 text-gray-600 dark:text-gray-400" />
+                  <span className="flex-1 text-gray-800 dark:text-gray-200">
+                    Panel
+                  </span>
+                  <svg
+                    className={`w-5 h-5 transition-transform duration-200 ${
+                      isPanelOpen ? "rotate-90" : ""
+                    }`}
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M9 5l7 7-7 7"
+                    />
                   </svg>
                 </div>
                 {isPanelOpen && (
@@ -232,7 +249,8 @@ const Aside = ({ isOpened }: AsideProps) => {
                     </li>
                   </ul>
                 )}
-              </li></>
+              </li>
+            </>
           )}
         </ul>
       </div>

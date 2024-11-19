@@ -9,7 +9,6 @@ import AddLessonModal from "./AddLessonModal";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 
-
 interface Row {
   id: number;
   tema: string;
@@ -20,22 +19,24 @@ interface Row {
   id_grupo: number;
 }
 
-
-
 const Lesson: React.FC = () => {
   const { lessons, reloadData, deletedLesson } = useLesson();
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { group } = useStudent();
-  const { userList,user } = useUser();
+  const { userList, user } = useUser();
   const [isMobile, setIsMobile] = useState(false);
 
-
-  const filteredLesson = lessons.filter(
-    (lesson) =>
-      lesson.tema.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      lesson.id.toString().includes(searchTerm)
-  );
+  const filteredLesson = lessons.filter((lesson) => {
+    if (user.role === "admin") {
+      return true; // Mostrar todas las lecciones si es administrador
+    }
+    return lesson.id_maestra === user.id; // Mostrar solo las lecciones asignadas al usuario
+  }).filter((lesson) => {
+    return lesson.tema.toLowerCase().includes(searchTerm.toLowerCase()) ||
+           lesson.descripcion.toLowerCase().includes(searchTerm.toLowerCase()) ||
+           lesson.pasaje_biblico.toLowerCase().includes(searchTerm.toLowerCase());
+  });
 
   const dateFormater = (date: Date) => {
     const d = new Date(date);
@@ -58,6 +59,9 @@ const Lesson: React.FC = () => {
     await deletedLesson(id);
     reloadData();
   };
+
+
+  
 
   useEffect(() => {
     const handleResize = () => {
@@ -120,7 +124,7 @@ const Lesson: React.FC = () => {
             )}
           </div>
         ) : (
-          <span>Sin acciones</span>
+          <span>Sin Acceso</span>
         ),
       width: "100px",
     },
@@ -129,7 +133,7 @@ const Lesson: React.FC = () => {
   const customStyles = {
     table: {
       style: {
-        borderRadius: "12px",
+        borderRadius: " 12px 12px 0 0 ",
         overflow: "hidden",
         boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
       },
@@ -144,8 +148,9 @@ const Lesson: React.FC = () => {
     },
     cells: {
       style: {
-        padding: "16px",
+        padding: "13px",
         fontSize: "14px",
+        textAlign: "center",
       },
     },
     rows: {
@@ -177,7 +182,7 @@ const Lesson: React.FC = () => {
             className="w-full max-w-xs h-12 px-4 border rounded-full shadow-md"
           />
 
-          {user.permissions.includes("crear") && ( 
+          {user.permissions.includes("crear") && (
             <Tippy content="Agregar" placement="top">
               <button onClick={toggleModal} className="btn btn-success">
                 <IoAddCircleOutline className="ml-5 h-10 w-10" />

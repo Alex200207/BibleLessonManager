@@ -50,11 +50,20 @@ const StudentTable: React.FC = () => {
     { label: "Mostrar activos", value: "showActive" },
   ];
 
-  const filteredStudents = students.filter(
-    (student) =>
-      student.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      student.id.toString().includes(searchTerm)
-  );
+  const filteredStudents = students
+    .filter((student) => {
+      if (user.role === "admin") {
+        return true;
+      }
+      return student.id_maestra === user.id;
+    })
+    .filter((student) => {
+      return (
+        student.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        student.edad.toString().includes(searchTerm) ||
+        student.genero.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    });
 
   const visibleStudents = showDeleted
     ? filteredStudents.filter((student) => student.deleted_at)

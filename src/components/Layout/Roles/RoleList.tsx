@@ -29,7 +29,6 @@ const RoleList: React.FC = () => {
     ? filteredRoles.filter((role) => role.deleted_at)
     : filteredRoles.filter((role) => !role.deleted_at);
 
-
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
@@ -116,7 +115,7 @@ const RoleList: React.FC = () => {
   const customStyles = {
     table: {
       style: {
-        borderRadius: "12px",
+        borderRadius: " 12px 12px 0 0 ",
         overflow: "hidden",
         boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
       },
@@ -131,8 +130,9 @@ const RoleList: React.FC = () => {
     },
     cells: {
       style: {
-        padding: "16px",
+        padding: "13px",
         fontSize: "14px",
+        textAlign: "center",
       },
     },
     rows: {
@@ -152,7 +152,6 @@ const RoleList: React.FC = () => {
       },
     },
   };
-
   return (
     <div className="container mx-auto my-5 p-2 dark:bg-gray-900 text-gray-800 dark:text-gray-200 z-10">
       <div className="flex justify-between mb-4">
