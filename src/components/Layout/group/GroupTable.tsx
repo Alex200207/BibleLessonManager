@@ -5,6 +5,7 @@ import { MdOutlineEdit, MdDeleteOutline } from "react-icons/md";
 import { IoAddCircleOutline } from "react-icons/io5";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
+import { useUser } from "../../../hooks/useUser";
 
 interface Row {
   id: number;
@@ -15,14 +16,20 @@ interface Row {
 
 const GroupTable: React.FC = () => {
   const { group } = useGroup();
+  const {user} =useUser();
   const [searchTerm, setSearchTerm] = useState("");
   const [isMobile, setIsMobile] = useState(false);
 
-  const filteredLesson = group.filter(
-    (g) =>
-      g.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      g.id.toString().includes(searchTerm)
-  );
+  const filteredLesson = group.filter((g) => {
+    if (user.role === "admin") {
+      return true; // Mostrar todas las lecciones si es administrador
+    }
+    return g.id === user.id; // Mostrar solo las lecciones asignadas al usuario
+  }).filter((g) => {
+    return g.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+           g.descripcion.toLowerCase().includes(searchTerm.toLowerCase());
+
+  });
 
   useEffect(() => {
     const handleResize = () => {
@@ -50,15 +57,23 @@ const GroupTable: React.FC = () => {
     {
       name: "Acciones",
       cell: () => (
-        <div className="flex space-x-2 justify-between ">
-          <button>
-            <MdOutlineEdit className="h-6 w-6" />
-          </button>
-          <button>
-            <MdDeleteOutline className="h-6 w-6 text-red-600" />
-          </button>
-        </div>
-      ),
+              <div className="flex space-x-2 justify-between ">
+                {user.permissions.some((perm) =>
+                  ["editar", "eliminar"].includes(perm)
+                ) ? (
+                  <>
+                    <button>
+                      <MdOutlineEdit className="h-6 w-6" />
+                    </button>
+                    <button>
+                      <MdDeleteOutline className="h-6 w-6 text-red-600" />
+                    </button>
+                  </>
+                ) : (
+                  <div>Sin Acceso</div>
+                )}
+              </div>
+            ),
       width: "100px",
     },
   ];
@@ -112,11 +127,14 @@ const GroupTable: React.FC = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full max-w-xs h-12 px-4 border rounded-full shadow-md"
           />
-          <Tippy content="Agregar" placement="top">
-            <button className="btn btn-success">
-              <IoAddCircleOutline className="ml-5 h-10 w-10" />
-            </button>
-          </Tippy>
+
+          {user.permissions.includes("crear") && (
+            <Tippy content="Agregar" placement="top">
+              <button  className="btn btn-success">
+                <IoAddCircleOutline className="ml-5 h-10 w-10" />
+              </button>
+            </Tippy>
+          )}
         </div>
         <Table
           columns={columns}
