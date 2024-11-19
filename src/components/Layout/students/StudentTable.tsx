@@ -4,17 +4,16 @@ import { IoAddCircleOutline } from "react-icons/io5";
 import { MdOutlineEdit, MdDeleteOutline } from "react-icons/md";
 import { useStudent } from "../../../hooks/useStudent";
 import EditModal from "./EditModal";
-import { kids  } from "../../../Types";
+import { kids } from "../../../Types";
 import { useUser } from "../../../hooks/useUser";
 import { FaUser } from "react-icons/fa";
 import StudentDetailModal from "./StudentDetailModal";
-import usePermission from '../../../hooks/usePermission'
+import usePermission from "../../../hooks/usePermission";
 import Dropdown from "../Dropdown";
 import { GrView } from "react-icons/gr";
 import Table from "../Table";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
-
 
 interface Row {
   id: number;
@@ -35,8 +34,9 @@ const StudentTable: React.FC = () => {
     editStudentData,
     studentDeletedList,
   } = useStudent();
-  const { userList } = useUser();
-  const {permission} = usePermission()
+
+  const { userList, user } = useUser();
+  const { permission } = usePermission();
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -120,9 +120,7 @@ const StudentTable: React.FC = () => {
     }
   };
 
-  console.log(permission)
-
-
+  console.log(permission);
 
   const columns = [
     {
@@ -164,7 +162,7 @@ const StudentTable: React.FC = () => {
               <GrView className="h-6 w-6 " />
             </button>
           ) : (
-            <>
+            <div>
               {isMobile && (
                 <button
                   onClick={() => openDetailModal(row)}
@@ -174,17 +172,23 @@ const StudentTable: React.FC = () => {
                   <GrView className="h-6 w-6" />
                 </button>
               )}
-              <Tippy content="Editar" placement="top">
-                <button onClick={() => openEditModal(row)}>
-                  <MdOutlineEdit className="h-6 w-6" />
-                </button>
-              </Tippy>
-              <Tippy content="Eliminar" placement="top">
-                <button onClick={() => handleDelete(row.id)}>
-                  <MdDeleteOutline className="h-6 w-6 text-red-600 " />
-                </button>
-              </Tippy>
-            </>
+              {user.permissions.includes("editar") && (
+                <>
+                  <Tippy content="Editar" placement="top">
+                    <button onClick={() => openEditModal(row)}>
+                      <MdOutlineEdit className="h-6 w-6" />
+                    </button>
+                  </Tippy>
+                </>
+              )}
+              {user.permissions.includes("eliminar") && (
+                <Tippy content="Eliminar" placement="top">
+                  <button onClick={() => handleDelete(row.id)}>
+                    <MdDeleteOutline className="h-6 w-6 text-red-600 " />
+                  </button>
+                </Tippy>
+              )}
+            </div>
           )}
         </div>
       ),
@@ -252,11 +256,13 @@ const StudentTable: React.FC = () => {
           className="w-full max-w-xs h-12 px-4 border rounded-full shadow-md"
         />
 
-        <Tippy content="Agregar" placement="top">
-          <button onClick={toggleModal} className="btn btn-success">
-            <IoAddCircleOutline className="ml-5 h-10 w-10" />
-          </button>
-        </Tippy>
+        {user.permissions.includes("crear") && (
+          <Tippy content="Agregar" placement="top">
+            <button onClick={toggleModal} className="btn btn-success">
+              <IoAddCircleOutline className="ml-5 h-10 w-10" />
+            </button>
+          </Tippy>
+        )}
       </div>
 
       <div className="rounded-lg p-2 flex items-center">

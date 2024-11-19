@@ -9,6 +9,7 @@ import AddLessonModal from "./AddLessonModal";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 
+
 interface Row {
   id: number;
   tema: string;
@@ -19,14 +20,16 @@ interface Row {
   id_grupo: number;
 }
 
+
+
 const Lesson: React.FC = () => {
   const { lessons, reloadData, deletedLesson } = useLesson();
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { group } = useStudent();
-  const { userList } = useUser();
+  const { userList,user } = useUser();
   const [isMobile, setIsMobile] = useState(false);
-  
+
 
   const filteredLesson = lessons.filter(
     (lesson) =>
@@ -64,9 +67,6 @@ const Lesson: React.FC = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
- 
-
-
 
   const columns = [
     {
@@ -103,19 +103,25 @@ const Lesson: React.FC = () => {
     },
     {
       name: "Acciones",
-      cell: (row: Row) => (
-        <div className="flex space-x-2 justify-between ">
-          
-            <button>
-              <MdOutlineEdit className="h-6 w-6" />
-            </button>
- 
-            <button onClick={() => handleDelete(row.id)}>
-              <MdDeleteOutline className="h-6 w-6 text-red-600" />
-            </button>
-
-        </div>
-      ),
+      cell: (row: Row) =>
+        user.permissions.some((perm) =>
+          ["editar", "eliminar"].includes(perm)
+        ) ? (
+          <div className="flex space-x-2 justify-between">
+            {user.permissions.includes("editar") && (
+              <button>
+                <MdOutlineEdit className="h-6 w-6" />
+              </button>
+            )}
+            {user.permissions.includes("eliminar") && (
+              <button onClick={() => handleDelete(row.id)}>
+                <MdDeleteOutline className="h-6 w-6 text-red-600" />
+              </button>
+            )}
+          </div>
+        ) : (
+          <span>Sin acciones</span>
+        ),
       width: "100px",
     },
   ];
@@ -160,7 +166,6 @@ const Lesson: React.FC = () => {
     },
   };
 
-
   return (
     <>
       <div className="container mx-auto my-5 p-2 dark:bg-gray-900 text-gray-800 dark:text-gray-200 z-10">
@@ -171,11 +176,14 @@ const Lesson: React.FC = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full max-w-xs h-12 px-4 border rounded-full shadow-md"
           />
-          <Tippy content="Agregar" placement="top">
-            <button onClick={toggleModal} className="btn btn-success">
-              <IoAddCircleOutline className="ml-5 h-10 w-10" />
-            </button>
-          </Tippy>
+
+          {user.permissions.includes("crear") && ( 
+            <Tippy content="Agregar" placement="top">
+              <button onClick={toggleModal} className="btn btn-success">
+                <IoAddCircleOutline className="ml-5 h-10 w-10" />
+              </button>
+            </Tippy>
+          )}
         </div>
         <Table
           columns={columns}

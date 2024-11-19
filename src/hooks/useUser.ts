@@ -1,10 +1,24 @@
 import { useEffect, useState } from "react";
 import { getUsers, addUser } from "../services/userService";
 import { users } from "../Types";
+import { useAuth } from "../utils/AuthProvider";
+import { jwtDecode, JwtPayload } from "jwt-decode";
+
+interface UserDataToken extends JwtPayload {
+  email: string;
+  iat: number;
+  id: number;
+  name: string;
+  role: string;
+  permissions: string[];
+}
 
 const useUser = () => {
   const [userList, setUserList] = useState<users[]>([]);
   const [reload, setReload] = useState(false);
+  const { token } = useAuth();
+  const user = jwtDecode<UserDataToken>(token);
+
 
   useEffect(() => {
     fetchData();
@@ -42,6 +56,7 @@ const useUser = () => {
     userList,
     createUser,
     reloadData,
+    user,
   };
 };
 
