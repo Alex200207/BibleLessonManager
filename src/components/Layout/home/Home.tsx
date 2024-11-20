@@ -1,21 +1,60 @@
-
 import { Users, BookOpen, GraduationCap, Clock } from 'lucide-react';
 import StatsCard from './StatsCard';
 import RecentActivity from './RecentActivity';
-import { useStudent } from '../../../hooks/useStudent'
-import { useUser } from '../../../hooks/useUser'
+import { useStudent } from '../../../hooks/useStudent';
+import { useUser } from '../../../hooks/useUser';
 import { useLesson } from '../../../hooks/useLesson';
+import { Line } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 function Home() {
+  const { students } = useStudent();
+  const { userList: teachers } = useUser();
+  const { lessons } = useLesson();
 
-  const{students} = useStudent(); 
-  const {userList: teachers} = useUser();
-  const {lessons} = useLesson();
+  // Datos simulados para el gráfico
+  const progressData = {
+    labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'],
+    datasets: [
+      {
+        label: 'Progreso de Estudiantes (%)',
+        data: [65, 70, 75, 85, 90, 92],
+        fill: true,
+        backgroundColor: 'rgba(99, 102, 241, 0.2)',
+        borderColor: 'rgba(99, 102, 241, 1)',
+        pointBackgroundColor: 'rgba(99, 102, 241, 1)',
+        pointBorderColor: '#fff',
+        tension: 0.4, // Línea suavizada
+      },
+    ],
+  };
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: true, position: 'top' as const },
+      tooltip: { enabled: true },
+    },
+    scales: {
+      x: { grid: { display: false } },
+      y: { grid: { color: '#e5e7eb' } },
+    },
+  };
 
   return (
-    <div className="flex min-h-screen bg-gra/y-50  dark:bg-gray-900 text-gray-800 dark:text-black transform transition-transform duration-300 ease-in-out shadow-lg">
-      
-      
+    <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-black transform transition-transform duration-300 ease-in-out shadow-lg">
       <main className="flex-1 p-8">
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-between items-center mb-8">
@@ -69,11 +108,11 @@ function Home() {
             />
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 ">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2 bg-white rounded-xl p-6 shadow-sm dark:text-white dark:bg-black">
               <h2 className="text-lg font-semibold mb-4">Progreso de Estudiantes</h2>
               <div className="h-[300px] flex items-center justify-center text-gray-500">
-                Aquí irá el gráfico de progreso
+                <Line data={progressData} options={options} />
               </div>
             </div>
             <div>
