@@ -1,13 +1,15 @@
-import { useLesson } from "../../../hooks/useLesson";
-import Table from "../Table";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdOutlineEdit, MdDeleteOutline } from "react-icons/md";
+import { IoAddCircleOutline } from "react-icons/io5";
+import Table from "../Table";
+import { useLesson } from "../../../hooks/useLesson";
 import { useStudent } from "../../../hooks/useStudent";
 import { useUser } from "../../../hooks/useUser";
-import { IoAddCircleOutline } from "react-icons/io5";
 import AddLessonModal from "./AddLessonModal";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 interface Row {
   id: number;
@@ -52,16 +54,15 @@ const Lesson: React.FC = () => {
     const groupData = group.find((g) => g.id === groupId);
     return groupData ? groupData.nombre : "sin grupo";
   };
+
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
+
   const handleDelete = async (id: number) => {
     await deletedLesson(id);
     reloadData();
   };
-
-
-  
 
   useEffect(() => {
     const handleResize = () => {
@@ -190,12 +191,15 @@ const Lesson: React.FC = () => {
             </Tippy>
           )}
         </div>
-        <Table
-          columns={columns}
-          data={filteredLesson}
-          customStyles={customStyles}
-        />
+
+        {/* Mostrar Skeleton mientras carga */}
+        {lessons.length === 0 ? (
+          <Skeleton count={5} height={50} className="mb-2" />
+        ) : (
+          <Table columns={columns} data={filteredLesson} customStyles={customStyles} />
+        )}
       </div>
+
       <AddLessonModal
         isOpen={isModalOpen}
         onClose={toggleModal}

@@ -8,6 +8,7 @@ import "tippy.js/dist/tippy.css";
 import { IoCloseOutline } from "react-icons/io5";
 import { useRole } from "../../../hooks/useRole";
 import RoleDetailModal from "./RoleDetailModal";
+import Skeleton from "react-loading-skeleton";
 
 const RoleList: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -162,11 +163,19 @@ const RoleList: React.FC = () => {
           className="w-full max-w-xs h-12 px-4 border rounded-full shadow-md"
         />
       </div>
-      <Table
-        data={visibleRoles}
-        columns={columns}
-        customStyles={customStyles}
-      />
+
+      <div>
+        {/* Mostrar Skeleton mientras carga */}
+        {roles.length === 0 ? (
+          <Skeleton count={5} height={50} className="mb-2" />
+        ) : (
+          <Table
+            data={visibleRoles}
+            columns={columns}
+            customStyles={customStyles}
+          />
+        )}
+      </div>
       {isSidebarOpen && (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
           <div

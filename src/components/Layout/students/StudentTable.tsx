@@ -14,6 +14,7 @@ import { GrView } from "react-icons/gr";
 import Table from "../Table";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
+import Skeleton from "react-loading-skeleton";
 
 interface Row {
   id: number;
@@ -286,16 +287,7 @@ const StudentTable: React.FC = () => {
         <Dropdown options={dropdownOptions} onSelect={handleDropdownSelect} />
       </div>
 
-      <Table
-        data={visibleStudents}
-        columns={columns.filter(
-          (column) =>
-            !column.omit ||
-            column.name === "Nombre" ||
-            column.name === "Acciones"
-        )}
-        customStyles={customStyles}
-      />
+
 
       <AddCustom
         isOpen={isModalOpen}
@@ -308,6 +300,26 @@ const StudentTable: React.FC = () => {
         student={selectedStudent}
         onSave={handleEditSave}
       />
+      <div>
+         {/* Mostrar Skeleton mientras carga */}
+         {students.length === 0 ? (
+          <Skeleton count={5} height={50} className="mb-2" />
+        ) : (
+          <Table
+          data={visibleStudents}
+          columns={columns.filter(
+            (column) =>
+              !column.omit ||
+              column.name === "Nombre" ||
+              column.name === "Acciones"
+          )}
+          customStyles={customStyles}
+        />
+        )}
+        
+
+      </div>
+
       <StudentDetailModal
         isOpen={isDetailModalOpen}
         onClose={() => setIsDetailModalOpen(false)}

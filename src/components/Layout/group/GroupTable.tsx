@@ -6,6 +6,8 @@ import { IoAddCircleOutline } from "react-icons/io5";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 import { useUser } from "../../../hooks/useUser";
+import 'react-loading-skeleton/dist/skeleton.css';
+import Skeleton from 'react-loading-skeleton';
 
 interface Row {
   id: number;
@@ -136,11 +138,15 @@ const GroupTable: React.FC = () => {
             </Tippy>
           )}
         </div>
-        <Table
-          columns={columns}
-          data={filteredLesson}
-          customStyles={customStyles}
-        />
+
+        <div>
+           {/* Mostrar Skeleton mientras carga */}
+        {group.length === 0 ? (
+          <Skeleton count={5} height={50} className="mb-2" />
+        ) : (
+          <Table columns={columns} data={filteredLesson} customStyles={customStyles} />
+        )}
+        </div>
       </div>
     </>
   );

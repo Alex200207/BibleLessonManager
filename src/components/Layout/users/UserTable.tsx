@@ -10,6 +10,7 @@ import { IoCloseOutline } from "react-icons/io5";
 import { useUser } from "../../../hooks/useUser";
 import { useRole } from "../../../hooks/useRole";
 import AddUserModal from "./AddUserModal";
+import Skeleton from "react-loading-skeleton";
 
 const UserTable: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -20,7 +21,6 @@ const UserTable: React.FC = () => {
   //   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const { userList: user, reloadData } = useUser();
   const { roles } = useRole();
- 
 
   console.log(setSelectedUser);
 
@@ -73,7 +73,7 @@ const UserTable: React.FC = () => {
       selector: (row: users) => row.id, // Asegúrate de que el `user` tenga un campo `role_id`
       cell: (row: users) => (
         <div className="whitespace-normal break-words">
-          {findRoleName(row.id)}  {/* Pasamos el role_id de cada usuario */}
+          {findRoleName(row.id)} {/* Pasamos el role_id de cada usuario */}
         </div>
       ),
     },
@@ -184,11 +184,18 @@ const UserTable: React.FC = () => {
         </Tippy>
       </div>
 
-      <Table
-        data={visibleRoles}
-        columns={columns}
-        customStyles={customStyles}
-      />
+      <div>
+        {/* Mostrar Skeleton mientras carga */}
+        {roles.length === 0 ? (
+          <Skeleton count={5} height={50} className="mb-2" />
+        ) : (
+          <Table
+            data={visibleRoles}
+            columns={columns}
+            customStyles={customStyles}
+          />
+        )}
+      </div>
       {isSidebarOpen && (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
           <div
