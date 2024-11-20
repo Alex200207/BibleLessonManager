@@ -135,8 +135,6 @@ const Lesson: React.FC = () => {
     },
   ];
 
-  
-
   return (
     <>
       <div className="container mx-auto my-5 p-2 dark:bg-gray-900 text-gray-800 dark:text-gray-200 z-10">
@@ -159,12 +157,13 @@ const Lesson: React.FC = () => {
 
         {/* Mostrar Skeleton mientras carga */}
         {lessons.length === 0 ? (
-          <Skeleton count={5} height={50} className="mb-2 dark:bg-slate-900" />
-        ) : (
-          <Table
-              columns={columns}
-              data={filteredLesson}          
+          <Skeleton
+            count={5}
+            height={50}
+            className="mb-2 dark:bg-slate-700 bg-slate-300 animate-pulse"
           />
+        ) : (
+          <Table columns={columns} data={filteredLesson} />
         )}
       </div>
 

@@ -6,8 +6,8 @@ import { IoAddCircleOutline } from "react-icons/io5";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 import { useUser } from "../../../hooks/useUser";
-import 'react-loading-skeleton/dist/skeleton.css';
-import Skeleton from 'react-loading-skeleton';
+import "react-loading-skeleton/dist/skeleton.css";
+import Skeleton from "react-loading-skeleton";
 
 interface Row {
   id: number;
@@ -18,20 +18,23 @@ interface Row {
 
 const GroupTable: React.FC = () => {
   const { group } = useGroup();
-  const {user} =useUser();
+  const { user } = useUser();
   const [searchTerm, setSearchTerm] = useState("");
   const [isMobile, setIsMobile] = useState(false);
 
-  const filteredLesson = group.filter((g) => {
-    if (user.role === "admin") {
-      return true; // Mostrar todas las lecciones si es administrador
-    }
-    return g.id === user.id; // Mostrar solo las lecciones asignadas al usuario
-  }).filter((g) => {
-    return g.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
-           g.descripcion.toLowerCase().includes(searchTerm.toLowerCase());
-
-  });
+  const filteredLesson = group
+    .filter((g) => {
+      if (user.role === "admin") {
+        return true; // Mostrar todas las lecciones si es administrador
+      }
+      return g.id === user.id; // Mostrar solo las lecciones asignadas al usuario
+    })
+    .filter((g) => {
+      return (
+        g.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        g.descripcion.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    });
 
   useEffect(() => {
     const handleResize = () => {
@@ -59,23 +62,23 @@ const GroupTable: React.FC = () => {
     {
       name: "Acciones",
       cell: () => (
-              <div className="flex space-x-2 justify-between ">
-                {user.permissions.some((perm) =>
-                  ["editar", "eliminar"].includes(perm)
-                ) ? (
-                  <>
-                    <button>
-                      <MdOutlineEdit className="h-6 w-6" />
-                    </button>
-                    <button>
-                      <MdDeleteOutline className="h-6 w-6 text-red-600" />
-                    </button>
-                  </>
-                ) : (
-                  <div>Sin Acceso</div>
-                )}
-              </div>
-            ),
+        <div className="flex space-x-2 justify-between ">
+          {user.permissions.some((perm) =>
+            ["editar", "eliminar"].includes(perm)
+          ) ? (
+            <>
+              <button>
+                <MdOutlineEdit className="h-6 w-6" />
+              </button>
+              <button>
+                <MdDeleteOutline className="h-6 w-6 text-red-600" />
+              </button>
+            </>
+          ) : (
+            <div>Sin Acceso</div>
+          )}
+        </div>
+      ),
       width: "100px",
     },
   ];
@@ -93,7 +96,7 @@ const GroupTable: React.FC = () => {
 
           {user.permissions.includes("crear") && (
             <Tippy content="Agregar" placement="top">
-              <button  className="btn btn-success">
+              <button className="btn btn-success">
                 <IoAddCircleOutline className="ml-5 h-10 w-10" />
               </button>
             </Tippy>
@@ -101,12 +104,16 @@ const GroupTable: React.FC = () => {
         </div>
 
         <div>
-           {/* Mostrar Skeleton mientras carga */}
-        {group.length === 0 ? (
-          <Skeleton count={5} height={50} className="mb-2 dark:bg-slate-900" />
-        ) : (
-          <Table columns={columns} data={filteredLesson}  />
-        )}
+          {/* Mostrar Skeleton mientras carga */}
+          {group.length === 0 ? (
+            <Skeleton
+              count={5}
+              height={50}
+              className="mb-2 dark:bg-slate-700 bg-slate-300 animate-pulse"
+            />
+          ) : (
+            <Table columns={columns} data={filteredLesson} />
+          )}
         </div>
       </div>
     </>

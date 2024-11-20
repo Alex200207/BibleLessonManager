@@ -147,7 +147,11 @@ const UserTable: React.FC = () => {
       <div>
         {/* Mostrar Skeleton mientras carga */}
         {roles.length === 0 ? (
-          <Skeleton count={5} height={50} className="mb-2 dark:bg-slate-900" />
+          <Skeleton
+            count={5}
+            height={50}
+            className="mb-2 dark:bg-slate-700 bg-slate-300 animate-pulse"
+          />
         ) : (
           <Table data={visibleRoles} columns={columns} />
         )}
