@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getRoles, getPermissions} from "../services/rolesService";
+import { getRoles, getPermissions, createRole} from "../services/rolesService";
 import { Role ,Permission} from "../Types/index";
 
 
@@ -30,6 +30,17 @@ export const useRole = () => {
     }
   };
 
+  
+  const newRole = async (roleData: Role) => {
+    try {
+      await createRole(roleData);
+      reloadData();
+    } catch (error) {
+      console.error("Error al crear el rol:", error);
+    }
+  };
+  
+
 
   
 
@@ -41,5 +52,6 @@ export const useRole = () => {
     roles,
     permissions,
     reloadData,
+    newRole,
   };
 };

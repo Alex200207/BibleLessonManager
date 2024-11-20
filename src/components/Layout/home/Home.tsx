@@ -1,56 +1,89 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { FaBook, FaCalendarAlt, FaChalkboardTeacher, FaUsers } from 'react-icons/fa';
 
+import { Users, BookOpen, GraduationCap, Clock } from 'lucide-react';
+import StatsCard from './StatsCard';
+import RecentActivity from './RecentActivity';
+import { useStudent } from '../../../hooks/useStudent'
+import { useUser } from '../../../hooks/useUser'
+import { useLesson } from '../../../hooks/useLesson';
 
-const Home: React.FC = () => {
+function Home() {
+
+  const{students} = useStudent(); 
+  const {userList: teachers} = useUser();
+  const {lessons} = useLesson();
+
   return (
-    <div className="min-h-screen bg-gradient-to-r bg-transparent">
-      <div className="container mx-auto px-4 py-12">
-        
-
-        {/* Sección de tarjetas */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-          {/* Lecciones */}
-          <div className="bg-white shadow-lg rounded-3xl overflow-hidden transform hover:scale-105 transition duration-300">
-            <Link to="/lecciones" className="flex flex-col items-center p-6 text-center">
-              <FaBook className="text-blue-600 text-6xl mb-4" />
-              <h3 className="text-2xl font-semibold text-gray-800">Lecciones</h3>
-              <p className="text-gray-500 mt-2">Explora nuestras lecciones bíblicas interactivas y profundiza en la palabra.</p>
-            </Link>
+    <div className="flex min-h-screen bg-gra/y-50  dark:bg-gray-900 text-gray-800 dark:text-black transform transition-transform duration-300 ease-in-out shadow-lg">
+      
+      
+      <main className="flex-1 p-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex justify-between items-center mb-8">
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">¡Buen día, Profesor!</h1>
+              <p className="text-gray-600 dark:text-white">Aquí está el resumen de tu actividad</p>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="relative">
+                <span className="absolute top-0 right-0 h-3 w-3 bg-red-500 rounded-full"></span>
+                <button className="p-2 hover:bg-gray-100 rounded-lg">
+                  <Clock className="w-6 h-6 text-gray-600" />
+                </button>
+              </div>
+              <img
+                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop"
+                alt="Profile"
+                className="w-10 h-10 rounded-full object-cover"
+              />
+            </div>
           </div>
 
-          {/* Eventos */}
-          <div className="bg-white shadow-lg rounded-3xl overflow-hidden transform hover:scale-105 transition duration-300">
-            <Link to="/eventos" className="flex flex-col items-center p-6 text-center">
-              <FaCalendarAlt className="text-green-600 text-6xl mb-4" />
-              <h3 className="text-2xl font-semibold text-gray-800">Eventos</h3>
-              <p className="text-gray-500 mt-2">Consulta los próximos eventos y actividades de la comunidad.</p>
-            </Link>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <StatsCard
+              title="Total Estudiantes"
+              value={students.length.toString()}
+              trend={0}
+              icon={Users}
+              color="bg-blue-500"
+            />
+            <StatsCard
+              title="Lecciones Activas"
+              value={lessons.length.toString()}
+              trend={0}
+              icon={BookOpen}
+              color="bg-green-500"
+            />
+            <StatsCard
+              title="Profesores"
+              value={teachers.length.toString()}
+              trend={-0}
+              icon={GraduationCap}
+              color="bg-purple-500"
+            />
+            <StatsCard
+              title="Tasa de Finalización"
+              value="92%"
+              trend={0}
+              icon={Users}
+              color="bg-orange-500"
+            />
           </div>
 
-          {/* Tareas/Actividades */}
-          <div className="bg-white shadow-lg rounded-3xl overflow-hidden transform hover:scale-105 transition duration-300">
-            <Link to="/tareas" className="flex flex-col items-center p-6 text-center">
-              <FaChalkboardTeacher className="text-orange-600 text-6xl mb-4" />
-              <h3 className="text-2xl font-semibold text-gray-800">Tareas</h3>
-              <p className="text-gray-500 mt-2">Revisa las tareas y actividades asignadas a la comunidad.</p>
-            </Link>
-          </div>
-
-          {/* Recursos */}
-          <div className="bg-white shadow-lg rounded-3xl overflow-hidden transform hover:scale-105 transition duration-300">
-            <Link to="/recursos" className="flex flex-col items-center p-6 text-center">
-              <FaUsers className="text-purple-600 text-6xl mb-4" />
-              <h3 className="text-2xl font-semibold text-gray-800">Recursos</h3>
-              <p className="text-gray-500 mt-2">Accede a recursos educativos y materiales para el aprendizaje bíblico.</p>
-            </Link>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 ">
+            <div className="lg:col-span-2 bg-white rounded-xl p-6 shadow-sm dark:text-white dark:bg-black">
+              <h2 className="text-lg font-semibold mb-4">Progreso de Estudiantes</h2>
+              <div className="h-[300px] flex items-center justify-center text-gray-500">
+                Aquí irá el gráfico de progreso
+              </div>
+            </div>
+            <div>
+              <RecentActivity />
+            </div>
           </div>
         </div>
-
-      </div>
+      </main>
     </div>
   );
-};
+}
 
 export default Home;
