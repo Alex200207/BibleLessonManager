@@ -20,7 +20,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 
 function Home() {
   const { students } = useStudent();
-  const { userList: teachers } = useUser();
+  const { userList: teachers ,user} = useUser();
   const { lessons } = useLesson();
 
   // Datos simulados para el gráfico
@@ -59,7 +59,7 @@ function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-between items-center mb-8">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">¡Buen día, Profesor!</h1>
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">¡Buen día, {user.name}!</h1>
               <p className="text-gray-600 dark:text-white">Aquí está el resumen de tu actividad</p>
             </div>
             <div className="flex items-center gap-4">

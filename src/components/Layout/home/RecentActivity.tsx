@@ -1,22 +1,22 @@
 
 const activities = [
   {
-    user: 'María González',
+    user: 'Eddy Talavera',
     action: 'completó la lección',
-    subject: 'Matemáticas Avanzadas',
+    subject: 'App de Tareas',
     time: 'Hace 5 minutos',
-    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop',
+    image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop',
   },
   {
-    user: 'Carlos Rodríguez',
+    user: 'Andrely Bermudez',
     action: 'creó una nueva tarea',
     subject: 'Física Cuántica',
     time: 'Hace 15 minutos',
     image: 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=150&h=150&fit=crop',
   },
   {
-    user: 'Ana Martínez',
-    action: 'calificó los exámenes',
+    user: 'Andrea Talavera',
+    action: 'Termino su tarea',
     subject: 'Literatura',
     time: 'Hace 30 minutos',
     image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop',
