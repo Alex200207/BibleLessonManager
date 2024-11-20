@@ -5,12 +5,13 @@ import { Permission } from '../Types';
 
 const usePermissions = () => {
   const [permission, setPermission] = useState<Permission[]>([])
+  const [reload, setReload] = useState(false);
 
 
   useEffect(() => {
 
     fetchData();
-  }, []);
+  }, [reload]);
 
   const fetchData = async () => {
     try {
@@ -21,7 +22,11 @@ const usePermissions = () => {
     }
   };
 
-  return { permission};
+  const reloadData = () => {
+    setReload((prev) => !prev);
+  };
+
+  return { permission, setPermission, reloadData };
   
 };
 

@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import { Role, Permission } from "../../../Types";
 import PermissionsTable from './PermissionsTable';
 import Swal from "sweetalert2";
+import usePermission from "../../../hooks/usePermission";
 
 interface RoleFormProps {
   onSave: (role: Omit<Role, "id" | "permissions"> & { permissions: string[] }) => void;
@@ -11,29 +12,16 @@ interface RoleFormProps {
 const RoleForm: React.FC<RoleFormProps> = ({ onSave, role }) => {
   const [name, setName] = useState(role?.name || "");
   const [guard] = useState(role?.guard || "web");
-  const [permissions, setPermissions] = useState<Permission[]>([]);
-  const [reload, setReload] = useState(false);
+const {permission, setPermission, reloadData} = usePermission();
 
-  useEffect(() => {
-    const fetchPermissions = async () => {
-      try {
-        const response = await fetch("http://localhost:3000/permissions"); 
-        const data = await response.json();
-        setPermissions(data.map((permission: Permission) => ({ ...permission, enabled: false }))); 
-      } catch (error) {
-        console.error("Error al obtener permisos:", error);
-      }
-    };
-    fetchPermissions();
-  }, [reload]);
 
   const handlePermissionChange = (updatedPermissions: Permission[]) => {
-    setPermissions(updatedPermissions);
+    setPermission(updatedPermissions);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const selectedPermissions = permissions.filter((permission) => permission.enabled).map((permission) => permission.id.toString());
+    const selectedPermissions = permission.filter((permission) => permission.enabled).map((permission) => permission.id.toString());
 
     const roleData = {
       name,
@@ -86,9 +74,7 @@ const RoleForm: React.FC<RoleFormProps> = ({ onSave, role }) => {
     }
   };
 
-  const reloadData = () => {
-    setReload((prev) => !prev);
-  };
+
 
   return (
     <div className="container mx-auto my-5 p-2 dark:bg-gray-900 text-gray-800 dark:text-gray-200 z-10">
@@ -104,7 +90,7 @@ const RoleForm: React.FC<RoleFormProps> = ({ onSave, role }) => {
           />
         </div>
         <PermissionsTable
-          permissions={permissions}
+          permissions={permission}
           onPermissionChange={handlePermissionChange}
         />
         <button

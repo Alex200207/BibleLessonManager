@@ -119,7 +119,8 @@ const Aside = ({ isOpened }: AsideProps) => {
                     </span>
                   </Link>
                 </li>
-                <li>
+                {userRole === "admin" && (
+                  <li>
                   <Link to="/group" className="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
                     <MdGroup className="h-6 w-6 mr-2 text-gray-600 dark:text-gray-400" />
                     <span className="flex-1 text-gray-800 dark:text-gray-200">
@@ -130,6 +131,8 @@ const Aside = ({ isOpened }: AsideProps) => {
                     </span>
                   </Link>
                 </li>
+                )}
+                
               </ul>
             )}
           </li>
@@ -213,7 +216,7 @@ const Aside = ({ isOpened }: AsideProps) => {
                       </Link>
                     </li>
                     <li>
-                      <Link to="/user" className="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                      <Link to="/users" className="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
                         <FiUsers className="h-6 w-6 mr-2 text-gray-600 dark:text-gray-400" />
                         <span className="flex-1 text-gray-800 dark:text-gray-200">
                           Usuarios
