@@ -79,45 +79,6 @@ const GroupTable: React.FC = () => {
       width: "100px",
     },
   ];
-  const customStyles = {
-    table: {
-      style: {
-        borderRadius: "12px",
-        overflow: "hidden",
-        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-      },
-    },
-    headCells: {
-      style: {
-        background: "linear-gradient(90deg, #6a11cb 0%, #2575fc 100%)",
-        color: "#ffffff",
-        fontWeight: "bold",
-        textTransform: "uppercase",
-      },
-    },
-    cells: {
-      style: {
-        padding: "16px",
-        fontSize: "14px",
-      },
-    },
-    rows: {
-      style: {
-        backgroundColor: "#f9fafb",
-        transition: "background-color 0.2s ease",
-        "&:hover": {
-          backgroundColor: "#ebf4ff",
-        },
-      },
-    },
-    pagination: {
-      style: {
-        backgroundColor: "#edf2f7",
-        color: "#4a5568",
-        borderRadius: "0 0 12px 12px",
-      },
-    },
-  };
 
   return (
     <>
@@ -127,7 +88,7 @@ const GroupTable: React.FC = () => {
             type="text"
             placeholder="Buscar estudiantes..."
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full max-w-xs h-12 px-4 border rounded-full shadow-md"
+            className="w-full max-w-xs h-12 px-4 border rounded-full shadow-md dark:bg-zinc-900 dark:text-gray-200"
           />
 
           {user.permissions.includes("crear") && (
@@ -142,9 +103,9 @@ const GroupTable: React.FC = () => {
         <div>
            {/* Mostrar Skeleton mientras carga */}
         {group.length === 0 ? (
-          <Skeleton count={5} height={50} className="mb-2" />
+          <Skeleton count={5} height={50} className="mb-2 dark:bg-slate-900" />
         ) : (
-          <Table columns={columns} data={filteredLesson} customStyles={customStyles} />
+          <Table columns={columns} data={filteredLesson}  />
         )}
         </div>
       </div>

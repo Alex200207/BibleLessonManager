@@ -8,8 +8,8 @@ import { useUser } from "../../../hooks/useUser";
 import AddLessonModal from "./AddLessonModal";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
-import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 interface Row {
   id: number;
@@ -29,16 +29,20 @@ const Lesson: React.FC = () => {
   const { userList, user } = useUser();
   const [isMobile, setIsMobile] = useState(false);
 
-  const filteredLesson = lessons.filter((lesson) => {
-    if (user.role === "admin") {
-      return true; // Mostrar todas las lecciones si es administrador
-    }
-    return lesson.id_maestra === user.id; // Mostrar solo las lecciones asignadas al usuario
-  }).filter((lesson) => {
-    return lesson.tema.toLowerCase().includes(searchTerm.toLowerCase()) ||
-           lesson.descripcion.toLowerCase().includes(searchTerm.toLowerCase()) ||
-           lesson.pasaje_biblico.toLowerCase().includes(searchTerm.toLowerCase());
-  });
+  const filteredLesson = lessons
+    .filter((lesson) => {
+      if (user.role === "admin") {
+        return true; // Mostrar todas las lecciones si es administrador
+      }
+      return lesson.id_maestra === user.id; // Mostrar solo las lecciones asignadas al usuario
+    })
+    .filter((lesson) => {
+      return (
+        lesson.tema.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        lesson.descripcion.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        lesson.pasaje_biblico.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    });
 
   const dateFormater = (date: Date) => {
     const d = new Date(date);
@@ -131,46 +135,7 @@ const Lesson: React.FC = () => {
     },
   ];
 
-  const customStyles = {
-    table: {
-      style: {
-        borderRadius: " 12px 12px 0 0 ",
-        overflow: "hidden",
-        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-      },
-    },
-    headCells: {
-      style: {
-        background: "linear-gradient(90deg, #6a11cb 0%, #2575fc 100%)",
-        color: "#ffffff",
-        fontWeight: "bold",
-        textTransform: "uppercase",
-      },
-    },
-    cells: {
-      style: {
-        padding: "13px",
-        fontSize: "14px",
-        textAlign: "center",
-      },
-    },
-    rows: {
-      style: {
-        backgroundColor: "#f9fafb",
-        transition: "background-color 0.2s ease",
-        "&:hover": {
-          backgroundColor: "#ebf4ff",
-        },
-      },
-    },
-    pagination: {
-      style: {
-        backgroundColor: "#edf2f7",
-        color: "#4a5568",
-        borderRadius: "0 0 12px 12px",
-      },
-    },
-  };
+  
 
   return (
     <>
@@ -180,7 +145,7 @@ const Lesson: React.FC = () => {
             type="text"
             placeholder="Buscar estudiantes..."
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full max-w-xs h-12 px-4 border rounded-full shadow-md"
+            className="w-full max-w-xs h-12 px-4 border rounded-full shadow-md dark:bg-zinc-900 dark:text-gray-200"
           />
 
           {user.permissions.includes("crear") && (
@@ -194,9 +159,12 @@ const Lesson: React.FC = () => {
 
         {/* Mostrar Skeleton mientras carga */}
         {lessons.length === 0 ? (
-          <Skeleton count={5} height={50} className="mb-2" />
+          <Skeleton count={5} height={50} className="mb-2 dark:bg-slate-900" />
         ) : (
-          <Table columns={columns} data={filteredLesson} customStyles={customStyles} />
+          <Table
+              columns={columns}
+              data={filteredLesson}          
+          />
         )}
       </div>
 

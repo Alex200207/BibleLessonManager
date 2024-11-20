@@ -113,46 +113,6 @@ const RoleList: React.FC = () => {
     },
   ];
 
-  const customStyles = {
-    table: {
-      style: {
-        borderRadius: " 12px 12px 0 0 ",
-        overflow: "hidden",
-        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-      },
-    },
-    headCells: {
-      style: {
-        background: "linear-gradient(90deg, #6a11cb 0%, #2575fc 100%)",
-        color: "#ffffff",
-        fontWeight: "bold",
-        textTransform: "uppercase",
-      },
-    },
-    cells: {
-      style: {
-        padding: "13px",
-        fontSize: "14px",
-        textAlign: "center",
-      },
-    },
-    rows: {
-      style: {
-        backgroundColor: "#f9fafb",
-        transition: "background-color 0.2s ease",
-        "&:hover": {
-          backgroundColor: "#ebf4ff",
-        },
-      },
-    },
-    pagination: {
-      style: {
-        backgroundColor: "#edf2f7",
-        color: "#4a5568",
-        borderRadius: "0 0 12px 12px",
-      },
-    },
-  };
   return (
     <div className="container mx-auto my-5 p-2 dark:bg-gray-900 text-gray-800 dark:text-gray-200 z-10">
       <div className="flex justify-between mb-4">
@@ -160,20 +120,16 @@ const RoleList: React.FC = () => {
           type="text"
           placeholder="Buscar roles..."
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full max-w-xs h-12 px-4 border rounded-full shadow-md"
+          className="w-full max-w-xs h-12 px-4 border rounded-full shadow-md dark:bg-zinc-900 dark:text-gray-200"
         />
       </div>
 
       <div>
         {/* Mostrar Skeleton mientras carga */}
         {roles.length === 0 ? (
-          <Skeleton count={5} height={50} className="mb-2" />
+          <Skeleton count={5} height={50} className="mb-2 dark:bg-slate-900" />
         ) : (
-          <Table
-            data={visibleRoles}
-            columns={columns}
-            customStyles={customStyles}
-          />
+          <Table data={visibleRoles} columns={columns} />
         )}
       </div>
       {isSidebarOpen && (
