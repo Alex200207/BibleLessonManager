@@ -45,9 +45,9 @@ const AddLessonModal: React.FC<ModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center custom-z bg-black bg-opacity-50">
-      <div className="bg-white rounded-lg shadow-lg p-4 w-11/12 max-w-md">
-        <h2 className="text-lg font-semibold text-gray-800">Agregar Lección</h2>
+    <div className="fixed inset-0 overflow-auto flex items-center justify-center custom-z bg-black bg-opacity-50">
+      <div className="bg-white rounded-lg shadow-lg p-4 w-11/12 max-w-lg">
+        <h2 className="text-lg font-semibold text-gray-800 mb-4">Agregar Lección</h2>
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -97,66 +97,70 @@ const AddLessonModal: React.FC<ModalProps> = ({
               className="border border-gray-300 rounded-md p-2 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Grupo
-            </label>
-            <select
-              name="id_grupo"
-              value={newLesson.id_grupo}
-              onChange={handleInputChange}
-              className="border border-gray-300 rounded-md p-2 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="">Seleccione un grupo</option>
-              {group.map((g) => (
-                <option key={g.id} value={g.id}>
-                  {g.nombre}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Maestra
-            </label>
-            <select
-              name="id_maestra"
-              value={newLesson.id_maestra}
-              onChange={handleInputChange}
-              className="border border-gray-300 rounded-md p-2 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="">Seleccione una maestr@</option>
-              {teachers.map((teacher) => (
-                <option key={teacher.id} value={teacher.id}>
-                  {teacher.name}
-                </option>
-              ))}
-            </select>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Grupo
+              </label>
+              <select
+                name="id_grupo"
+                value={newLesson.id_grupo}
+                onChange={handleInputChange}
+                className="border border-gray-300 rounded-md p-2 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">Seleccione un grupo</option>
+                {group.map((g) => (
+                  <option key={g.id} value={g.id}>
+                    {g.nombre}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Maestra
+              </label>
+              <select
+                name="id_maestra"
+                value={newLesson.id_maestra}
+                onChange={handleInputChange}
+                className="border border-gray-300 rounded-md p-2 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">Seleccione una maestr@</option>
+                {teachers.map((teacher) => (
+                  <option key={teacher.id} value={teacher.id}>
+                    {teacher.name}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Fecha Inicio
-            </label>
-            <input
-              type="date"
-              name="fecha_inicio"
-              value={formatDate(newLesson.fecha_inicio)}
-              onChange={handleInputChange}
-              className="border border-gray-300 rounded-md p-2 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Fecha Fin
-            </label>
-            <input
-              type="date"
-              name="fecha_fin"
-              value={formatDate(newLesson.fecha_fin)}
-              onChange={handleInputChange}
-              className="border border-gray-300 rounded-md p-2 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Fecha Inicio
+              </label>
+              <input
+                type="date"
+                name="fecha_inicio"
+                value={formatDate(newLesson.fecha_inicio)}
+                onChange={handleInputChange}
+                className="border border-gray-300 rounded-md p-2 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Fecha Fin
+              </label>
+              <input
+                type="date"
+                name="fecha_fin"
+                value={formatDate(newLesson.fecha_fin)}
+                onChange={handleInputChange}
+                className="border border-gray-300 rounded-md p-2 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
           </div>
 
           <div className="flex justify-between col-span-1 mt-4">
