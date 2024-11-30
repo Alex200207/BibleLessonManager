@@ -1,10 +1,10 @@
-import { Users, BookOpen, GraduationCap, Clock } from 'lucide-react';
-import StatsCard from './StatsCard';
-import RecentActivity from './RecentActivity';
-import { useStudent } from '../../../hooks/useStudent';
-import { useUser } from '../../../hooks/useUser';
-import { useLesson } from '../../../hooks/useLesson';
-import { Line } from 'react-chartjs-2';
+import { Users, BookOpen, GraduationCap, Clock } from "lucide-react";
+import StatsCard from "./StatsCard";
+import RecentActivity from "./RecentActivity";
+import { useStudent } from "../../../hooks/useStudent";
+import { useUser } from "../../../hooks/useUser";
+import { useLesson } from "../../../hooks/useLesson";
+import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -14,28 +14,36 @@ import {
   Title,
   Tooltip,
   Legend,
-} from 'chart.js';
+} from "chart.js";
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 function Home() {
   const { students } = useStudent();
-  const { userList: teachers ,user} = useUser();
+  const { userList: teachers, user } = useUser();
   const { lessons } = useLesson();
 
   // Datos simulados para el gráfico
   const progressData = {
-    labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'],
+    labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio"],
     datasets: [
       {
-        label: 'Progreso de Estudiantes (%)',
+        label: "Progreso de Estudiantes (%)",
         data: [65, 70, 75, 85, 90, 92],
         fill: true,
-        backgroundColor: 'rgba(99, 102, 241, 0.2)',
-        borderColor: 'rgba(99, 102, 241, 1)',
-        pointBackgroundColor: 'rgba(99, 102, 241, 1)',
-        pointBorderColor: '#fff',
-        tension: 0.4, // Línea suavizada
+        backgroundColor: "rgba(99, 102, 241, 0.2)",
+        borderColor: "rgba(99, 102, 241, 1)",
+        pointBackgroundColor: "rgba(99, 102, 241, 1)",
+        pointBorderColor: "#fff",
+        tension: 0.4,
       },
     ],
   };
@@ -44,13 +52,22 @@ function Home() {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: { display: true, position: 'top' as const },
+      legend: { display: true, position: "top" as const },
       tooltip: { enabled: true },
     },
     scales: {
       x: { grid: { display: false } },
-      y: { grid: { color: '#e5e7eb' } },
+      y: { grid: { color: "#e5e7eb" } },
     },
+  };
+
+  const calcularTasaFinalizacionLecciones = () => {
+    const totalLecciones = lessons.length;
+    // Filtrar las lecciones cuyo estado sea 2 (finalizado)
+    const totalLeccionesFinalizadas = lessons.filter(
+      (lesson) => lesson.estado === 2
+    ).length;
+    return (totalLeccionesFinalizadas / totalLecciones) * 100;
   };
 
   return (
@@ -59,8 +76,12 @@ function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-between items-center mb-8">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">¡Buen día, {user.name}!</h1>
-              <p className="text-gray-600 dark:text-white">Aquí está el resumen de tu actividad</p>
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+                ¡Buen día, {user.name}!
+              </h1>
+              <p className="text-gray-600 dark:text-white">
+                Aquí está el resumen de tu actividad
+              </p>
             </div>
             <div className="flex items-center gap-4">
               <div className="relative">
@@ -100,17 +121,19 @@ function Home() {
               color="bg-purple-500"
             />
             <StatsCard
-              title="Tasa de Finalización"
-              value="92%"
+              title="Tasa de Finalización Lecciones"
+              value={`${calcularTasaFinalizacionLecciones().toFixed(2)}%`} // Muestra el porcentaje calculado
               trend={0}
-              icon={Users}
+              icon={BookOpen}
               color="bg-orange-500"
             />
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2 bg-white rounded-xl p-6 shadow-sm dark:text-white dark:bg-black">
-              <h2 className="text-lg font-semibold mb-4">Progreso de Estudiantes</h2>
+              <h2 className="text-lg font-semibold mb-4">
+                Progreso de Estudiantes
+              </h2>
               <div className="h-[300px] flex items-center justify-center text-gray-500">
                 <Line data={progressData} options={options} />
               </div>

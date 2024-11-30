@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useStudent } from "../../../hooks/useStudent";
 import { CiSaveDown2 } from "react-icons/ci";
 import { IoMdClose } from "react-icons/io";
@@ -19,6 +19,28 @@ const AddLessonModal: React.FC<ModalProps> = ({
   const { newLesson, handleInputChange, handleSubmit } = useLessonModal();
   const { group } = useStudent();
   const { userList: teachers } = useUser();
+
+  useEffect(() => {
+    if (newLesson.fecha_inicio && typeof newLesson.fecha_inicio === "string") {
+      newLesson.fecha_inicio = new Date(newLesson.fecha_inicio);
+    }
+    if (newLesson.fecha_fin && typeof newLesson.fecha_fin === "string") {
+      newLesson.fecha_fin = new Date(newLesson.fecha_fin);
+    }
+  }, [newLesson]);
+
+  const formatDate = (
+    input: number | Date | string | null | undefined
+  ): string => {
+    if (input) {
+      if (typeof input === "string") {
+        return input;
+      }
+      const date = new Date(input);
+      return date.toISOString().split("T")[0];
+    }
+    return "";
+  };
 
   if (!isOpen) return null;
 
@@ -68,7 +90,7 @@ const AddLessonModal: React.FC<ModalProps> = ({
             </label>
             <input
               type="text"
-              name="pasaje_biblico" // Cambia aquí
+              name="pasaje_biblico"
               placeholder="Texto de la lección"
               value={newLesson.pasaje_biblico}
               onChange={handleInputChange}
@@ -111,6 +133,32 @@ const AddLessonModal: React.FC<ModalProps> = ({
               ))}
             </select>
           </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Fecha Inicio
+            </label>
+            <input
+              type="date"
+              name="fecha_inicio"
+              value={formatDate(newLesson.fecha_inicio)}
+              onChange={handleInputChange}
+              className="border border-gray-300 rounded-md p-2 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Fecha Fin
+            </label>
+            <input
+              type="date"
+              name="fecha_fin"
+              value={formatDate(newLesson.fecha_fin)}
+              onChange={handleInputChange}
+              className="border border-gray-300 rounded-md p-2 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
           <div className="flex justify-between col-span-1 mt-4">
             <button
               type="submit"

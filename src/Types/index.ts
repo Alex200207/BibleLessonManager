@@ -15,6 +15,9 @@ export interface lesson {
   pasaje_biblico: string;
   id_maestra: number;
   id_grupo: number;
+  estado: number;
+  fecha_inicio?: Date;
+  fecha_fin?: Date;
 }
 
 export interface score {

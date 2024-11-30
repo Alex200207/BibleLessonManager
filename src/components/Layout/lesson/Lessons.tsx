@@ -19,6 +19,9 @@ interface Row {
   fecha: Date;
   id_maestra: number;
   id_grupo: number;
+  fecha_inicio: Date;
+  fecha_fin: Date;
+  estado: number;
 }
 
 const Lesson: React.FC = () => {
@@ -110,6 +113,18 @@ const Lesson: React.FC = () => {
       cell: (row: Row) => findGroupName(row.id_grupo),
       omit: isMobile,
     },
+
+    {
+      name: "Fecha_inicio",
+      cell: (row: Row) => dateFormater(row.fecha_inicio),
+      omit: isMobile,
+    },
+    {
+      name: "Fecha_fin",
+      cell: (row: Row) => dateFormater(row.fecha_fin),
+      omit: isMobile,
+    },
+
     {
       name: "Acciones",
       cell: (row: Row) =>

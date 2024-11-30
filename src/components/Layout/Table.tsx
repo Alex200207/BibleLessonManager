@@ -5,21 +5,22 @@ import DataTable from "react-data-table-component";
 interface TableProps<T> {
   data: T[];
   columns: any[];
-
 }
 
-const Table = <T,>({ data, columns,  }: TableProps<T>) => {
+const Table = <T,>({ data, columns }: TableProps<T>) => {
   return (
     <>
-        <div className="overflow-x-auto "> {/* Contenedor con Tailwind */}
+      <div className="overflow-x-auto ">
+        {" "}
+        {/* Contenedor con Tailwind */}
         <DataTable
           columns={columns}
           data={data}
           pagination
-          customStyles = {
-            {table: {
+          customStyles={{
+            table: {
               style: {
-                border: "none",
+                border: "1px solid #d2d6dc", // Borde delgado para la tabla
                 outline: "none",
                 borderRadius: " 12px 12px 0 0 ",
                 overflow: "hidden",
@@ -28,8 +29,8 @@ const Table = <T,>({ data, columns,  }: TableProps<T>) => {
             },
             headCells: {
               style: {
-                backgroundColor: "#4B5563", // Color para modo claro
-                color: "#ffffff", // Color blanco para el encabezado
+                backgroundColor: "#f8fafc",
+                color: "#000", // Color blanco para el encabezado
                 fontWeight: "bold",
                 textTransform: "uppercase",
                 "&:hover": {
@@ -81,7 +82,6 @@ const Table = <T,>({ data, columns,  }: TableProps<T>) => {
           }}
         />
       </div>
-
     </>
   );
 };

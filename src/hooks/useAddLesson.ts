@@ -15,21 +15,29 @@ export const useLessonModal = () => {
     pasaje_biblico: "",
     id_maestra: 0,
     id_grupo: 0,
+    estado: 1,
+    fecha_inicio: undefined,
+    fecha_fin: undefined,
   });
 
-  const handleInputChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setNewLesson((prev) => ({
-      ...prev,
-      [name]:
-        name === "id_grupo" || name === "id_maestra" ? Number(value) : value,
-    }));
+  
+    if (name === "fecha_inicio" || name === "fecha_fin") {
+  
+      setNewLesson((prevLesson) => ({
+        ...prevLesson,
+        [name]: value ? new Date(value) : undefined, 
+      }));
+    } else {
+      setNewLesson((prevLesson) => ({
+        ...prevLesson,
+        [name]: value,
+      }));
+    }
   };
+  
+  
 
   const handleSubmit = async (onClose: () => void) => {
     onClose();
@@ -60,6 +68,9 @@ export const useLessonModal = () => {
           pasaje_biblico: "",
           id_maestra: 0,
           id_grupo: 0,
+          estado: 1,
+          fecha_inicio: undefined,
+          fecha_fin: undefined,
         });
 
         reloadData();

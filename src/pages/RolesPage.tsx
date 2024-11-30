@@ -17,7 +17,7 @@ const RolesPage: React.FC = () => {
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold p-4">Roles</h1>
         <Link to="/addRole">
-          <button className="rounded transparent text-black px-4 py-2">
+          <button className="rounded transparent text-black dark:text-white px-4 py-2">
           <IoMdPersonAdd  className="h-10 w-10"/>
           </button>
         </Link>
