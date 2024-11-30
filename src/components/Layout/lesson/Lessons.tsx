@@ -124,6 +124,20 @@ const Lesson: React.FC = () => {
       cell: (row: Row) => dateFormater(row.fecha_fin),
       omit: isMobile,
     },
+    {
+      name: "Estado",
+      selector: (row: Row) => row.estado,
+      cell: (row: Row) => (
+        <div>
+          {row.estado === 1 ? (
+            <span className="text-green-600">Activo</span>
+          ) : (
+            <span className="text-red-600">Inactivo</span>
+          )}
+        </div>
+      ),
+      omit: isMobile,
+    },
 
     {
       name: "Acciones",
