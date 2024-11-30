@@ -70,6 +70,14 @@ function Home() {
     return (totalLeccionesFinalizadas / totalLecciones) * 100;
   };
 
+  const mostrarLeccionesPending = () => {
+
+    const totalLeccionesPendientes = lessons.filter(
+      (lesson) => lesson.estado === 1
+    ).length;
+    return totalLeccionesPendientes;
+  }
+
   return (
     <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-black transform transition-transform duration-300 ease-in-out shadow-lg">
       <main className="flex-1 p-8">
@@ -107,8 +115,8 @@ function Home() {
               color="bg-blue-500"
             />
             <StatsCard
-              title="Lecciones Activas"
-              value={lessons.length.toString()}
+              title="Lecciones"
+              value={`Activas ${lessons.length.toString()} Pendientes ${mostrarLeccionesPending().toString()}` }
               trend={0}
               icon={BookOpen}
               color="bg-green-500"
@@ -122,11 +130,12 @@ function Home() {
             />
             <StatsCard
               title="Tasa de Finalización Lecciones"
-              value={`${calcularTasaFinalizacionLecciones().toFixed(2)}%`} // Muestra el porcentaje calculado
+              value={`${calcularTasaFinalizacionLecciones().toFixed(2)}% `} // Muestra el porcentaje calculado
               trend={0}
               icon={BookOpen}
               color="bg-orange-500"
             />
+
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
