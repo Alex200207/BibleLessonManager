@@ -73,10 +73,20 @@ function Home() {
   const mostrarLeccionesPending = () => {
 
     const totalLeccionesPendientes = lessons.filter(
-      (lesson) => lesson.estado === 1
+      (lesson) => lesson.estado === 2
     ).length;
     return totalLeccionesPendientes;
   }
+
+  const mostrarleccionesActivas = () => {
+      
+      const totalLeccionesActivas = lessons.filter(
+        (lesson) => lesson.estado === 1
+      ).length;
+      return totalLeccionesActivas;
+  }
+
+
 
   return (
     <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-black transform transition-transform duration-300 ease-in-out shadow-lg">
@@ -116,7 +126,7 @@ function Home() {
             />
             <StatsCard
               title="Lecciones"
-              value={`Activas ${lessons.length.toString()} Pendientes ${mostrarLeccionesPending().toString()}` }
+              value={`Activas: ${mostrarleccionesActivas().toString()} Finalizadas: ${mostrarLeccionesPending().toString()}` }
               trend={0}
               icon={BookOpen}
               color="bg-green-500"

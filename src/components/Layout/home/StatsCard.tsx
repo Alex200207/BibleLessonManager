@@ -15,7 +15,7 @@ const StatsCard = ({ title, value, trend, icon: Icon, color }: StatsCardProps) =
       <div className="flex justify-between items-start">
         <div>
           <p className="text-gray-500 text-sm">{title}</p>
-          <h3 className="text-2xl font-bold mt-1">{value}</h3>
+          <h3 className="text-2xl  mt-1">{value}</h3>
         </div>
         <div className={`p-3 rounded-lg ${color}`}>
           <Icon className="w-6 h-6 text-white" />
