@@ -39,6 +39,7 @@ const Dashboard: FC<DashboardProps> = ({ children }) => {
             width: "100%",
             position: "relative",
             marginTop: "1rem", // Ajusta este valor según sea necesario
+            
           }}
         >
           <div className="w-full overflow-x-auto">{children}</div>

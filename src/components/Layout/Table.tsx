@@ -81,11 +81,7 @@ const Table = <T,>({ data, columns,  }: TableProps<T>) => {
           }}
         />
       </div>
-      <footer className="text-center font-light text-gray-600 pt-5 dark:text-white">
-        <div >
-          <strong className="hover:text-neutral-950">Project by Alex Talavera</strong>
-        </div>
-      </footer>
+
     </>
   );
 };

@@ -114,7 +114,7 @@ const RoleList: React.FC = () => {
   ];
 
   return (
-    <div className="container mx-auto my-5 p-2 dark:bg-gray-900 text-gray-800 dark:text-gray-200 z-10">
+    <div className="container mx-auto my-5 p-2  z-10">
       <div className="flex justify-between mb-4">
         <input
           type="text"
