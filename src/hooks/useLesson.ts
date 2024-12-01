@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { lesson } from "../Types";
-import { getLesson, addLesson, deleteLesson } from "../services/lessonService";
+import { getLesson, addLesson, deleteLesson, editLesson } from "../services/lessonService";
 import Swal from "sweetalert2"; // Importa SweetAlert2
 
 export const useLesson = () => {
@@ -59,11 +59,38 @@ export const useLesson = () => {
       Swal.fire("Cancelado", "El estudiante no ha sido eliminado", "info");
     }
   };
+  const editLessonData = async (id: lesson["id"], updatedLesson: lesson) => {
+    const result = await Swal.fire({
+      title: "¿Estás seguro?",
+      text: "¿Deseas guardar los cambios realizados en este estudiante?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, guardar cambios",
+      cancelButtonText: "Cancelar",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await editLesson(id, updatedLesson);
+        Swal.fire("Guardado!", "Los cambios han sido guardados.", "success");
+        const studentsData = await getLesson();
+        setLessons(studentsData);
+      } catch (error) {
+        Swal.fire("Error!", "No se pudieron guardar los cambios.", "error");
+        console.error("Error al editar el estudiante:", error);
+      }
+    } else {
+      Swal.fire("Cancelado", "Los cambios no han sido guardados", "info");
+    }
+  };
 
   return {
     lessons,
     reloadData,
     createLesson,
     deletedLesson,
+    editLessonData,
   };
 };

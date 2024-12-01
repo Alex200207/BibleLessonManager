@@ -13,6 +13,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import LessonDetailModal from "./LessonDetailModal";
 import { lesson } from "../../../Types";
 import { GrView } from "react-icons/gr";
+import EditLesson from "./EditLesson";
 
 interface Row {
   id: number;
@@ -28,7 +29,7 @@ interface Row {
 }
 
 const Lesson: React.FC = () => {
-  const { lessons, reloadData, deletedLesson } = useLesson();
+  const { lessons, reloadData, deletedLesson, editLessonData} = useLesson();
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { group } = useStudent();
@@ -36,6 +37,7 @@ const Lesson: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [selectedLesson, setSelectedLesson] = useState<lesson | null>(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const filteredLesson = lessons
     .filter((lesson) => {
@@ -88,6 +90,22 @@ const Lesson: React.FC = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  const openEditModal = (lesson: lesson) => {
+    setSelectedLesson(lesson);
+    setIsEditModalOpen(true);
+  };
+
+  const closeEditModal = () => {
+    setIsEditModalOpen(false);
+    setSelectedLesson(null);
+  };
+
+  const handleEditSave = async (updatedData: lesson) => {
+    await editLessonData(updatedData.id, updatedData);
+    reloadData();
+    closeEditModal();
+  };
 
   const columns = [
     {
@@ -159,7 +177,7 @@ const Lesson: React.FC = () => {
             </button>
 
             {user.permissions.includes("editar") && (
-              <button>
+              <button onClick={() => openEditModal(row)}>
                 <MdOutlineEdit className="h-6 w-6" />
               </button>
             )}
@@ -219,6 +237,12 @@ const Lesson: React.FC = () => {
         lesson={selectedLesson}
         group={group}
         teacher={userList}
+      />
+      <EditLesson
+        isOpen={isEditModalOpen}
+        onClose={closeEditModal}
+        lesson={selectedLesson}
+        onSave={handleEditSave}
       />
     </>
   );
