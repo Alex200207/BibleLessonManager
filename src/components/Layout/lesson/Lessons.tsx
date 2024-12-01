@@ -10,6 +10,9 @@ import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import LessonDetailModal from "./LessonDetailModal";
+import { lesson } from "../../../Types";
+import { GrView } from "react-icons/gr";
 
 interface Row {
   id: number;
@@ -31,6 +34,8 @@ const Lesson: React.FC = () => {
   const { group } = useStudent();
   const { userList, user } = useUser();
   const [isMobile, setIsMobile] = useState(false);
+  const [selectedLesson, setSelectedLesson] = useState<lesson | null>(null);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 
   const filteredLesson = lessons
     .filter((lesson) => {
@@ -70,6 +75,10 @@ const Lesson: React.FC = () => {
     await deletedLesson(id);
     reloadData();
   };
+  const openDetailModal = (lessons: lesson) => {
+    setSelectedLesson(lessons);
+    setIsDetailModalOpen(true);
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -98,11 +107,6 @@ const Lesson: React.FC = () => {
       selector: (row: Row) => row.pasaje_biblico,
       omit: isMobile,
     },
-    // {
-    //   name: "Fecha",
-    //   cell: (row: Row) => dateFormater(row.fecha),
-    //   omit: isMobile,
-    // },
     {
       name: "Maestr@",
       cell: (row: Row) => findTeacherForStudent(row.id_maestra),
@@ -146,6 +150,14 @@ const Lesson: React.FC = () => {
           ["editar", "eliminar"].includes(perm)
         ) ? (
           <div className="flex space-x-2 justify-between">
+            <button
+              onClick={() => openDetailModal(row)}
+              data-tip="Ver detalles"
+              data-for="detailTooltip"
+            >
+              <GrView className="h-6 w-6" />
+            </button>
+
             {user.permissions.includes("editar") && (
               <button>
                 <MdOutlineEdit className="h-6 w-6" />
@@ -200,6 +212,13 @@ const Lesson: React.FC = () => {
         isOpen={isModalOpen}
         onClose={toggleModal}
         reloadData={reloadData}
+      />
+      <LessonDetailModal
+        isOpen={isDetailModalOpen}
+        onClose={() => setIsDetailModalOpen(false)}
+        lesson={selectedLesson}
+        group={group}
+        teacher={userList}
       />
     </>
   );
