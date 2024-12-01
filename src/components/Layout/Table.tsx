@@ -82,6 +82,9 @@ const Table = <T,>({ data, columns }: TableProps<T>) => {
           }}
         />
       </div>
+      <footer className="text-center text-lg mt-5 rounded-md bg-slate-100 dark:bg-black dark:text-white text-zinc-700 pt-5 pb-5 underline ">
+        Created By Alex Talavera
+      </footer>
     </>
   );
 };

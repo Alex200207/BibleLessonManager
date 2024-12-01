@@ -58,7 +58,7 @@ const RoleList: React.FC = () => {
       name: "Permisos",
       selector: (row: Role) => row.permissions?.length || 0, //mostramos la cantidad de permisos de cada rol
       cell: (row: Role) => (
-        <div>{row.permissions ? row.permissions.length : 0}</div>
+        <div className="text-gray-800 font-extrabold bg-lime-400 w-5 h-5 rounded-full">{row.permissions ? row.permissions.length : 0}</div>
       ),
       omit: isMobile,
     },

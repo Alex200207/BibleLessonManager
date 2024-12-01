@@ -6,6 +6,7 @@ export interface kids {
   genero: string;
   grupo_id: number;
   deleted_at?: Date;
+  progreso: number,
 }
 
 export interface lesson {

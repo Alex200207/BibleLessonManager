@@ -98,11 +98,11 @@ const Lesson: React.FC = () => {
       selector: (row: Row) => row.pasaje_biblico,
       omit: isMobile,
     },
-    {
-      name: "Fecha",
-      cell: (row: Row) => dateFormater(row.fecha),
-      omit: isMobile,
-    },
+    // {
+    //   name: "Fecha",
+    //   cell: (row: Row) => dateFormater(row.fecha),
+    //   omit: isMobile,
+    // },
     {
       name: "Maestr@",
       cell: (row: Row) => findTeacherForStudent(row.id_maestra),
@@ -115,12 +115,12 @@ const Lesson: React.FC = () => {
     },
 
     {
-      name: "Fecha_inicio",
+      name: "Fecha Inicio",
       cell: (row: Row) => dateFormater(row.fecha_inicio),
       omit: isMobile,
     },
     {
-      name: "Fecha_fin",
+      name: "Fecha Fin",
       cell: (row: Row) => dateFormater(row.fecha_fin),
       omit: isMobile,
     },
@@ -130,7 +130,7 @@ const Lesson: React.FC = () => {
       cell: (row: Row) => (
         <div>
           {row.estado === 1 ? (
-            <span className="text-green-600">Activo</span>
+            <span className="text-green-600 font-bold">Activo</span>
           ) : (
             <span className="text-red-600">Inactivo</span>
           )}
