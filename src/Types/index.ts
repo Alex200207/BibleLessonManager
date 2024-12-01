@@ -7,6 +7,7 @@ export interface kids {
   grupo_id: number;
   deleted_at?: Date;
   progreso: number,
+  fecha?:Date,
 }
 
 export interface lesson {

@@ -16,6 +16,9 @@ export const useStudentModal = () => {
     id_maestra: 0,
     genero: "",
     grupo_id: 0,
+    progreso: 0,
+    fecha: new Date(), 
+
   });
 
   const handleInputChange = (
@@ -59,6 +62,8 @@ export const useStudentModal = () => {
           id_maestra: 0,
           genero: "",
           grupo_id: 0,
+          progreso: 0,
+          fecha: new Date(),
         });
 
         reloadData();

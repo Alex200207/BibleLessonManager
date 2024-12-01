@@ -23,6 +23,8 @@ interface Row {
   id_maestra: number;
   genero: string;
   grupo_id: number;
+  progreso: number;
+  fecha: Date;
 }
 
 const StudentTable: React.FC = () => {
