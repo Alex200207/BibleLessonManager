@@ -31,12 +31,46 @@ function Home() {
   const { userList: teachers, user } = useUser();
   const { lessons } = useLesson();
 
+  const generarEtiquetasMeses = () => [
+    "Enero",
+    "Febrero",
+    "Marzo",
+    "Abril",
+    "Mayo",
+    "Junio",
+    "Julio",
+    "Agosto",
+    "Septiembre",
+    "Octubre",
+    "Noviembre",
+    "Diciembre",
+  ];
+
+  const meses = generarEtiquetasMeses();
+
+  const progresoPorMes = meses.map((mes, index) => {
+    const mesEstudiantes = students.filter((student) => {
+      if (!student.fecha) return false;
+      const fecha = new Date(student.fecha); // Manejo seguro de fechas
+      return !isNaN(fecha.getTime()) && fecha.getMonth() === index;
+    });
+
+    const totalProgreso = mesEstudiantes.reduce(
+      (sum, student) => sum + (student.progreso || 0),
+      0
+    );
+
+    return mesEstudiantes.length > 0
+      ? totalProgreso / mesEstudiantes.length
+      : 0; // Asigna 0 si no hay estudiantes en el mes
+  });
+
   const progressData = {
-    labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio"], // Ajusta según tus necesidades
+    labels: meses,
     datasets: [
       {
         label: "Progreso de Estudiantes (%)",
-        data: students.map((student) => student.progreso), // Usar el campo `progreso`
+        data: progresoPorMes,
         fill: true,
         backgroundColor: "rgba(99, 102, 241, 0.2)",
         borderColor: "rgba(99, 102, 241, 1)",
@@ -47,6 +81,7 @@ function Home() {
     ],
   };
 
+  // Opciones del gráfico
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -55,45 +90,41 @@ function Home() {
       tooltip: { enabled: true },
     },
     scales: {
-      x: { grid: { display: false } },
-      y: { grid: { color: "#e5e7eb" } },
+      x: {
+        grid: { display: false },
+        ticks: { color: "#374151" },
+      },
+      y: {
+        grid: { color: "#e5e7eb" },
+        ticks: { color: "#374151", beginAtZero: true },
+      },
     },
   };
 
+  // Calcular tasa de finalización de lecciones
   const calcularTasaFinalizacionLecciones = () => {
     const totalLecciones = lessons.length;
-    // Filtrar las lecciones cuyo estado sea 2 (finalizado)
     const totalLeccionesFinalizadas = lessons.filter(
       (lesson) => lesson.estado === 2
     ).length;
-    return (totalLeccionesFinalizadas / totalLecciones) * 100;
+    return totalLecciones > 0
+      ? (totalLeccionesFinalizadas / totalLecciones) * 100
+      : 0;
   };
 
-  const mostrarLeccionesPending = () => {
-    const totalLeccionesPendientes = lessons.filter(
-      (lesson) => lesson.estado === 2
-    ).length;
-    return totalLeccionesPendientes;
+  // Mostrar lecciones pendientes
+  const mostrarLeccionesPendientes = () => {
+    return lessons.filter((lesson) => lesson.estado === 0).length;
   };
 
-  const mostrarleccionesActivas = () => {
-    const totalLeccionesActivas = lessons.filter(
-      (lesson) => lesson.estado === 1
-    ).length;
-    return totalLeccionesActivas;
+  // Mostrar lecciones activas
+  const mostrarLeccionesActivas = () => {
+    return lessons.filter((lesson) => lesson.estado === 1).length;
   };
-  // const calcularPromedioProgreso = () => {
-  //   if (students.length === 0) return 0;
-  //   const totalProgreso = students.reduce(
-  //     (sum, student) => sum + student.progreso, // Asegúrate de tener una propiedad `progreso` en cada estudiante
-  //     0
-  //   );
-  //   return totalProgreso / students.length;
-  // };
 
   return (
     <>
-      <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-black transform transition-transform duration-300 ease-in-out shadow-lg">
+      <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-white transform transition-transform duration-300 ease-in-out shadow-lg">
         <main className="flex-1 p-8">
           <div className="max-w-7xl mx-auto">
             <div className="flex justify-between items-center mb-8">
@@ -101,7 +132,7 @@ function Home() {
                 <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
                   ¡Buen día, {user.name}!
                 </h1>
-                <p className="text-gray-600 dark:text-white">
+                <p className="text-gray-600 dark:text-gray-400">
                   Aquí está el resumen de tu actividad
                 </p>
               </div>
@@ -130,7 +161,7 @@ function Home() {
               />
               <StatsCard
                 title="Lecciones"
-                value={`Activas: ${mostrarleccionesActivas().toString()} Finalizadas: ${mostrarLeccionesPending().toString()}`}
+                value={`Activas: ${mostrarLeccionesActivas()} Pendientes: ${mostrarLeccionesPendientes()}`}
                 trend={0}
                 icon={BookOpen}
                 color="bg-green-500"
@@ -138,13 +169,13 @@ function Home() {
               <StatsCard
                 title="Profesores"
                 value={teachers.length.toString()}
-                trend={-0}
+                trend={0}
                 icon={GraduationCap}
                 color="bg-purple-500"
               />
               <StatsCard
                 title="Tasa de Finalización Lecciones"
-                value={`${calcularTasaFinalizacionLecciones().toFixed(2)}% `} // Muestra el porcentaje calculado
+                value={`${calcularTasaFinalizacionLecciones().toFixed(2)}%`}
                 trend={0}
                 icon={BookOpen}
                 color="bg-orange-500"
@@ -152,12 +183,16 @@ function Home() {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <div className="lg:col-span-2 bg-white rounded-xl p-6 shadow-sm dark:text-white dark:bg-black">
+              <div className="lg:col-span-2 bg-white rounded-xl p-6 shadow-sm dark:text-white dark:bg-gray-800">
                 <h2 className="text-lg font-semibold mb-4">
                   Progreso de Estudiantes
                 </h2>
                 <div className="h-[300px] flex items-center justify-center text-gray-500">
-                  <Line data={progressData} options={options} />
+                  {progresoPorMes.every((value) => value === 0) ? (
+                    <p>No hay datos disponibles para mostrar.</p>
+                  ) : (
+                    <Line data={progressData} options={options} />
+                  )}
                 </div>
               </div>
               <div>
@@ -167,7 +202,7 @@ function Home() {
           </div>
         </main>
       </div>
-      <footer className="text-center text-lg  bg-slate-100 dark:bg-black dark:text-white text-zinc-700 pt-5 pb-5 underline ">
+      <footer className="text-center text-lg bg-slate-100 dark:bg-gray-800 dark:text-white text-zinc-700 py-5 underline">
         Created By Alex Talavera
       </footer>
     </>
