@@ -48,7 +48,7 @@ function Home() {
 
   const meses = generarEtiquetasMeses();
 
-  const progresoPorMes = meses.map((mes, index) => {
+  const progresoPorMes = meses.map((_mes, index) => {
     const mesEstudiantes = students.filter((student) => {
       if (!student.fecha) return false;
       const fecha = new Date(student.fecha); // Manejo seguro de fechas
