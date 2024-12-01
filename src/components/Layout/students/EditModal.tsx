@@ -28,6 +28,8 @@ const EditModal: React.FC<EditModalProps> = ({
       genero: "",
       grupo_id: 0,
       id_maestra: 0,
+      progreso: 0,
+      fecha: new Date(),
     }
   );
 
