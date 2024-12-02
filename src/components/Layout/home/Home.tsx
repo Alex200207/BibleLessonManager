@@ -182,12 +182,12 @@ function Home() {
               />
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 ">
               <div className="lg:col-span-2 bg-white rounded-xl p-6 shadow-sm dark:text-white dark:bg-gray-800">
                 <h2 className="text-lg font-semibold mb-4">
                   Progreso de Estudiantes
                 </h2>
-                <div className="h-[300px] flex items-center justify-center text-gray-500">
+                <div className="h-[300px] flex items-center justify-center ">
                   {progresoPorMes.every((value) => value === 0) ? (
                     <p>No hay datos disponibles para mostrar.</p>
                   ) : (

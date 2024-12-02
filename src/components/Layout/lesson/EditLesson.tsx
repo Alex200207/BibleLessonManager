@@ -4,6 +4,7 @@ import { IoMdClose } from "react-icons/io";
 import { useStudent } from "../../../hooks/useStudent";
 import { useUser } from "../../../hooks/useUser";
 import { lesson } from "../../../Types";
+import momet from "moment";
 
 interface EditModalProps {
   isOpen: boolean;
@@ -141,6 +142,32 @@ const EditLesson: React.FC<EditModalProps> = ({
               name="pasaje_biblico"
               placeholder="Texto de la lección"
               value={editedLesson.pasaje_biblico}
+              onChange={handleChange}
+              className="border border-gray-300 rounded-md p-3 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Fecha de Inicio
+            </label>
+            <input
+              type="date"
+              name="fecha_inicio"
+              value={momet(editedLesson.fecha_inicio).format("YYYY-MM-DD")}
+              onChange={handleChange}
+              className="border border-gray-300 rounded-md p-3 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Fecha de Fin
+            </label>
+            <input
+              type="date"
+              name="fecha_fin"
+              value={momet(editedLesson.fecha_fin).format("YYYY-MM-DD")}
               onChange={handleChange}
               className="border border-gray-300 rounded-md p-3 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />

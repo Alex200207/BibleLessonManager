@@ -33,9 +33,9 @@ const Table = <T,>({ data, columns }: TableProps<T>) => {
                 color: "#000", // Color blanco para el encabezado
                 fontWeight: "bold",
                 textTransform: "uppercase",
-                "&:hover": {
-                  backgroundColor: "#374151", // Fondo oscuro cuando se pasa el mouse
-                },
+                // "&:hover": {
+                //   backgroundColor: "#374151", // Fondo oscuro cuando se pasa el mouse
+                // },
                 ".dark &": {
                   backgroundColor: "#2d3748", // Fondo más oscuro para el modo oscuro
                   color: "#e2e8f0", // Texto más claro en modo oscuro
