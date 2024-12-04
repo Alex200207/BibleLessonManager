@@ -1,4 +1,4 @@
-import { Users, BookOpen, GraduationCap, Clock } from "lucide-react";
+import { Users, BookOpen, GraduationCap } from "lucide-react";
 import StatsCard from "./StatsCard";
 import RecentActivity from "./RecentActivity";
 import { useStudent } from "../../../hooks/useStudent";
@@ -137,12 +137,7 @@ function Home() {
                 </p>
               </div>
               <div className="flex items-center gap-4">
-                <div className="relative">
-                  <span className="absolute top-0 right-0 h-3 w-3 bg-red-500 rounded-full"></span>
-                  <button className="p-2 hover:bg-gray-100 rounded-lg">
-                    <Clock className="w-6 h-6 text-gray-600" />
-                  </button>
-                </div>
+              
                 <img
                   src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop"
                   alt="Profile"

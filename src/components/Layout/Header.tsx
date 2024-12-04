@@ -1,5 +1,6 @@
 import { RiMenu2Fill } from "react-icons/ri";
 import DropdownUser from "./students/DropdownUser";
+import { Clock } from "lucide-react";
 
 interface HeaderProps {
   toggleAside: () => void;
@@ -23,6 +24,14 @@ function Header({ toggleAside }: HeaderProps) {
         </div>
 
         <div className="flex lg:flex-1 justify-end">
+          <div className="flex items-center gap-4">
+            <div className="relative">
+              <span className="absolute top-0 right-0 h-3 w-3 bg-red-500 rounded-full"></span>
+              <button className="p-2 hover:bg-gray-100 rounded-lg">
+                <Clock className="w-6 h-6 text-gray-600" />
+              </button>
+            </div>
+          </div>
           <DropdownUser />
         </div>
       </nav>

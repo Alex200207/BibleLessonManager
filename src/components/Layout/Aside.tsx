@@ -39,16 +39,17 @@ const Aside = ({ isOpened }: AsideProps) => {
   const { students } = useStudent();
   const { lessons } = useLesson();
   const { userRole } = useAuth();
+  const {group} = useStudent();
 
   return (
     <aside
       id="default-sidebar"
-      className={`fixed left-0 custom-top z-10 h-full w-64 sm:w-64  bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 transform transition-transform duration-300 ease-in-out shadow-lg ${
+      className={`fixed left-0 custom-top z-10 h-full w-64 sm:w-64 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 transform transition-transform duration-300 ease-in-out shadow-lg ${
         isOpened ? "translate-x-0" : "-translate-x-full"
       }`}
       aria-label="Sidebar"
     >
-      <div className="h-full px-4 py-6 overflow-y-auto bg-white dark:bg-gray-950">
+      <div className="h-full px-2 py-6 overflow-y-auto bg-white dark:bg-gray-950">
         <ul className="space-y-4 font-normal overflow-y-auto">
           <li>
             <Link
@@ -56,7 +57,9 @@ const Aside = ({ isOpened }: AsideProps) => {
               className="flex items-center p-3 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors duration-200"
             >
               <FaHome className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-              <span className="ml-3 text-gray-800 dark:text-gray-200">Home</span>
+              <span className="ml-3 text-gray-800 dark:text-gray-200">
+                Home
+              </span>
             </Link>
           </li>
           <hr />
@@ -91,8 +94,11 @@ const Aside = ({ isOpened }: AsideProps) => {
               <ul className="ml-6 space-y-2 mt-2 text-sm">
                 {/* Submenu items */}
                 <li>
-                  <Link to="/kid" className="flex items-center p-3 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors duration-200">
-                    <PiStudentLight className="h-6 w-6 mr-2 text-gray-600 dark:text-gray-400" />
+                  <Link
+                    to="/kid"
+                    className="flex items-center p-3 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors duration-200"
+                  >
+                    <PiStudentLight className="h-5 w-5 mr-2 text-gray-600 dark:text-gray-400" />
                     <span className="flex-1 text-gray-800 dark:text-gray-200">
                       Estudiantes
                     </span>
@@ -106,8 +112,11 @@ const Aside = ({ isOpened }: AsideProps) => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/lesson" className="flex items-center p-2 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700">
-                    <FaBookOpen className="h-6 w-6 mr-2 text-gray-600 dark:text-gray-400" />
+                  <Link
+                    to="/lesson"
+                    className="flex items-center p-2 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700"
+                  >
+                    <FaBookOpen className="h-5 w-5 mr-2 text-gray-600 dark:text-gray-400" />
                     <span className="flex-1 text-gray-800 dark:text-gray-200">
                       Lecciones
                     </span>
@@ -121,18 +130,20 @@ const Aside = ({ isOpened }: AsideProps) => {
                 </li>
                 {userRole === "admin" && (
                   <li>
-                  <Link to="/group" className="flex items-center p-2 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700">
-                    <MdGroup className="h-6 w-6 mr-2 text-gray-600 dark:text-gray-400" />
-                    <span className="flex-1 text-gray-800 dark:text-gray-200">
-                      Grupos
-                    </span>
-                    <span className="inline-flex items-center justify-center px-2 text-sm font-medium text-gray-800 bg-gray-200 rounded-full dark:bg-gray-700 dark:text-gray-300">
-                      1
-                    </span>
-                  </Link>
-                </li>
+                    <Link
+                      to="/group"
+                      className="flex items-center p-2 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700"
+                    >
+                      <MdGroup className="h-5 w-5 mr-2 text-gray-600 dark:text-gray-400" />
+                      <span className="flex-1 text-gray-800 dark:text-gray-200">
+                        Grupos
+                      </span>
+                      <span className="inline-flex items-center justify-center px-2 text-sm font-medium text-gray-800 bg-gray-200 rounded-full dark:bg-gray-700 dark:text-gray-300">
+                        {group.length}
+                      </span>
+                    </Link>
+                  </li>
                 )}
-                
               </ul>
             )}
           </li>
@@ -169,7 +180,10 @@ const Aside = ({ isOpened }: AsideProps) => {
                 {openMenus.movimientos && (
                   <ul className="ml-6 space-y-2 mt-2 text-sm">
                     <li>
-                      <Link to="#" className="flex items-center p-2 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700">
+                      <Link
+                        to="#"
+                        className="flex items-center p-2 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700"
+                      >
                         <span className="flex-1 text-gray-800 dark:text-gray-200">
                           Estudiantes
                         </span>
@@ -206,18 +220,24 @@ const Aside = ({ isOpened }: AsideProps) => {
                   </svg>
                 </div>
                 {openMenus.panel && (
-                  <ul className="ml-6 space-y-2 mt-2 text-sm">
+                  <ul className="ml-6 space-y-2 mt-2">
                     <li>
-                      <Link to="/role" className="flex items-center p-2 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700">
-                        <FaUserShield className="h-6 w-6 mr-2 text-gray-600 dark:text-gray-400" />
+                      <Link
+                        to="/role"
+                        className="flex items-center p-2 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700"
+                      >
+                        <FaUserShield className="h-5 w-5 mr-2 text-gray-600 dark:text-gray-400" />
                         <span className="flex-1 text-gray-800 dark:text-gray-200">
                           Roles
                         </span>
                       </Link>
                     </li>
                     <li>
-                      <Link to="/users" className="flex items-center p-2 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700">
-                        <FiUsers className="h-6 w-6 mr-2 text-gray-600 dark:text-gray-400" />
+                      <Link
+                        to="/users"
+                        className="flex items-center p-2 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700"
+                      >
+                        <FiUsers className="h-5 w-5 mr-2 text-gray-600 dark:text-gray-400" />
                         <span className="flex-1 text-gray-800 dark:text-gray-200">
                           Usuarios
                         </span>
