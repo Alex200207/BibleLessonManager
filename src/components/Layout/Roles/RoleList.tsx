@@ -9,6 +9,8 @@ import { IoCloseOutline } from "react-icons/io5";
 import { useRole } from "../../../hooks/useRole";
 import RoleDetailModal from "./RoleDetailModal";
 import Skeleton from "react-loading-skeleton";
+import AddModal from "../modal/AddModal";
+import FormEditRole from "./FormEditRole";
 
 const RoleList: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -16,6 +18,7 @@ const RoleList: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const { roles } = useRole();
 
   const filteredRoles = roles.filter(
@@ -46,6 +49,11 @@ const RoleList: React.FC = () => {
     }
   };
 
+  const openEditModal = (role: Role) => {
+    setSelectedRole(role);
+    setIsEditModalOpen(true);
+  };
+
   const columns = [
     {
       name: "Nombre",
@@ -58,7 +66,9 @@ const RoleList: React.FC = () => {
       name: "Permisos",
       selector: (row: Role) => row.permissions?.length || 0, //mostramos la cantidad de permisos de cada rol
       cell: (row: Role) => (
-        <div className="text-gray-800 font-extrabold bg-lime-400 w-5 h-5 rounded-full">{row.permissions ? row.permissions.length : 0}</div>
+        <div className="text-gray-800 font-extrabold bg-lime-400 w-5 h-5 rounded-full">
+          {row.permissions ? row.permissions.length : 0}
+        </div>
       ),
       omit: isMobile,
     },
@@ -96,7 +106,7 @@ const RoleList: React.FC = () => {
                 </Tippy>
               )}
               <Tippy content="Editar" placement="top">
-                <button>
+                <button onClick={() => openEditModal(row)}>
                   <MdOutlineEdit className="h-6 w-6" />
                 </button>
               </Tippy>
@@ -183,6 +193,14 @@ const RoleList: React.FC = () => {
         onClose={() => setIsDetailModalOpen(false)}
         roles={selectedRole}
       />
+
+      <AddModal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        title="Editar Rol"
+      >
+        <FormEditRole role={selectedRole} />
+      </AddModal>
     </div>
   );
 };

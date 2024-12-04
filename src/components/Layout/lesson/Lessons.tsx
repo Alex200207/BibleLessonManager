@@ -29,7 +29,7 @@ interface Row {
 }
 
 const Lesson: React.FC = () => {
-  const { lessons, reloadData, deletedLesson, editLessonData} = useLesson();
+  const { lessons, reloadData, deletedLesson, editLessonData } = useLesson();
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { group } = useStudent();
@@ -152,9 +152,9 @@ const Lesson: React.FC = () => {
       cell: (row: Row) => (
         <div>
           {row.estado === 1 ? (
-            <span className="text-green-600 font-bold">Activo</span>
+            <span className="text-green-600 font-bold">En Curso</span>
           ) : (
-            <span className="text-red-600">Inactivo</span>
+            <span className="text-red-600 font-bold">Finalizado</span>
           )}
         </div>
       ),

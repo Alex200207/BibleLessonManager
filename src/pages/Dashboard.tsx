@@ -31,7 +31,7 @@ const Dashboard: FC<DashboardProps> = ({ children }) => {
         />
 
         <main
-          className={`transition-all duration-300 pt-10 px-2 ${
+          className={`transition-all duration-300 pt-10  ${
             isOpened ? "ml-0 lg:ml-64" : "ml-0"
           }`}
           style={{

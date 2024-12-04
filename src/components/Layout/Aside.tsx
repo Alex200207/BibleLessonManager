@@ -43,7 +43,7 @@ const Aside = ({ isOpened }: AsideProps) => {
   return (
     <aside
       id="default-sidebar"
-      className={`fixed left-0 custom-top z-10 h-full w-64 sm:w-64 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 transform transition-transform duration-300 ease-in-out shadow-lg ${
+      className={`fixed left-0 custom-top z-10 h-full w-64 sm:w-64  bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 transform transition-transform duration-300 ease-in-out shadow-lg ${
         isOpened ? "translate-x-0" : "-translate-x-full"
       }`}
       aria-label="Sidebar"
@@ -88,7 +88,7 @@ const Aside = ({ isOpened }: AsideProps) => {
               </svg>
             </div>
             {openMenus.planificacion && (
-              <ul className="ml-6 space-y-2 mt-2">
+              <ul className="ml-6 space-y-2 mt-2 text-sm">
                 {/* Submenu items */}
                 <li>
                   <Link to="/kid" className="flex items-center p-3 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors duration-200">
@@ -167,7 +167,7 @@ const Aside = ({ isOpened }: AsideProps) => {
                   </svg>
                 </div>
                 {openMenus.movimientos && (
-                  <ul className="ml-6 space-y-2 mt-2">
+                  <ul className="ml-6 space-y-2 mt-2 text-sm">
                     <li>
                       <Link to="#" className="flex items-center p-2 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700">
                         <span className="flex-1 text-gray-800 dark:text-gray-200">
@@ -206,7 +206,7 @@ const Aside = ({ isOpened }: AsideProps) => {
                   </svg>
                 </div>
                 {openMenus.panel && (
-                  <ul className="ml-6 space-y-2 mt-2">
+                  <ul className="ml-6 space-y-2 mt-2 text-sm">
                     <li>
                       <Link to="/role" className="flex items-center p-2 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700">
                         <FaUserShield className="h-6 w-6 mr-2 text-gray-600 dark:text-gray-400" />

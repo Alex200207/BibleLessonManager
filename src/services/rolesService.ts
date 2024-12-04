@@ -59,44 +59,42 @@ const getPermissions = async () => {
 };
 import { Role } from "../Types";
 
- const createRole = async (roleData: Role) => {
-
-  try{
+const createRole = async (roleData: Role) => {
+  try {
     const response = await axios.post(`${API_URL}/role/create`, roleData, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
-  
+
     if (!response.data) {
       throw new Error("Error al crear el rol");
     }
-  
+
     return response.data;
-  }
-  catch (error) {
+  } catch (error) {
     console.error("Error al crear el rol:", error);
     return [];
   }
- 
-  
+};
+const editRole = async (id: Role["id"], updatedRole: Partial<Role>) => {
+  try {
+    const response = await axios.put(`${API_URL}/role/${id}`, updatedRole, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error("Failed to update role");
+    }
+  } catch (err) {
+    console.log(err, "No se pudo actualizar los datos");
+    throw err;
+  }
 };
 
-// export const updateRole = async (id: string, roleData: Role) => {
-//   const response = await fetch(`http://localhost:3000/role/create/${id}`, {
-//     method: "PUT",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(roleData),
-//   });
-
-//   if (!response.ok) {
-//     throw new Error("Error al actualizar el rol");
-//   }
-
-//   return await response.json();
-// };
-
-export { getRoles, getPermissions, getRolesWithUser, createRole };
+export { getRoles, getPermissions, getRolesWithUser, createRole, editRole };

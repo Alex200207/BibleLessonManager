@@ -10,7 +10,7 @@ interface TableProps<T> {
 const Table = <T,>({ data, columns }: TableProps<T>) => {
   return (
     <>
-      <div className="overflow-x-auto ">
+      <div className="overflow-x-auto ml-2 ">
         {" "}
         {/* Contenedor con Tailwind */}
         <DataTable
