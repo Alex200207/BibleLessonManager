@@ -60,6 +60,8 @@ const UserTable: React.FC = () => {
     setIsModalOpen(!isModalOpen);
   };
 
+
+
   const columns = [
     {
       name: "Nombre",
@@ -203,6 +205,7 @@ const UserTable: React.FC = () => {
         isOpen={isModalOpen}
         onClose={toggleModal}
         reloadData={reloadData}
+        
       />
     </div>
   );

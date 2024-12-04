@@ -199,7 +199,7 @@ const RoleList: React.FC = () => {
         onClose={() => setIsEditModalOpen(false)}
         title="Editar Rol"
       >
-        <FormEditRole role={selectedRole} />
+        <FormEditRole role={selectedRole} onClose={() => setIsEditModalOpen(false)} />
       </AddModal>
     </div>
   );

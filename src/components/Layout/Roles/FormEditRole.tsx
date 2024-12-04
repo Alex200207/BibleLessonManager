@@ -6,9 +6,10 @@ import { FaCheckCircle, FaRegCircle } from "react-icons/fa";
 
 interface FormEditRoleProps {
   role: Role | null;
+  onClose:() =>  void;
 }
 
-const FormEditRole: React.FC<FormEditRoleProps> = ({ role }) => {
+const FormEditRole: React.FC<FormEditRoleProps> = ({ role, onClose }) => {
   const { editRoleData } = useRole();
   const { permission } = usePermissions();
   const [editedRole, setEditedRole] = useState<Role>(
@@ -68,7 +69,9 @@ const FormEditRole: React.FC<FormEditRoleProps> = ({ role }) => {
     e.preventDefault();
     if (editedRole.id !== 0) {
       editRoleData(editedRole.id, editedRole);
+      onClose();
     }
+
   };
 
   return (
