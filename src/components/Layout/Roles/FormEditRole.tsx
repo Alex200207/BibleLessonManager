@@ -74,12 +74,12 @@ const FormEditRole: React.FC<FormEditRoleProps> = ({ role }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="max-w-xl sm:max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md overflow-auto"
+      className="max-w-xl sm:max-w-2xl mx-auto p-4 bg-white rounded-lg shadow-md overflow-auto"
     >
-      <div className="mb-4 sm:mb-6">
+      <div className="mb-3">
         <label
           htmlFor="name"
-          className="block text-lg sm:text-xl font-medium text-gray-800 mb-2"
+          className="block text-sm font-medium text-gray-800 mb-1"
         >
           Nombre del Rol
         </label>
@@ -91,15 +91,15 @@ const FormEditRole: React.FC<FormEditRoleProps> = ({ role }) => {
           onChange={(e) =>
             setEditedRole({ ...editedRole, name: e.target.value })
           }
-          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+          className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm"
           required
         />
       </div>
 
-      <div className="mb-4 sm:mb-6">
+      <div className="mb-3">
         <label
           htmlFor="guard"
-          className="block text-lg sm:text-xl font-medium text-gray-800 mb-2"
+          className="block text-sm font-medium text-gray-800 mb-1"
         >
           Guard
         </label>
@@ -111,26 +111,26 @@ const FormEditRole: React.FC<FormEditRoleProps> = ({ role }) => {
           onChange={(e) =>
             setEditedRole({ ...editedRole, guard: e.target.value })
           }
-          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+          className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm"
           required
         />
       </div>
 
-      <div className="mb-4 sm:mb-6">
+      <div className="mb-3">
         <label
           htmlFor="permissions"
-          className="block text-lg sm:text-xl font-medium text-gray-800 mb-2"
+          className="block text-sm font-medium text-gray-800 mb-1"
         >
           Permisos
         </label>
         <button
           type="button"
           onClick={handleSelectAll}
-          className="text-blue-600 hover:underline mb-4 text-sm sm:text-base"
+          className="text-blue-600 hover:underline mb-3 text-xs"
         >
           {selectAll ? "Deseleccionar todos" : "Seleccionar todos"}
         </button>
-        <div className="space-y-4">
+        <div className="space-y-3">
           {permission?.map((p) => {
             const isSelected = editedRole.permissions.some(
               (perm) => perm.id === p.id
@@ -139,18 +139,16 @@ const FormEditRole: React.FC<FormEditRoleProps> = ({ role }) => {
             return (
               <div
                 key={p.id}
-                className="flex items-center justify-between p-4 bg-gray-50 border rounded-md shadow-sm"
+                className="flex items-center justify-between p-2 bg-gray-50 border rounded-md shadow-sm"
               >
-                <span className="text-gray-700 text-lg sm:text-xl">
-                  {p.name}
-                </span>
-                <div className="flex items-center space-x-4">
+                <span className="text-gray-700 text-sm">{p.name}</span>
+                <div className="flex items-center space-x-3">
                   <label className="inline-flex items-center cursor-pointer">
-                    <span className="mr-2 text-sm sm:text-base text-gray-600">
+                    <span className="mr-1 text-xs text-gray-600">
                       {isSelected ? "Habilitado" : "Deshabilitado"}
                     </span>
                     <div
-                      className={`relative inline-block w-10 h-6 transition-all rounded-full ${
+                      className={`relative inline-block w-8 h-5 transition-all rounded-full ${
                         isSelected ? "bg-blue-500" : "bg-gray-300"
                       }`}
                     >
@@ -161,16 +159,16 @@ const FormEditRole: React.FC<FormEditRoleProps> = ({ role }) => {
                         className="sr-only"
                       />
                       <span
-                        className={`absolute block w-6 h-6 bg-white rounded-full transition-transform transform ${
-                          isSelected ? "translate-x-4" : "translate-x-0"
+                        className={`absolute block w-5 h-5 bg-white rounded-full transition-transform transform ${
+                          isSelected ? "translate-x-3" : "translate-x-0"
                         }`}
                       />
                     </div>
                   </label>
                   {isSelected ? (
-                    <FaCheckCircle className="text-green-500" />
+                    <FaCheckCircle className="text-green-500 text-xs" />
                   ) : (
-                    <FaRegCircle className="text-gray-500" />
+                    <FaRegCircle className="text-gray-500 text-xs" />
                   )}
                 </div>
               </div>
@@ -182,7 +180,7 @@ const FormEditRole: React.FC<FormEditRoleProps> = ({ role }) => {
       <div className="flex justify-end">
         <button
           type="submit"
-          className="px-4 sm:px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm sm:text-base"
+          className="px-3 py-1 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-xs"
         >
           Guardar Cambios
         </button>
