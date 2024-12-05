@@ -205,7 +205,7 @@ const Lesson: React.FC = () => {
             className="w-full max-w-xs h-12 px-4 border rounded-full shadow-md dark:bg-zinc-900 dark:text-gray-200"
           />
 
-          {user.permissions.includes("crear") && (
+          {Array.isArray(user.permissions) && user.permissions.includes("crear") && (
             <Tippy content="Agregar" placement="top">
               <button onClick={toggleModal} className="btn btn-success">
                 <IoAddCircleOutline className="ml-5 h-10 w-10" />
