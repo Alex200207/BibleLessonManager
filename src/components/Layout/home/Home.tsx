@@ -122,6 +122,13 @@ function Home() {
     return lessons.filter((lesson) => lesson.estado === 1).length;
   };
 
+  const userName = (name: string) => {
+    if (name === "andrely") {
+      return "cara de puerco";
+    }
+    return user.name;
+  }
+
   return (
     <>
       <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-white transform transition-transform duration-300 ease-in-out shadow-lg">
@@ -130,14 +137,13 @@ function Home() {
             <div className="flex justify-between items-center mb-8">
               <div>
                 <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-                  ¡Buen día, {user.name}!
+                  ¡Buen día, {userName(user.name)}!
                 </h1>
                 <p className="text-gray-600 dark:text-gray-400">
                   Aquí está el resumen de tu actividad
                 </p>
               </div>
               <div className="flex items-center gap-4">
-              
                 <img
                   src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop"
                   alt="Profile"
@@ -149,28 +155,54 @@ function Home() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
               <StatsCard
                 title="Total Estudiantes"
-                value={students.length.toString()}
+                value={
+                  user.role === "admin"
+                    ? students.length.toString()
+                    : students
+                        .filter((student) => student.id_maestra === user.id)
+                        .length.toString()
+                }
                 trend={0}
                 icon={Users}
                 color="bg-blue-500"
               />
               <StatsCard
                 title="Lecciones"
-                value={`Activas: ${mostrarLeccionesActivas()} Pendientes: ${mostrarLeccionesPendientes()}`}
+                value={`Activas: ${
+                  user.role === "admin"
+                    ? mostrarLeccionesActivas()
+                    : lessons.filter(
+                        (lesson) =>
+                          lesson.estado === 1 && lesson.id_maestra === user.id
+                      ).length
+                } Pendientes: ${
+                  user.role === "admin"
+                    ? mostrarLeccionesPendientes()
+                    : lessons.filter(
+                        (lesson) =>
+                          lesson.estado === 0 && lesson.id_maestra === user.id
+                      ).length
+                }`}
                 trend={0}
                 icon={BookOpen}
                 color="bg-green-500"
               />
-              <StatsCard
-                title="Profesores"
-                value={teachers.length.toString()}
-                trend={0}
-                icon={GraduationCap}
-                color="bg-purple-500"
-              />
+              {user.role === "admin" && (
+                <StatsCard
+                  title="Total Maestros"
+                  value={teachers.length.toString()}
+                  trend={0}
+                  icon={GraduationCap}
+                  color="bg-purple-500"
+                />
+              )}
               <StatsCard
                 title="Tasa de Finalización Lecciones"
-                value={`${calcularTasaFinalizacionLecciones().toFixed(2)}%`}
+                value={
+                  user.role === "admin"
+                    ? calcularTasaFinalizacionLecciones().toFixed(2)
+                    : "0%"
+                }
                 trend={0}
                 icon={BookOpen}
                 color="bg-orange-500"
