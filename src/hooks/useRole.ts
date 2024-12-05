@@ -4,6 +4,7 @@ import {
   getPermissions,
   createRole,
   editRole,
+  deleteRole,
 } from "../services/rolesService";
 import { Role, Permission } from "../Types/index";
 import Swal from "sweetalert2"; // Importa Swe
@@ -66,6 +67,33 @@ export const useRole = () => {
     }
   };
 
+  const deletedRole = async (id: Role["id"]) => {
+    const result = await Swal.fire({
+      title: "¿Estás seguro?",
+      text: "¡Se eliminara esta Leccion!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, eliminarlo",
+      cancelButtonText: "Cancelar",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await deleteRole(id);
+        Swal.fire("Eliminado!", "El rol ha sido eliminado.", "success");
+        const studentsData = await getRoles();
+        setRoles(studentsData);
+      } catch (error) {
+        Swal.fire("Error!", "No se pudo eliminar el rol.", "error");
+        console.error("Error al eliminar el rol:", error);
+      }
+    } else {
+      Swal.fire("Cancelado", "El rol no ha sido eliminado", "info");
+    }
+  };
+
   const reloadData = () => {
     setReload((prev) => !prev);
   };
@@ -76,5 +104,6 @@ export const useRole = () => {
     reloadData,
     newRole,
     editRoleData,
+    deletedRole,
   };
 };

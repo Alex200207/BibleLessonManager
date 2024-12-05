@@ -97,4 +97,23 @@ const editRole = async (id: Role["id"], updatedRole: Partial<Role>) => {
   }
 };
 
-export { getRoles, getPermissions, getRolesWithUser, createRole, editRole };
+const deleteRole = async (id: Role["id"]) => {
+  try {
+    const response = await axios.delete(`${API_URL}/role/${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error("Failed to delete role");
+    }
+  } catch (err) {
+    console.log(err, "No se pudo eliminar los datos");
+    throw err;
+  }
+};
+
+export { getRoles, getPermissions, getRolesWithUser, createRole, editRole , deleteRole};

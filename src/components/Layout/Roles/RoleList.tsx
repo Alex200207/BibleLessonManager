@@ -19,7 +19,7 @@ const RoleList: React.FC = () => {
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const { roles } = useRole();
+  const { roles, deletedRole, reloadData } = useRole();
 
   const filteredRoles = roles.filter(
     (role) =>
@@ -47,6 +47,10 @@ const RoleList: React.FC = () => {
       setSelectedRole(role);
       setIsDetailModalOpen(true);
     }
+  };
+  const handleDelete = async (id: number) => {
+    await deletedRole(id);
+    reloadData();
   };
 
   const openEditModal = (role: Role) => {
@@ -111,7 +115,7 @@ const RoleList: React.FC = () => {
                 </button>
               </Tippy>
               <Tippy content="Eliminar" placement="top">
-                <button>
+                <button onClick={() => handleDelete(row.id)}>
                   <MdDeleteOutline className="h-6 w-6 text-red-600" />
                 </button>
               </Tippy>
@@ -199,7 +203,10 @@ const RoleList: React.FC = () => {
         onClose={() => setIsEditModalOpen(false)}
         title="Editar Rol"
       >
-        <FormEditRole role={selectedRole} onClose={() => setIsEditModalOpen(false)} />
+        <FormEditRole
+          role={selectedRole}
+          onClose={() => setIsEditModalOpen(false)}
+        />
       </AddModal>
     </div>
   );
