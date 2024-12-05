@@ -123,7 +123,8 @@ function Home() {
   };
 
   const userName = (name: string) => {
-    if (name === "andrely") {
+    const lowerCaseName = name.toLowerCase();
+    if (lowerCaseName === "andrely") {
       return "cara de puerco";
     }
     return user.name;
