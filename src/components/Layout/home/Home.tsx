@@ -130,6 +130,18 @@ function Home() {
     return user.name;
   }
 
+
+  const obtenerSaludoSegunHora = () => {
+    const hora = new Date().getHours();
+    if (hora < 12) {
+      return "¡Buen día";
+    } else if (hora < 18) {
+      return "¡Buenas tardes";
+    } else {
+      return "¡Buenas noches";
+    }
+  };
+
   return (
     <>
       <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-white transform transition-transform duration-300 ease-in-out shadow-lg">
@@ -138,7 +150,7 @@ function Home() {
             <div className="flex justify-between items-center mb-8">
               <div>
                 <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-                  ¡Buen día, {userName(user.name)}!
+                  {obtenerSaludoSegunHora()}, {userName(user.name)}!
                 </h1>
                 <p className="text-gray-600 dark:text-gray-400">
                   Aquí está el resumen de tu actividad
