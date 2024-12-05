@@ -50,6 +50,7 @@ export interface Role {
   name: string;
   guard: string;
   permissions: Permission[];
+  updated_at?: Date;
 }
 
 
