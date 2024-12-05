@@ -7,9 +7,14 @@ import { FaCheckCircle, FaRegCircle } from "react-icons/fa";
 interface FormEditRoleProps {
   role: Role | null;
   onClose: () => void;
+  reloadData: () => void;
 }
 
-const FormEditRole: React.FC<FormEditRoleProps> = ({ role, onClose }) => {
+const FormEditRole: React.FC<FormEditRoleProps> = ({
+  role,
+  onClose,
+  reloadData,
+}) => {
   const { editRoleData } = useRole();
   const { permission } = usePermissions();
   const [editedRole, setEditedRole] = useState<Role>(
@@ -73,11 +78,16 @@ const FormEditRole: React.FC<FormEditRoleProps> = ({ role, onClose }) => {
     setEditedRole({ ...editedRole, permissions: updatedPermissions });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (editedRole.id !== 0) {
-      editRoleData(editedRole.id, editedRole);
-      onClose();
+      try {
+        onClose(); 
+        await editRoleData(editedRole.id, editedRole);
+        reloadData();
+      } catch (error) {
+        console.error("Error al editar el rol:", error);
+      }
     }
   };
 

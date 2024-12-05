@@ -205,6 +205,7 @@ const RoleList: React.FC = () => {
       >
         <FormEditRole
           role={selectedRole}
+          reloadData={reloadData}
           onClose={() => setIsEditModalOpen(false)}
         />
       </AddModal>
