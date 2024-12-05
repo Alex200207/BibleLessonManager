@@ -70,19 +70,29 @@ export const useRole = () => {
   const deletedRole = async (id: Role["id"]) => {
     const result = await Swal.fire({
       title: "¿Estás seguro?",
-      text: "¡Se eliminara esta Leccion!",
+      text: "Para eliminar este rol, escribe 'confirmar'.",
       icon: "warning",
+      input: "text",
+      inputPlaceholder: "Escribe 'confirmar' aquí",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Sí, eliminarlo",
       cancelButtonText: "Cancelar",
+      inputValidator: (value) => {
+        if (value.toLowerCase() !== "confirmar") {
+          return "Debes escribir 'confirmar' para proceder.";
+        }
+        return null;
+      },
     });
 
-    if (result.isConfirmed) {
+    if (result.isConfirmed && result.value?.toLowerCase() === "confirmar") {
       try {
         await deleteRole(id);
+
         Swal.fire("Eliminado!", "El rol ha sido eliminado.", "success");
+
         const studentsData = await getRoles();
         setRoles(studentsData);
       } catch (error) {
