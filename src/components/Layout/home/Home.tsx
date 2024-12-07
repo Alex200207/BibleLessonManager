@@ -128,7 +128,8 @@ function Home() {
     if (lowerCaseName === "andrely") {
       return "cara de puerco";
     }
-    return user.name;
+    const firstName = name.split(" ")[0];
+    return firstName;
   };
 
   const obtenerSaludoSegunHora = () => {
