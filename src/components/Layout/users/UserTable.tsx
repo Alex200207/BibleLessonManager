@@ -23,7 +23,7 @@ const UserTable: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectUserRole, setSelectUserRole] = useState<users | null>(null);
   //   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
-  const { userList: user, reloadData } = useUser();
+  const { userList: user, reloadData, deleteUsersData } = useUser();
   const { roles } = useRole();
 
   console.log(setSelectedUser);
@@ -62,6 +62,10 @@ const UserTable: React.FC = () => {
   };
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
+  };
+  const handleDelete = async (id: number) => {
+    await deleteUsersData(id);
+    reloadData();
   };
 
   const openEditModal = (user: users) => {
@@ -134,7 +138,7 @@ const UserTable: React.FC = () => {
                 </button>
               </Tippy>
               <Tippy content="Eliminar" placement="top">
-                <button>
+                <button onClick={() => handleDelete(row.id)}>
                   <MdDeleteOutline className="h-6 w-6 text-red-600" />
                 </button>
               </Tippy>
@@ -228,7 +232,10 @@ const UserTable: React.FC = () => {
         title="Editar Usuario"
       >
         {selectUserRole && (
-          <FormEditUser role={selectUserRole} onClose={() => setIsOpen(false)} />
+          <FormEditUser
+            role={selectUserRole}
+            onClose={() => setIsOpen(false)}
+          />
         )}
       </AddModal>
     </div>

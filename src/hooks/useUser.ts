@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { getUsers, addUser, updateUser } from "../services/userService";
+import {
+  getUsers,
+  addUser,
+  updateUser,
+  deleteUser,
+} from "../services/userService";
 import { users } from "../Types";
 import { useAuth } from "../utils/AuthProvider";
 import { jwtDecode, JwtPayload } from "jwt-decode";
@@ -48,7 +53,7 @@ const useUser = () => {
   const updateUserData = async (id: users["id"], updatedUser: users) => {
     const result = await Swal.fire({
       title: "¿Estás seguro?",
-      text: "¿Deseas guardar los cambios realizados en este estudiante?",
+      text: "¿Deseas guardar los cambios realizados en este usuario?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -65,7 +70,7 @@ const useUser = () => {
         setUserList(usersData);
       } catch (error) {
         Swal.fire("Error!", "No se pudieron guardar los cambios.", "error");
-        console.error("Error al editar el estudiante:", error);
+        console.error("Error al editar el usuario:", error);
       }
     } else {
       Swal.fire("Cancelado", "Los cambios no han sido guardados", "info");
@@ -76,12 +81,40 @@ const useUser = () => {
     setReload((prev) => !prev);
   };
 
+  const deleteUsersData = async (id: users["id"]) => {
+    const result = await Swal.fire({
+      title: "¿Estás seguro?",
+      text: "¡No podrás recuperar este Usuario después de eliminarlo!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, eliminarlo",
+      cancelButtonText: "Cancelar",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await deleteUser(id);
+        Swal.fire("Eliminado!", "El Usuarios ha sido eliminado.", "success");
+        const userData = await getUsers();
+        setUserList(userData);
+      } catch (error) {
+        Swal.fire("Error!", "No se pudo eliminar el usuario.", "error");
+        console.error("Error al eliminar el usuario:", error);
+      }
+    } else {
+      Swal.fire("Cancelado", "El usuario no ha sido eliminado", "info");
+    }
+  };
+
   return {
     userList,
     createUser,
     reloadData,
     user,
     updateUserData,
+    deleteUsersData,
   };
 };
 

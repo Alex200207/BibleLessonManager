@@ -68,10 +68,31 @@ const updateUser = async (id: users['id'], updatedUser: Partial<users>) => {
 };
 
 
+const deleteUser = async (id: users['id']) => {
+    try {
+        const response = await axios.delete(`${API_URL}/auth/${id}`, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+        });
+
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            throw new Error('Failed to delete user');
+        }
+    } catch (err) {
+        console.error('Error al eliminar el usuario:', err);
+        throw new Error('No se pudo eliminar el usuario');
+    }
+}
 
 
 
 
 
 
-export { getUsers , addUser , updateUser};
+
+
+export { getUsers , addUser , updateUser , deleteUser};
