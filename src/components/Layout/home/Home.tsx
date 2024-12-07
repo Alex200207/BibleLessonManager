@@ -80,7 +80,9 @@ function Home() {
     ],
   };
 
-  // Opciones del gráfico
+  // Detectar si el tema oscuro está habilitado
+  const isDarkMode = document.documentElement.classList.contains("dark");
+
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -91,11 +93,11 @@ function Home() {
     scales: {
       x: {
         grid: { display: false },
-        ticks: { color: "#374151" },
+        ticks: { color: isDarkMode ? "#e5e7eb" : "#374151" }, // Cambia según el tema
       },
       y: {
-        grid: { color: "#e5e7eb" },
-        ticks: { color: "#374151", beginAtZero: true },
+        grid: { color: isDarkMode ? "#374151" : "#e5e7eb" }, // Cambia según el tema
+        ticks: { color: isDarkMode ? "#e5e7eb" : "#374151", beginAtZero: true },
       },
     },
   };
@@ -127,9 +129,7 @@ function Home() {
       return "cara de puerco";
     }
     return user.name;
-  }
-
-
+  };
 
   const obtenerSaludoSegunHora = () => {
     const hora = new Date().getHours();
@@ -227,7 +227,7 @@ function Home() {
                 <h2 className="text-lg font-semibold mb-4">
                   Progreso de Estudiantes
                 </h2>
-                <div className="h-[300px] flex items-center justify-center ">
+                <div className="h-[300px] flex items-center justify-center  ">
                   {progresoPorMes.every((value) => value === 0) ? (
                     <p>No hay datos disponibles para mostrar.</p>
                   ) : (
@@ -235,9 +235,7 @@ function Home() {
                   )}
                 </div>
               </div>
-              <div>
-                
-              </div>
+              <div></div>
             </div>
           </div>
         </main>

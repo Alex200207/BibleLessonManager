@@ -19,7 +19,7 @@ const PrivateRoutes = () => {
   }
 
   // Rutas para maestro, ocultando componentes específicos
-  if (role === 'maestro') {
+  if (role !== 'admin') {
     return (
       <Dashboard>
         {/* Ocultar el componente de roles y usuarios para maestros */}
@@ -28,7 +28,7 @@ const PrivateRoutes = () => {
     );
   }
 
-  // Redirigir si el rol no es admin o maestro
+  
   return <Navigate to="/login" />;
 };
 
