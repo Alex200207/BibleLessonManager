@@ -82,5 +82,6 @@ export const useStudentModal = () => {
     newStudent,
     handleInputChange,
     handleSubmit,
+    setNewStudent,
   };
 };

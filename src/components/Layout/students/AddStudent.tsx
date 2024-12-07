@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useStudentModal } from "../../../hooks/useAddStudent";
 import { useStudent } from "../../../hooks/useStudent";
 import { CiSaveDown2 } from "react-icons/ci";
@@ -12,9 +12,18 @@ interface ModalProps {
 }
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, reloadData }) => {
-  const { newStudent, handleInputChange, handleSubmit } = useStudentModal();
+  const { newStudent,handleInputChange, handleSubmit, setNewStudent } = useStudentModal();
   const { group } = useStudent();
-  const { userList: teachers } = useUser();
+  const { userList: teachers, user } = useUser();
+
+  useEffect(() => {// Inicializar el modal con los datos del estudiante seleccionado
+    if (user.role !== "admin") {// Si el usuario no es admin, asignar su id a id_maestra
+      setNewStudent((prev) => ({// Actualizar el estado de newStudent
+        ...prev,
+        id_maestra: user.id,
+      }))
+    }
+  }, [user, setNewStudent]);
 
   if (!isOpen) return null;
 
@@ -65,24 +74,27 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, reloadData }) => {
               ))}
             </select>
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Maestra
-            </label>
-            <select
-              name="id_maestra"
-              value={newStudent.id_maestra}
-              onChange={handleInputChange}
-              className="border border-gray-300 rounded-md p-3 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="">Seleccione una maestr@</option>
-              {teachers.map((teacher) => (
-                <option key={teacher.id} value={teacher.id}>
-                  {teacher.name}
-                </option>
-              ))}
-            </select>
-          </div>
+          {user.role === "admin" && (
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Maestra
+              </label>
+              <select
+                name="id_maestra"
+                value={newStudent.id_maestra}
+                onChange={handleInputChange}
+                className="border border-gray-300 rounded-md p-3 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">Seleccione una maestr@</option>
+                {teachers.map((teacher) => (
+                  <option key={teacher.id} value={teacher.id}>
+                    {teacher.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Edad
