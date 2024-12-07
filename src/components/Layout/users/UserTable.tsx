@@ -225,9 +225,11 @@ const UserTable: React.FC = () => {
       <AddModal
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
-        title="Editar Rol_Usuario"
+        title="Editar Usuario"
       >
-        <FormEditUser role={selectUserRole} onClose={() => setIsOpen(false)} />
+        {selectUserRole && (
+          <FormEditUser role={selectUserRole} onClose={() => setIsOpen(false)} />
+        )}
       </AddModal>
     </div>
   );

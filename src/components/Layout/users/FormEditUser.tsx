@@ -68,7 +68,6 @@ const FormEditUser: React.FC<FormEditUserProps> = ({ role, onClose }) => {
 
   return (
     <div className="space-y-4">
-      <h2 className="text-xl font-semibold">Editar Usuario</h2>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="name" className="block text-sm font-medium">
@@ -104,7 +103,7 @@ const FormEditUser: React.FC<FormEditUserProps> = ({ role, onClose }) => {
             type="password"
             id="password"
             name="password"
-            
+            placeholder="Dejar en blanco para no cambiar"
             onChange={handleInputChange}
             className="mt-1 block w-full px-4 py-2 border rounded-md"
           />
