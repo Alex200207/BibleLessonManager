@@ -89,5 +89,6 @@ export const useLessonModal = () => {
     newLesson,
     handleInputChange,
     handleSubmit,
+    setNewLesson,
   };
 };
