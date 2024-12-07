@@ -105,8 +105,8 @@ function DropdownUser() {
             <div className="w-10 h-10 flex items-center justify-center bg-indigo-600 text-white font-bold rounded-full mr-2">
               {firstLetter}
             </div>
-            <h1 className="text-lg font-bold  text-gray-800 dark:text-gray-200">
-              Hola, {user?.name}
+            <h1 className="text-lg font-bold text-gray-800 dark:text-gray-200">
+              Hola, {user?.name.split(" ")[0]}
             </h1>
           </div>
           <a
