@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { users } from "../../../Types";
 import Table from "../Table";
 import { MdOutlineEdit, MdDeleteOutline } from "react-icons/md";
 import { GrView } from "react-icons/gr";
@@ -11,6 +10,9 @@ import { useUser } from "../../../hooks/useUser";
 import { useRole } from "../../../hooks/useRole";
 import AddUserModal from "./AddUserModal";
 import Skeleton from "react-loading-skeleton";
+import AddModal from "../modal/AddModal";
+import FormEditUser from "./FormEditUser";
+import { users } from "../../../Types";
 
 const UserTable: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -18,6 +20,8 @@ const UserTable: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<users | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectUserRole, setSelectUserRole] = useState<users | null>(null);
   //   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const { userList: user, reloadData } = useUser();
   const { roles } = useRole();
@@ -60,7 +64,19 @@ const UserTable: React.FC = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-
+  const openEditModal = (user: users) => {
+    const userRole: users = {
+      id: user.id,
+      name: user.name,
+      updated_at: user.updated_at,
+      password: user.password,
+      role_id: user.role_id,
+      email: "",
+      role: "",
+    };
+    setSelectUserRole(userRole);
+    setIsOpen(true);
+  };
 
   const columns = [
     {
@@ -113,7 +129,7 @@ const UserTable: React.FC = () => {
                 </Tippy>
               )}
               <Tippy content="Editar" placement="top">
-                <button>
+                <button onClick={() => openEditModal(row)}>
                   <MdOutlineEdit className="h-6 w-6" />
                 </button>
               </Tippy>
@@ -205,8 +221,14 @@ const UserTable: React.FC = () => {
         isOpen={isModalOpen}
         onClose={toggleModal}
         reloadData={reloadData}
-        
       />
+      <AddModal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        title="Editar Rol_Usuario"
+      >
+        <FormEditUser role={selectUserRole} onClose={() => setIsOpen(false)} />
+      </AddModal>
     </div>
   );
 };

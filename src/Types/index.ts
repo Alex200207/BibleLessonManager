@@ -6,8 +6,8 @@ export interface kids {
   genero: string;
   grupo_id: number;
   deleted_at?: Date;
-  progreso: number,
-  fecha?:Date,
+  progreso: number;
+  fecha?: Date;
 }
 
 export interface lesson {
@@ -57,9 +57,9 @@ export interface Role {
 export interface Permission {
   id: number;
   name: string;
-  guard:string,
-  deleted_at?:Date,
-  updated_at?:Date,
+  guard: string;
+  deleted_at?: Date;
+  updated_at?: Date;
   enabled: boolean; // Nuevo campo para marcar si está habilitado
 }
 export interface PermissionResponse {
@@ -72,6 +72,5 @@ export interface Role {
   guard: string;
   deleted_at?: Date;
   updated_at?: Date;
-  permissions: Permission[];  // Relación con los permisos
+  permissions: Permission[]; // Relación con los permisos
 }
-

@@ -116,4 +116,14 @@ const deleteRole = async (id: Role["id"]) => {
   }
 };
 
-export { getRoles, getPermissions, getRolesWithUser, createRole, editRole , deleteRole};
+
+
+export {
+  getRoles,
+  getPermissions,
+  getRolesWithUser,
+  createRole,
+  editRole,
+  deleteRole,
+ 
+};

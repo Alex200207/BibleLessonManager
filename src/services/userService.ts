@@ -46,5 +46,29 @@ const addUser = async (newUser: users) => {
     }
 }
 
+const updateUser = async (id: string, updatedUser: users) => {
+    try {
+        const response = await axios.put(`${API_URL}/auth/${id}`, updatedUser, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+        });
 
-export { getUsers , addUser };
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            throw new Error('Failed to update user');
+        }
+    } catch (err) {
+        console.error('Error al actualizar el usuario:', err);
+        throw new Error('No se pudo actualizar el usuario');
+    }
+};
+
+
+
+
+
+
+export { getUsers , addUser , updateUser};

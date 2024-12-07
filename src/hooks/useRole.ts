@@ -105,6 +105,7 @@ export const useRole = () => {
   };
 
   const reloadData = () => {
+    // Cambia el estado para forzar la recarga de datos
     setReload((prev) => !prev);
   };
 
