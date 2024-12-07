@@ -1,10 +1,29 @@
 import { RiMenu2Fill } from "react-icons/ri";
 import DropdownUser from "./students/DropdownUser";
-import { Clock } from "lucide-react";
+import NotificationsDropdown from "./NotificationsDropdown";
 
 interface HeaderProps {
   toggleAside: () => void;
 }
+
+const notifications = [
+  {
+    user: "Eddy Talavera",
+    action: "completó la lección",
+    subject: "App de Tareas",
+    time: "Hace 5 minutos",
+    image:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop",
+  },
+  {
+    user: "Andrely Bermudez",
+    action: "creó una nueva tarea",
+    subject: "Física Cuántica",
+    time: "Hace 15 minutos",
+    image:
+      "https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=150&h=150&fit=crop",
+  },
+];
 
 function Header({ toggleAside }: HeaderProps) {
   return (
@@ -27,9 +46,7 @@ function Header({ toggleAside }: HeaderProps) {
           <div className="flex items-center gap-4">
             <div className="relative">
               <span className="absolute top-0 right-0 h-3 w-3 bg-red-500 rounded-full"></span>
-              <button className="p-2 hover:bg-gray-100 rounded-lg">
-                <Clock className="w-6 h-6 text-gray-600" />
-              </button>
+              <NotificationsDropdown notifications={notifications} />
             </div>
           </div>
           <DropdownUser />

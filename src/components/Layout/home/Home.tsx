@@ -131,6 +131,7 @@ function Home() {
   }
 
 
+
   const obtenerSaludoSegunHora = () => {
     const hora = new Date().getHours();
     if (hora < 12) {
@@ -193,7 +194,7 @@ function Home() {
                     ? mostrarLeccionesPendientes()
                     : lessons.filter(
                         (lesson) =>
-                          lesson.estado === 0 && lesson.id_maestra === user.id
+                          lesson.estado === 2 && lesson.id_maestra === user.id
                       ).length
                 }`}
                 trend={0}
