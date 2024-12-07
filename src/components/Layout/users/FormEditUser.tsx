@@ -9,7 +9,7 @@ interface FormEditUserProps {
 }
 
 const FormEditUser: React.FC<FormEditUserProps> = ({ role, onClose }) => {
-  const { updateUserData } = useUser();
+  const { updateUserData, reloadData } = useUser();
   const { roles } = useRole();
   const [formData, setFormData] = useState<users>(
     role || {
@@ -21,7 +21,6 @@ const FormEditUser: React.FC<FormEditUserProps> = ({ role, onClose }) => {
       role: "",
     }
   );
-  const [error] = useState<string>(""); // Estado para manejar el error
 
   useEffect(() => {
     if (role) {
@@ -41,14 +40,14 @@ const FormEditUser: React.FC<FormEditUserProps> = ({ role, onClose }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Validación para asegurarse de que los campos requeridos estén completos
-
-    try {
-      await updateUserData(formData.id, formData);
-      onClose();
-    } catch (error) {
-      console.error("Error al actualizar el usuario:", error);
+    if (formData.id !== 0) {
+      try {
+        onClose();
+        await updateUserData(formData.id, formData);
+        reloadData();
+      } catch (error) {
+        console.error("Error al editar el usuario:", error);
+      }
     }
   };
 
@@ -71,7 +70,7 @@ const FormEditUser: React.FC<FormEditUserProps> = ({ role, onClose }) => {
         </div>
         <div>
           <label htmlFor="email" className="block text-sm font-medium">
-            Correo Electrónico (Opcional)
+            Correo Electrónico
           </label>
           <input
             type="email"
@@ -83,16 +82,19 @@ const FormEditUser: React.FC<FormEditUserProps> = ({ role, onClose }) => {
           />
         </div>
         <div>
-          <label htmlFor="role" className="block text-sm font-medium">
+          <label htmlFor="role_id" className="block text-sm font-medium">
             Rol
           </label>
           <select
-            id="role"
-            name="role_id" // Aquí cambiamos a 'role_id' para que coincida con el estado
+            id="role_id"
+            name="role_id"
             value={formData.role_id}
             onChange={handleInputChange}
             className="mt-1 block w-full px-4 py-2 border rounded-md"
           >
+            <option value={0} disabled>
+              Seleccionar Rol
+            </option>
             {roles.map((roleOption) => (
               <option key={roleOption.id} value={roleOption.id}>
                 {roleOption.name}
@@ -100,9 +102,6 @@ const FormEditUser: React.FC<FormEditUserProps> = ({ role, onClose }) => {
             ))}
           </select>
         </div>
-
-        {/* Mostrar error si no se completan los campos requeridos */}
-        {error && <div className="text-red-500 text-sm mt-2">{error}</div>}
 
         <div className="mt-4 flex justify-end">
           <button

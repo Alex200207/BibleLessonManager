@@ -46,7 +46,8 @@ const addUser = async (newUser: users) => {
     }
 }
 
-const updateUser = async (id: string, updatedUser: users) => {
+
+const updateUser = async (id: users['id'], updatedUser: Partial<users>) => {
     try {
         const response = await axios.put(`${API_URL}/auth/${id}`, updatedUser, {
             headers: {
@@ -65,6 +66,8 @@ const updateUser = async (id: string, updatedUser: users) => {
         throw new Error('No se pudo actualizar el usuario');
     }
 };
+
+
 
 
 

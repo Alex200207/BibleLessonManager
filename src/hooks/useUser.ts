@@ -20,12 +20,9 @@ const useUser = () => {
   const { token } = useAuth();
   const user = jwtDecode<UserDataToken>(token);
 
-
   useEffect(() => {
     fetchData();
   }, [reload]);
-
-
 
   const fetchData = async () => {
     try {
@@ -62,7 +59,7 @@ const useUser = () => {
 
     if (result.isConfirmed) {
       try {
-        await updateUser(id.toString(), updatedUser);
+        await updateUser(id, updatedUser);
         Swal.fire("Guardado!", "Los cambios han sido guardados.", "success");
         const usersData = await getUsers();
         setUserList(usersData);
@@ -75,9 +72,6 @@ const useUser = () => {
     }
   };
 
-   
-
-
   const reloadData = () => {
     setReload((prev) => !prev);
   };
@@ -87,7 +81,7 @@ const useUser = () => {
     createUser,
     reloadData,
     user,
-    updateUserData
+    updateUserData,
   };
 };
 
