@@ -38,7 +38,7 @@ export interface users {
   id: number;
   name: string;
   email: string;
-  password: string;
+  password?: string;
   deleted_at?: Date;
   updated_at?: Date;
   role_id: number;

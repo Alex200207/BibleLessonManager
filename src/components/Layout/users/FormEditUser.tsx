@@ -52,7 +52,12 @@ const FormEditUser: React.FC<FormEditUserProps> = ({ role, onClose }) => {
     e.preventDefault();
     if (formData.id !== 0) {
       try {
-        await updateUserData(formData.id, formData);
+        // Si la contraseña está vacía, eliminamos el campo para no actualizarla
+        const updatedData = {
+          ...formData,
+          password: formData.password ? formData.password : undefined,
+        };
+        await updateUserData(formData.id, updatedData);
         reloadData();
         onClose();
       } catch (error) {
@@ -99,7 +104,7 @@ const FormEditUser: React.FC<FormEditUserProps> = ({ role, onClose }) => {
             type="password"
             id="password"
             name="password"
-            value={formData.password}
+            
             onChange={handleInputChange}
             className="mt-1 block w-full px-4 py-2 border rounded-md"
           />
