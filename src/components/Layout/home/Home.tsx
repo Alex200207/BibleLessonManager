@@ -1,6 +1,5 @@
 import { Users, BookOpen, GraduationCap } from "lucide-react";
 import StatsCard from "./StatsCard";
-import RecentActivity from "./RecentActivity";
 import { useStudent } from "../../../hooks/useStudent";
 import { useUser } from "../../../hooks/useUser";
 import { useLesson } from "../../../hooks/useLesson";
@@ -237,7 +236,7 @@ function Home() {
                 </div>
               </div>
               <div>
-                <RecentActivity />
+                
               </div>
             </div>
           </div>
