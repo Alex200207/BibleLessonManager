@@ -80,7 +80,7 @@ const AddLessonModal: React.FC<ModalProps> = ({
 
   return (
     <div className="fixed inset-0 overflow-auto flex items-center justify-center custom-z bg-black bg-opacity-50">
-      <div className="bg-white rounded-lg shadow-lg p-3 w-11/12 max-w-lg dark:bg-slate-800">
+      <div className="bg-white rounded-lg shadow-lg p-5 w-11/12 max-w-lg dark:bg-slate-800">
         <h2 className="text-sm font-semibold text-gray-800 dark:text-slate-100 mb-3">
           Agregar Lección
         </h2>
