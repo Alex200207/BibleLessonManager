@@ -13,12 +13,10 @@ export const useStudentModal = () => {
     id: 0,
     nombre: "",
     edad: 0,
-    id_maestra: 0,
     genero: "",
     grupo_id: 0,
     progreso: 0,
-    fecha: new Date(), 
-
+    fecha: new Date(),
   });
 
   const handleInputChange = (
@@ -27,14 +25,15 @@ export const useStudentModal = () => {
     const { name, value } = e.target;
     setNewStudent((prev) => ({
       ...prev,
-      [name]: name === "grupo_id" || name === "id_maestra" || name === "edad"
-        ? Number(value)
-        : value,
+      [name]:
+        name === "grupo_id" || name === "id_maestra" || name === "edad"
+          ? Number(value)
+          : value,
     }));
   };
 
   const handleSubmit = async (onClose: () => void) => {
-    onClose()
+    onClose();
     const result = await MySwal.fire({
       title: "¿Estás seguro?",
       text: "¿Quieres agregar este estudiante?",
@@ -59,7 +58,6 @@ export const useStudentModal = () => {
           id: 0,
           nombre: "",
           edad: 0,
-          id_maestra: 0,
           genero: "",
           grupo_id: 0,
           progreso: 0,
