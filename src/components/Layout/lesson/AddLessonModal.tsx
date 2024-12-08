@@ -19,8 +19,8 @@ const AddLessonModal: React.FC<ModalProps> = ({
   const { newLesson, handleInputChange, handleSubmit, setNewLesson } =
     useLessonModal();
   const { group } = useStudent();
-  const { user } = useUser();
-  
+  const { user, userList } = useUser();
+
   const [selectedTeacher, setSelectedTeacher] = useState<string | null>(null);
 
   useEffect(() => {
@@ -57,7 +57,8 @@ const AddLessonModal: React.FC<ModalProps> = ({
     const groupId = e.target.value;
     const groupData = group.find((g) => g.id.toString() === groupId);
     if (groupData) {
-      setSelectedTeacher(groupData.maestro_id ? groupData.maestro_id.toString() : null);
+      const teacher = userList.find((user) => user.id === groupData.maestro_id);
+      setSelectedTeacher(teacher?.name || null);
     }
     handleInputChange(e); // Se asegura de que el estado también se actualice con el grupo seleccionado
   };
@@ -153,11 +154,13 @@ const AddLessonModal: React.FC<ModalProps> = ({
                 </select>
               </div>
               {selectedTeacher && (
-                <div >
+                <div>
                   <label className="inline text-xs font-medium text-gray-700">
                     Maestro
                   </label>
-                  <p className="text-xs border p-1 rounded-sm text-gray-600">{selectedTeacher}</p>
+                  <p className="text-xs border p-1 rounded-sm text-gray-600">
+                    {selectedTeacher}
+                  </p>
                 </div>
               )}
             </div>
