@@ -158,7 +158,7 @@ const AddLessonModal: React.FC<ModalProps> = ({
                   <label className="inline text-xs font-medium text-gray-700">
                     Maestro
                   </label>
-                  <p className="text-xs border p-1 rounded-sm text-gray-600">
+                  <p className="text-xs bg-slate-100 border p-1 rounded-sm text-gray-600">
                     {selectedTeacher}
                   </p>
                 </div>
