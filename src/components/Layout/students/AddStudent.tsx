@@ -14,16 +14,24 @@ interface ModalProps {
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, reloadData }) => {
   const { newStudent,handleInputChange, handleSubmit, setNewStudent } = useStudentModal();
   const { group } = useStudent();
-  const { userList: teachers, user } = useUser();
+  const { user } = useUser();
 
-  useEffect(() => {// Inicializar el modal con los datos del estudiante seleccionado
-    if (user.role !== "admin") {// Si el usuario no es admin, asignar su id a id_maestra
-      setNewStudent((prev) => ({// Actualizar el estado de newStudent
-        ...prev,
-        id_maestra: user.id,
-      }))
+  useEffect(() => {
+    // Inicializar el modal con los datos del estudiante seleccionado
+    if (user.role !== "admin") {
+      // Solo actualiza el estado si id_maestra no está ya definido
+      setNewStudent((prev) => {
+        if (prev.id_maestra !== user.id) { // Solo actualiza si el valor ha cambiado
+          return {
+            ...prev,
+            id_maestra: user.id,
+          };
+        }
+        return prev; // Retorna el estado sin cambios si no es necesario actualizar
+      });
     }
-  }, [user, setNewStudent]);
+  }, [user, setNewStudent]); // Asegúrate de que las dependencias sean correctas
+  
 
   if (!isOpen) return null;
 
@@ -74,26 +82,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, reloadData }) => {
               ))}
             </select>
           </div>
-          {user.role === "admin" && (
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Maestra
-              </label>
-              <select
-                name="id_maestra"
-                value={newStudent.id_maestra}
-                onChange={handleInputChange}
-                className="border border-gray-300 rounded-md p-3 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="">Seleccione una maestr@</option>
-                {teachers.map((teacher) => (
-                  <option key={teacher.id} value={teacher.id}>
-                    {teacher.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
+
 
           <div>
             <label className="block text-sm font-medium text-gray-700">

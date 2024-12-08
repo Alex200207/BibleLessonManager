@@ -17,10 +17,10 @@ import "tippy.js/dist/tippy.css";
 import Skeleton from "react-loading-skeleton";
 
 interface Row {
+  maestro_id: number;
   id: number;
   nombre: string;
   edad: number;
-  id_maestra: number;
   genero: string;
   grupo_id: number;
   progreso: number;
@@ -55,12 +55,22 @@ const StudentTable: React.FC = () => {
 
   const filteredStudents = students
     .filter((student) => {
+      // Si el usuario es admin, muestra todos los estudiantes
       if (user.role === "admin") {
         return true;
       }
-      return student.id_maestra === user.id;
+
+      // Si el usuario no es admin, solo muestra los estudiantes del grupo asignado al usuario
+      if (group && group.length > 0) {
+        // Filtra según el grupo asignado al usuario (suponiendo que group[0] es el grupo del usuario autenticado)
+        return student.grupo_id === group[0].id; // Asegurándote de que el grupo del estudiante coincida con el del usuario
+      }
+
+      // Si no hay grupo asignado o no se encuentra el estudiante, retorna false
+      return false;
     })
     .filter((student) => {
+      // Realiza el filtrado de búsqueda basado en el término de búsqueda
       return (
         student.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
         student.edad.toString().includes(searchTerm) ||
@@ -79,10 +89,18 @@ const StudentTable: React.FC = () => {
     return studentScore ? studentScore.puntuacion : "sin puntos";
   };
 
-  const findTeacherForStudent = (teacherId: number) => {
-    const teacher = userList.find((u) => u.id === teacherId);
-    return teacher ? teacher.name : "sin maestro";
+  const findTeacherForStudent = (grupoId: number): string => {
+    // Encuentra el grupo correspondiente al estudiante
+    const groupData = group.find((g) => g.id === grupoId); // Asegúrate que 'id' sea la propiedad correcta del grupo
+    if (groupData) {
+      // Busca el maestro asignado al grupo
+      const teacher = userList.find((user) => user.id === groupData.maestro_id); // Asegúrate que 'maestro_id' sea la propiedad correcta
+      return teacher ? teacher.name : "Sin maestro"; // Devuelve el nombre del maestro si existe
+    }
+    // Si no se encuentra el grupo, devuelve un mensaje predeterminado
+    return "Sin maestro";
   };
+  
 
   const findGroupName = (groupId: number) => {
     const groupData = group.find((g) => g.id === groupId);
@@ -121,6 +139,8 @@ const StudentTable: React.FC = () => {
     }
   };
 
+  console.log(students);
+
   const handleDropdownSelect = async (value: string) => {
     if (value === "showDeleted") {
       setShowDeleted(true);
@@ -156,7 +176,7 @@ const StudentTable: React.FC = () => {
     },
     {
       name: "Maestr@",
-      cell: (row: Row) => findTeacherForStudent(row.id_maestra),
+      cell: (row: Row) => findTeacherForStudent(row.grupo_id),
       omit: isMobile,
     },
     {

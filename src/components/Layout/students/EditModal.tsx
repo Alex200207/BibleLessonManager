@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { CiSaveDown2 } from "react-icons/ci";
 import { IoMdClose } from "react-icons/io";
 import { useStudent } from "../../../hooks/useStudent";
-import { useUser } from "../../../hooks/useUser";
+
 import { kids } from "../../../Types";
 
 interface EditModalProps {
@@ -19,7 +19,6 @@ const EditModal: React.FC<EditModalProps> = ({
   onSave,
 }) => {
   const { group } = useStudent();
-  const { userList: teachers, user } = useUser();
   const [editedStudent, setEditedStudent] = useState<kids>(
     student || {
       id: 0,
@@ -27,7 +26,6 @@ const EditModal: React.FC<EditModalProps> = ({
       edad: 0,
       genero: "",
       grupo_id: 0,
-      id_maestra: 0,
       progreso: 0,
       fecha: new Date(),
     }
@@ -95,26 +93,6 @@ const EditModal: React.FC<EditModalProps> = ({
               ))}
             </select>
           </div>
-          {user.role === "admin" && (
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Maestr@
-              </label>
-              <select
-                name="id_maestra"
-                value={editedStudent.id_maestra}
-                onChange={handleChange}
-                className="border border-gray-300 rounded-md p-3 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="">Seleccione una maestr@</option>
-                {teachers.map((teacher) => (
-                  <option key={teacher.id} value={teacher.id}>
-                    {teacher.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
 
           <div>
             <label className="block text-sm font-medium text-gray-700">

@@ -123,7 +123,7 @@ const Aside = ({ isOpened }: AsideProps) => {
                     <span className="inline-flex items-center justify-center px-2 text-sm font-medium text-gray-800 bg-gray-200 rounded-full dark:bg-gray-700 dark:text-gray-300">
                       {userRole === "admin"
                         ? lessons.length
-                        : lessons.filter((l) => l.id_maestra === user.id)
+                        : lessons.filter((l) => l.id=== user.id)
                             .length}
                     </span>
                   </Link>

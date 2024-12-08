@@ -19,7 +19,7 @@ const AddLessonModal: React.FC<ModalProps> = ({
   const { newLesson, handleInputChange, handleSubmit, setNewLesson } =
     useLessonModal();
   const { group } = useStudent();
-  const { userList: teachers, user } = useUser();
+  const { user } = useUser();
 
   useEffect(() => {
     if (newLesson.fecha_inicio && typeof newLesson.fecha_inicio === "string") {
@@ -132,26 +132,7 @@ const AddLessonModal: React.FC<ModalProps> = ({
               </select>
             </div>
 
-            {user.role === "admin" && (
-              <div>
-                <label className="block text-xs font-medium text-gray-700">
-                  Maestra
-                </label>
-                <select
-                  name="id_maestra"
-                  value={newLesson.id_maestra}
-                  onChange={handleInputChange}
-                  className="border border-gray-300 rounded-md p-1.5 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs"
-                >
-                  <option value="">Seleccione una maestr@</option>
-                  {teachers.map((teacher) => (
-                    <option key={teacher.id} value={teacher.id}>
-                      {teacher.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            )}
+
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

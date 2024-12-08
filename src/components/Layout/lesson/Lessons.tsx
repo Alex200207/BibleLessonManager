@@ -40,29 +40,53 @@ const Lesson: React.FC = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const filteredLesson = lessons
-    .filter((lesson) => {
-      if (user.role === "admin") {
-        return true; // Mostrar todas las lecciones si es administrador
-      }
-      return lesson.id_maestra === user.id; // Mostrar solo las lecciones asignadas al usuario
-    })
-    .filter((lesson) => {
-      return (
-        lesson.tema.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        lesson.descripcion.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        lesson.pasaje_biblico.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    });
+  .filter((lesson) => {
+    // If the user is an admin, show all lessons
+    if (user.role === "admin") {
+      return true;
+    }
+    
+    // Otherwise, only show lessons assigned to the user's group
+    if (group && group.length > 0) {
+      // Filter based on the user's group
+      return lesson.id_grupo === group[0].id; // Assuming group[0] is the authenticated user's group
+    }
+
+    // If no group or no lesson found, return false
+    return false;
+  })
+  .filter((lesson) => {
+    // Perform search filtering based on the input search term
+    return (
+      lesson.tema.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      lesson.descripcion.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      lesson.pasaje_biblico.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  });
+
 
   const dateFormater = (date: Date) => {
     const d = new Date(date);
     return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
   };
 
-  const findTeacherForStudent = (teacherId: number) => {
-    const teacher = userList.find((u) => u.id === teacherId);
-    return teacher ? teacher.name : "sin maestro";
+
+  const findTeacherForStudent = (teacherId: number): string => {
+    // Encuentra el grupo correspondiente al estudiante
+    const groupData = group.find((g) => g.id === teacherId); // Asegúrate que 'id' sea la propiedad correcta del grupo
+    if (groupData) {
+      // Busca el maestro asignado al grupo
+      const teacher = userList.find((user) => user.id === groupData.maestro_id); // Asegúrate que 'maestro_id' sea la propiedad correcta
+      return teacher ? teacher.name : "Sin maestro"; // Devuelve el nombre del maestro si existe
+    }
+    // Si no se encuentra el grupo, devuelve un mensaje predeterminado
+    return "Sin maestro";
   };
+  
+
+  
+
+  
 
   const findGroupName = (groupId: number) => {
     const groupData = group.find((g) => g.id === groupId);
@@ -127,7 +151,7 @@ const Lesson: React.FC = () => {
     },
     {
       name: "Maestr@",
-      cell: (row: Row) => findTeacherForStudent(row.id_maestra),
+      cell: (row: Row) => findTeacherForStudent(row.id_grupo),
       omit: isMobile,
     },
     {
