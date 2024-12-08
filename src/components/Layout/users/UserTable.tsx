@@ -82,6 +82,8 @@ const UserTable: React.FC = () => {
     setIsOpen(true);
   };
 
+
+
   const columns = [
     {
       name: "Nombre",
@@ -234,6 +236,7 @@ const UserTable: React.FC = () => {
         {selectUserRole && (
           <FormEditUser
             role={selectUserRole}
+            reloadData={reloadData}
             onClose={() => setIsOpen(false)}
           />
         )}

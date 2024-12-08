@@ -6,10 +6,15 @@ import { useRole } from "../../../hooks/useRole";
 interface FormEditUserProps {
   role: users;
   onClose: () => void;
+  reloadData: () => void;
 }
 
-const FormEditUser: React.FC<FormEditUserProps> = ({ role, onClose }) => {
-  const { updateUserData, reloadData, userList } = useUser();
+const FormEditUser: React.FC<FormEditUserProps> = ({
+  role,
+  onClose,
+  reloadData,
+}) => {
+  const { updateUserData, userList } = useUser();
   const { roles } = useRole();
   const [formData, setFormData] = useState<users>({
     id: 0,
@@ -57,9 +62,9 @@ const FormEditUser: React.FC<FormEditUserProps> = ({ role, onClose }) => {
           ...formData,
           password: formData.password ? formData.password : undefined,
         };
+        onClose();
         await updateUserData(formData.id, updatedData);
         reloadData();
-        onClose();
       } catch (error) {
         console.error("Error al editar el usuario:", error);
       }
