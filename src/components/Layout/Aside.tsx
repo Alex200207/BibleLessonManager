@@ -39,7 +39,7 @@ const Aside = ({ isOpened }: AsideProps) => {
   const { students } = useStudent();
   const { lessons } = useLesson();
   const { userRole } = useAuth();
-  const {group} = useStudent();
+  const { group } = useStudent();
 
   return (
     <aside
@@ -106,7 +106,9 @@ const Aside = ({ isOpened }: AsideProps) => {
                       {userRole === "admin"
                         ? students.length
                         : students.filter(
-                            (student) => student.id_maestra === user.id
+                            (l) =>
+                              l.grupo_id ===
+                              group.find((g) => g.maestro_id === user.id)?.id
                           ).length}
                     </span>
                   </Link>
@@ -123,8 +125,11 @@ const Aside = ({ isOpened }: AsideProps) => {
                     <span className="inline-flex items-center justify-center px-2 text-sm font-medium text-gray-800 bg-gray-200 rounded-full dark:bg-gray-700 dark:text-gray-300">
                       {userRole === "admin"
                         ? lessons.length
-                        : lessons.filter((l) => l.id=== user.id)
-                            .length}
+                        : lessons.filter(
+                            (l) =>
+                              l.id_grupo ===
+                              group.find((g) => g.maestro_id === user.id)?.id
+                          ).length}
                     </span>
                   </Link>
                 </li>

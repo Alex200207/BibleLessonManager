@@ -26,7 +26,7 @@ ChartJS.register(
 );
 
 function Home() {
-  const { students } = useStudent();
+  const { students, group } = useStudent();
   const { userList: teachers, user } = useUser();
   const { lessons } = useLesson();
 
@@ -102,25 +102,49 @@ function Home() {
     },
   };
 
-  // Calcular tasa de finalización de lecciones
-  const calcularTasaFinalizacionLecciones = () => {
-    const totalLecciones = lessons.length;
-    const totalLeccionesFinalizadas = lessons.filter(
-      (lesson) => lesson.estado === 2
-    ).length;
-    return totalLecciones > 0
-      ? (totalLeccionesFinalizadas / totalLecciones) * 100
-      : 0;
-  };
-
-  // Mostrar lecciones pendientes
-  const mostrarLeccionesPendientes = () => {
-    return lessons.filter((lesson) => lesson.estado === 0).length;
+  // Calcular cantidad de lecciones finalizadas
+  const calcularLeccionesFinalizadas = () => {
+    return lessons.filter((lesson) => lesson.estado === 2).length;
   };
 
   // Mostrar lecciones activas
   const mostrarLeccionesActivas = () => {
     return lessons.filter((lesson) => lesson.estado === 1).length;
+  };
+
+  // Calcular tasa de finalización (porcentaje)
+  const calcularTasaFinalizacion = () => {
+    const totalLecciones = lessons.length;
+    const leccionesFinalizadas = calcularLeccionesFinalizadas();
+    return totalLecciones > 0 ? (leccionesFinalizadas / totalLecciones) * 100 : 0;
+  };
+
+  // Mostrar lecciones activas y finalizadas para el usuario autenticado
+  const leccionesActivasFinalizadasUsuario = () => {
+    if (user.role === "admin") {
+      // Si es admin, mostrar todas las lecciones activas y finalizadas
+      return {
+        activas: mostrarLeccionesActivas(),
+        finalizadas: calcularLeccionesFinalizadas(),
+      };
+    } else {
+      // Si no es admin, solo mostrar las lecciones del grupo del usuario autenticado
+      const leccionesDelGrupo = lessons.filter((lesson) =>
+        group.some(
+          (g) =>
+            g.id === lesson.id_grupo &&
+            (g.maestro_id === user.id )
+        )
+      );
+
+      const activas = leccionesDelGrupo.filter((lesson) => lesson.estado === 1)
+        .length;
+      const finalizadas = leccionesDelGrupo.filter(
+        (lesson) => lesson.estado === 2
+      ).length;
+
+      return { activas, finalizadas };
+    }
   };
 
   const userName = (name: string) => {
@@ -142,6 +166,9 @@ function Home() {
       return "¡Buenas noches";
     }
   };
+
+  const lecciones = leccionesActivasFinalizadasUsuario();
+  const tasaFinalizacion = calcularTasaFinalizacion(); // Calculamos la tasa de finalización
 
   return (
     <>
@@ -173,30 +200,21 @@ function Home() {
                   user.role === "admin"
                     ? students.length.toString()
                     : students
-                        .filter((student) => student.id_maestra === user.id)
+                        .filter(
+                          (s) =>
+                            s.grupo_id ===
+                            group.find((g) => g.maestro_id === user.id)?.id
+                        )
                         .length.toString()
                 }
                 trend={0}
                 icon={Users}
                 color="bg-blue-500"
               />
+
               <StatsCard
                 title="Lecciones"
-                value={`Activas: ${
-                  user.role === "admin"
-                    ? mostrarLeccionesActivas()
-                    : lessons.filter(
-                        (lesson) =>
-                          lesson.estado === 1 && lesson.id_maestra === user.id
-                      ).length
-                } Pendientes: ${
-                  user.role === "admin"
-                    ? mostrarLeccionesPendientes()
-                    : lessons.filter(
-                        (lesson) =>
-                          lesson.estado === 2 && lesson.id_maestra === user.id
-                      ).length
-                }`}
+                value={`Activas: ${lecciones.activas} Finalizadas: ${lecciones.finalizadas}`}
                 trend={0}
                 icon={BookOpen}
                 color="bg-green-500"
@@ -212,23 +230,17 @@ function Home() {
               )}
               <StatsCard
                 title="Tasa de Finalización Lecciones"
-                value={
-                  user.role === "admin"
-                    ? calcularTasaFinalizacionLecciones().toFixed(2)
-                    : "0%"
-                }
+                value={`${tasaFinalizacion.toFixed(2)}%`} // Muestra la tasa con dos decimales
                 trend={0}
                 icon={BookOpen}
                 color="bg-orange-500"
               />
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 ">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div className="lg:col-span-2 bg-white rounded-xl p-6 shadow-sm dark:text-white dark:bg-gray-800">
-                <h2 className="text-lg font-semibold mb-4">
-                  Progreso de Estudiantes
-                </h2>
-                <div className="h-[300px] flex items-center justify-center  ">
+                <h2 className="text-lg font-semibold mb-4">Progreso de Estudiantes</h2>
+                <div className="h-[300px] flex items-center justify-center">
                   {progresoPorMes.every((value) => value === 0) ? (
                     <p>No hay datos disponibles para mostrar.</p>
                   ) : (
