@@ -12,31 +12,29 @@ interface ModalProps {
 }
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, reloadData }) => {
-  const { newStudent,handleInputChange, handleSubmit, setNewStudent } = useStudentModal();
+  const { newStudent, handleInputChange, handleSubmit, setNewStudent } =
+    useStudentModal();
   const { group } = useStudent();
   const { user } = useUser();
 
   useEffect(() => {
-    // Inicializar el modal con los datos del estudiante seleccionado
     if (user.role !== "admin") {
-      // Solo actualiza el estado si id_maestra no está ya definido
-      setNewStudent((prev) => {
-        if (prev.id_maestra !== user.id) { // Solo actualiza si el valor ha cambiado
-          return {
-            ...prev,
-            id_maestra: user.id,
-          };
-        }
-        return prev; // Retorna el estado sin cambios si no es necesario actualizar
-      });
+      // Encuentra el grupo asociado al maestro actual
+      const maestroGroup = group.find((g) => g.maestro_id === user.id)?.id || 0;
+
+      if (newStudent.grupo_id !== maestroGroup) {
+        setNewStudent((prev) => ({
+          ...prev,
+          grupo_id: maestroGroup,
+        }));
+      }
     }
-  }, [user, setNewStudent]); // Asegúrate de que las dependencias sean correctas
-  
+  }, [user, group, newStudent.grupo_id, setNewStudent]);
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center custom-z bg-black bg-opacity-50 ">
+    <div className="fixed inset-0 flex items-center justify-center custom-z bg-black bg-opacity-50">
       <div className="bg-white rounded-lg shadow-lg p-6 w-11/12 md:w-2/3 lg:w-1/2">
         <h2 className="text-xl font-semibold text-gray-800">
           Agregar Estudiante
@@ -64,26 +62,26 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, reloadData }) => {
               className="border border-gray-300 rounded-md p-3 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Grupo
-            </label>
-            <select
-              name="grupo_id"
-              value={newStudent.grupo_id}
-              onChange={handleInputChange}
-              className="border border-gray-300 rounded-md p-3 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="">Seleccione un grupo</option>
-              {group.map((g) => (
-                <option key={g.id} value={g.id}>
-                  {g.nombre}
-                </option>
-              ))}
-            </select>
-          </div>
-
-
+          {user.role === "admin" && (
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Grupo
+              </label>
+              <select
+                name="grupo_id"
+                value={newStudent.grupo_id}
+                onChange={handleInputChange}
+                className="border border-gray-300 rounded-md p-3 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">Seleccione un grupo</option>
+                {group.map((g) => (
+                  <option key={g.id} value={g.id}>
+                    {g.nombre}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Edad

@@ -22,25 +22,34 @@ const AddLessonModal: React.FC<ModalProps> = ({
   const { user } = useUser();
 
   useEffect(() => {
-    if (newLesson.fecha_inicio && typeof newLesson.fecha_inicio === "string") {
-      newLesson.fecha_inicio = new Date(newLesson.fecha_inicio);
-    }
-    if (newLesson.fecha_fin && typeof newLesson.fecha_fin === "string") {
-      newLesson.fecha_fin = new Date(newLesson.fecha_fin);
-    }
-    validateUser();
-  }, [setNewLesson, user]);
+    // Crea una copia local de newLesson para evitar modificaciones directas
+    const updatedLesson = { ...newLesson };
 
-  const validateUser = () => {
-    if (user.role !== "admin") {
-      // Si el usuario no es admin, asignar su id a id_maestra
-      setNewLesson((prev) => ({
-        // Actualizar el estado de newStudent
-        ...prev,
-        id_maestra: user.id,
-      }));
+    // Verifica y convierte las fechas si es necesario
+    if (
+      updatedLesson.fecha_inicio &&
+      typeof updatedLesson.fecha_inicio === "string"
+    ) {
+      updatedLesson.fecha_inicio = new Date(updatedLesson.fecha_inicio);
     }
-  };
+    if (
+      updatedLesson.fecha_fin &&
+      typeof updatedLesson.fecha_fin === "string"
+    ) {
+      updatedLesson.fecha_fin = new Date(updatedLesson.fecha_fin);
+    }
+
+    // Asigna el grupo si el usuario no es admin
+    if (user.role !== "admin") {
+      updatedLesson.id_grupo =
+        group.find((g) => g.maestro_id === user.id)?.id || 0;
+    }
+
+    // Actualiza el estado si realmente hay un cambio
+    if (JSON.stringify(updatedLesson) !== JSON.stringify(newLesson)) {
+      setNewLesson(updatedLesson);
+    }
+  }, [user.role, group, newLesson, setNewLesson, user.id]);
 
   const formatDate = (
     input: number | Date | string | null | undefined
@@ -112,28 +121,28 @@ const AddLessonModal: React.FC<ModalProps> = ({
               className="border border-gray-300 rounded-md p-1.5 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs"
             />
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div>
-              <label className="block text-xs font-medium text-gray-700">
-                Grupo
-              </label>
-              <select
-                name="id_grupo"
-                value={newLesson.id_grupo}
-                onChange={handleInputChange}
-                className="border border-gray-300 rounded-md p-1.5 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs"
-              >
-                <option value="">Seleccione un grupo</option>
-                {group.map((g) => (
-                  <option key={g.id} value={g.id}>
-                    {g.nombre}
-                  </option>
-                ))}
-              </select>
+          {user.role === "admin" && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs font-medium text-gray-700">
+                  Grupo
+                </label>
+                <select
+                  name="id_grupo"
+                  value={newLesson.id_grupo}
+                  onChange={handleInputChange}
+                  className="border border-gray-300 rounded-md p-1.5 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs"
+                >
+                  <option value="">Seleccione un grupo</option>
+                  {group.map((g) => (
+                    <option key={g.id} value={g.id}>
+                      {g.nombre}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
-
-
-          </div>
+          )}
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
