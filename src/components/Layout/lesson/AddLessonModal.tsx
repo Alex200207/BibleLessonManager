@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useStudent } from "../../../hooks/useStudent";
 import { CiSaveDown2 } from "react-icons/ci";
 import { IoMdClose } from "react-icons/io";
@@ -20,6 +20,8 @@ const AddLessonModal: React.FC<ModalProps> = ({
     useLessonModal();
   const { group } = useStudent();
   const { user } = useUser();
+  
+  const [selectedTeacher, setSelectedTeacher] = useState<string | null>(null);
 
   useEffect(() => {
     // Crea una copia local de newLesson para evitar modificaciones directas
@@ -50,6 +52,15 @@ const AddLessonModal: React.FC<ModalProps> = ({
       setNewLesson(updatedLesson);
     }
   }, [user.role, group, newLesson, setNewLesson, user.id]);
+
+  const handleGroupChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const groupId = e.target.value;
+    const groupData = group.find((g) => g.id.toString() === groupId);
+    if (groupData) {
+      setSelectedTeacher(groupData.maestro_id ? groupData.maestro_id.toString() : null);
+    }
+    handleInputChange(e); // Se asegura de que el estado también se actualice con el grupo seleccionado
+  };
 
   const formatDate = (
     input: number | Date | string | null | undefined
@@ -130,7 +141,7 @@ const AddLessonModal: React.FC<ModalProps> = ({
                 <select
                   name="id_grupo"
                   value={newLesson.id_grupo}
-                  onChange={handleInputChange}
+                  onChange={handleGroupChange}
                   className="border border-gray-300 rounded-md p-1.5 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs"
                 >
                   <option value="">Seleccione un grupo</option>
@@ -141,6 +152,14 @@ const AddLessonModal: React.FC<ModalProps> = ({
                   ))}
                 </select>
               </div>
+              {selectedTeacher && (
+                <div >
+                  <label className="inline text-xs font-medium text-gray-700">
+                    Maestro
+                  </label>
+                  <p className="text-xs border p-1 rounded-sm text-gray-600">{selectedTeacher}</p>
+                </div>
+              )}
             </div>
           )}
 
