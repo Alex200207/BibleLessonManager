@@ -2,6 +2,7 @@ import React from "react";
 import { group, lesson, users } from "../../../Types";
 import { IoCloseOutline } from "react-icons/io5";
 import moment from "moment";
+import { useUser } from "../../../hooks/useUser";
 
 interface LessonDetailModalProps {
   isOpen: boolean;
@@ -14,10 +15,10 @@ interface LessonDetailModalProps {
 const LessonDetailModal: React.FC<LessonDetailModalProps> = ({
   isOpen,
   onClose,
-  teacher,
   lesson,
   group,
 }) => {
+  const { userList} = useUser();
   if (!isOpen || !lesson) return null;
 
   const findGroupName = (groupId: number) => {
@@ -25,10 +26,18 @@ const LessonDetailModal: React.FC<LessonDetailModalProps> = ({
     return groupData ? groupData.nombre : "sin grupo";
   };
 
-  const findTeacherForGroup = (teacherId: number) => {
-    const data = teacher.find((g) => g.id === teacherId);
-    return data ? data.name : "sin maestro";
+  const findTeacherForGroup= (teacherId: number): string => {
+    // Encuentra el grupo correspondiente al estudiante
+    const groupData = group.find((g) => g.id === teacherId); // Asegúrate que 'id' sea la propiedad correcta del grupo
+    if (groupData) {
+      // Busca el maestro asignado al grupo
+      const teacher = userList.find((user) => user.id === groupData.maestro_id); // Asegúrate que 'maestro_id' sea la propiedad correcta
+      return teacher ? teacher.name : "Sin maestro"; // Devuelve el nombre del maestro si existe
+    }
+    // Si no se encuentra el grupo, devuelve un mensaje predeterminado
+    return "Sin maestro";
   };
+  
 
   return (
     <div
@@ -52,7 +61,7 @@ const LessonDetailModal: React.FC<LessonDetailModalProps> = ({
           </p>
           <hr />
           <p className="text-gray-700">
-            <strong>Maestr@:</strong> {findTeacherForGroup(lesson.id_maestra)}
+            <strong>Maestr@:</strong> {findTeacherForGroup(lesson.id_grupo)}
           </p>
           <hr />
           <p className="text-gray-700">

@@ -26,10 +26,18 @@ const StudentDetailModal: React.FC<StudentDetailModalProps> = ({
     return studentScore ? studentScore.puntuacion : "sin puntos";
   };
 
-  const findTeacherForStudent = (teacherId: number) => {
-    const teacherList = teacher.find((u) => u.id === teacherId);
-    return teacherList ? teacherList.name : "sin maestro";
+  const findTeacherForStudent= (teacherId: number): string => {
+    // Encuentra el grupo correspondiente al estudiante
+    const groupData = group.find((g) => g.id === teacherId); // Asegúrate que 'id' sea la propiedad correcta del grupo
+    if (groupData) {
+      // Busca el maestro asignado al grupo
+      const teachers = teacher.find((user) => user.id === groupData.maestro_id); // Asegúrate que 'maestro_id' sea la propiedad correcta
+      return teachers ? teachers.name : "Sin maestro"; // Devuelve el nombre del maestro si existe
+    }
+    // Si no se encuentra el grupo, devuelve un mensaje predeterminado
+    return "Sin maestro";
   };
+  
 
   const findGroupName = (groupId: number) => {
     const groupData = group.find((g) => g.id === groupId);
@@ -71,7 +79,7 @@ const StudentDetailModal: React.FC<StudentDetailModalProps> = ({
           <hr />
           <p className="text-gray-700">
             <strong>Maestr@:</strong>{" "}
-            {findTeacherForStudent(student.id_maestra)}
+            {findTeacherForStudent(student.grupo_id)}
           </p>
         </div>
         <div className="mt-6 flex justify-end">
