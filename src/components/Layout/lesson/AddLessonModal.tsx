@@ -80,8 +80,8 @@ const AddLessonModal: React.FC<ModalProps> = ({
 
   return (
     <div className="fixed inset-0 overflow-auto flex items-center justify-center custom-z bg-black bg-opacity-50">
-      <div className="bg-white rounded-lg shadow-lg p-3 w-11/12 max-w-lg">
-        <h2 className="text-sm font-semibold text-gray-800 mb-3">
+      <div className="bg-white rounded-lg shadow-lg p-3 w-11/12 max-w-lg dark:bg-slate-800">
+        <h2 className="text-sm font-semibold text-gray-800 dark:text-slate-100 mb-3">
           Agregar Lección
         </h2>
         <form
@@ -95,7 +95,7 @@ const AddLessonModal: React.FC<ModalProps> = ({
           className="grid grid-cols-1 gap-3 mt-3"
         >
           <div>
-            <label className="block text-xs font-medium text-gray-700">
+            <label className="block text-xs font-medium text-gray-700 dark:text-slate-300">
               Tema
             </label>
             <input
@@ -104,11 +104,11 @@ const AddLessonModal: React.FC<ModalProps> = ({
               placeholder="Tema de la lección"
               value={newLesson.tema}
               onChange={handleInputChange}
-              className="border border-gray-300 rounded-md p-1.5 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs"
+              className="border border-gray-300 rounded-md p-1.5 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs dark:bg-slate-600 dark:border-slate-500 dark:text-slate-100"
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-700">
+            <label className="block text-xs font-medium text-gray-700 dark:text-slate-300">
               Descripción
             </label>
             <textarea
@@ -116,12 +116,12 @@ const AddLessonModal: React.FC<ModalProps> = ({
               placeholder="Agrega información de la lección"
               value={newLesson.descripcion}
               onChange={handleInputChange}
-              className="border border-gray-300 rounded-md p-1.5 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs"
+              className="border border-gray-300 rounded-md p-1.5 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs dark:bg-slate-600 dark:border-slate-500 dark:text-slate-100"
               rows={2}
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-700">
+            <label className="block text-xs font-medium text-gray-700 dark:text-slate-300">
               Pasaje
             </label>
             <input
@@ -130,20 +130,20 @@ const AddLessonModal: React.FC<ModalProps> = ({
               placeholder="Texto de la lección"
               value={newLesson.pasaje_biblico}
               onChange={handleInputChange}
-              className="border border-gray-300 rounded-md p-1.5 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs"
+              className="border border-gray-300 rounded-md p-1.5 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs dark:bg-slate-600 dark:border-slate-500 dark:text-slate-100"
             />
           </div>
           {user.role === "admin" && (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-medium text-gray-700">
+                <label className="block text-xs font-medium text-gray-700 dark:text-slate-300">
                   Grupo
                 </label>
                 <select
                   name="id_grupo"
                   value={newLesson.id_grupo}
                   onChange={handleGroupChange}
-                  className="border border-gray-300 rounded-md p-1.5 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs"
+                  className="border border-gray-300 rounded-md p-1.5 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs dark:bg-slate-600 dark:border-slate-500 dark:text-slate-100"
                 >
                   <option value="">Seleccione un grupo</option>
                   {group.map((g) => (
@@ -155,10 +155,10 @@ const AddLessonModal: React.FC<ModalProps> = ({
               </div>
               {selectedTeacher && (
                 <div>
-                  <label className="inline text-xs font-medium text-gray-700">
+                  <label className="inline text-xs font-medium text-gray-700 dark:text-slate-300">
                     Maestro
                   </label>
-                  <p className="text-xs bg-slate-100 border p-1 rounded-sm text-gray-600">
+                  <p className="text-xs bg-slate-100 border p-1 rounded-sm text-gray-600 dark:bg-slate-700 dark:text-slate-200">
                     {selectedTeacher}
                   </p>
                 </div>
@@ -168,7 +168,7 @@ const AddLessonModal: React.FC<ModalProps> = ({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-medium text-gray-700">
+              <label className="block text-xs font-medium text-gray-700 dark:text-slate-300">
                 Fecha Inicio
               </label>
               <input
@@ -176,11 +176,11 @@ const AddLessonModal: React.FC<ModalProps> = ({
                 name="fecha_inicio"
                 value={formatDate(newLesson.fecha_inicio)}
                 onChange={handleInputChange}
-                className="border border-gray-300 rounded-md p-1.5 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs"
+                className="border border-gray-300 rounded-md p-1.5 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs dark:bg-slate-600 dark:border-slate-500 dark:text-slate-100"
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-700">
+              <label className="block text-xs font-medium text-gray-700 dark:text-slate-300">
                 Fecha Fin
               </label>
               <input
@@ -188,7 +188,7 @@ const AddLessonModal: React.FC<ModalProps> = ({
                 name="fecha_fin"
                 value={formatDate(newLesson.fecha_fin)}
                 onChange={handleInputChange}
-                className="border border-gray-300 rounded-md p-1.5 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs"
+                className="border border-gray-300 rounded-md p-1.5 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs dark:bg-slate-600 dark:border-slate-500 dark:text-slate-100"
               />
             </div>
           </div>
