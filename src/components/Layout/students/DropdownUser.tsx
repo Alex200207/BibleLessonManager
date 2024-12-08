@@ -1,6 +1,6 @@
 import { useAuth } from "../../../utils/AuthProvider";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CiLogout } from "react-icons/ci";
 import { IoMdSettings } from "react-icons/io";
 import { FaUser } from "react-icons/fa";
@@ -100,7 +100,7 @@ function DropdownUser() {
         <IoOptionsOutline className="w-6 h-6" />
       </button>
       {isOpen && (
-        <div className="p-5 absolute right-0 z-10 w-64 mt-2 bg-white dark:bg-gray-900 rounded-lg shadow-lg border border-gray-200 dark:border-gray-600 transition-opacity duration-200">
+        <div className="p-3 absolute right-0 z-10 w-64 mt-2 bg-white dark:bg-gray-900 rounded-lg shadow-lg border border-gray-200 dark:border-gray-600 transition-opacity duration-200">
           <div className="flex items-center p-4 border-b border-gray-200 dark:border-gray-600">
             <div className="w-10 h-10 flex items-center justify-center bg-indigo-600 text-white font-bold rounded-full mr-2">
               {firstLetter}
@@ -109,12 +109,12 @@ function DropdownUser() {
               Hola, {user?.name.split(" ")[0]}
             </h1>
           </div>
-          <a
-            href="#/profile"
+          <Link
+            to="/profile"
             className="flex items-center p-2 text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-200 rounded-lg"
           >
             <FaUser className="mr-2 w-6 h-6 " /> Perfil
-          </a>
+          </Link>
           <a
             href="#/settings"
             className="flex items-center p-2 text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-200 rounded-lg"

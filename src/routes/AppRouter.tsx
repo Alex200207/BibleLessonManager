@@ -11,6 +11,7 @@ import GroupTable from '../components/Layout/group/GroupTable'
 import Home from '../components/Layout/home/Home'
 import UserTable from "../components/Layout/users/UserTable";
 import { useAuth } from "../utils/AuthProvider";
+import Profile from "../components/Layout/users/Profile";
 
 const AppRouter = () => {
   const { role } = useAuth();  // Obtenemos el rol del usuario
@@ -27,6 +28,7 @@ const AppRouter = () => {
         <Route path="/kid" element={<StudentTable />} />
         <Route path="/lesson" element={<Lesson />} />
         <Route path="/group" element={<GroupTable />} />
+        <Route path="/profile" element={<Profile/>}></Route>
         
         {/* Renderizar solo si el rol es admin */}
         {role === 'admin' && (
