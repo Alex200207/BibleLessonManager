@@ -50,8 +50,8 @@ const UserTable: React.FC = () => {
   }, []);
 
   const findRoleName = (userRoleId: number) => {
-    const roleData = roles.find((r) => r.id === userRoleId);
-    return roleData ? roleData.name : "sin Rol asignado"; // Si no se encuentra, muestra "sin Rol asignado"
+    const roleData = user.find((r) => r.id === userRoleId);
+    return roleData ? roleData.role : "sin Rol asignado";
   };
 
   const openDetailModal = (user: users) => {
