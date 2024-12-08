@@ -45,8 +45,12 @@ function Header({ toggleAside }: HeaderProps) {
         <div className="flex lg:flex-1 justify-end">
           <div className="flex items-center gap-4">
             <div className="relative">
-              <span className="absolute top-0 right-0 h-3 w-3 bg-red-500 rounded-full"></span>
               <NotificationsDropdown notifications={notifications} />
+              {notifications.length > 0 && (
+                <span className="absolute top-0 right-0 flex items-center justify-center h-5 w-5 text-xs font-bold text-white bg-red-500 rounded-full">
+                  {notifications.length}
+                </span>
+              )}
             </div>
           </div>
           <DropdownUser />
