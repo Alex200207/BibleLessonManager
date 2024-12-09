@@ -107,8 +107,6 @@ const Lesson: React.FC = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-
-
   const columns = [
     {
       name: "Tema",
@@ -117,11 +115,7 @@ const Lesson: React.FC = () => {
         <div className="whitespace-normal break-words">{row.tema}</div>
       ),
     },
-    {
-      name: "Descripcion",
-      selector: (row: Row) => row.descripcion,
-      omit: isMobile,
-    },
+
     {
       name: "Pasaje",
       selector: (row: Row) => row.pasaje_biblico,
