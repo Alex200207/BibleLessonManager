@@ -8,6 +8,8 @@ import "tippy.js/dist/tippy.css";
 import { useUser } from "../../../hooks/useUser";
 import "react-loading-skeleton/dist/skeleton.css";
 import Skeleton from "react-loading-skeleton";
+import AddModal from "../modal/AddModal";
+import FormAddGroup from "./FormAddGroup";
 
 interface Row {
   id: number;
@@ -21,6 +23,7 @@ const GroupTable: React.FC = () => {
   const { user } = useUser();
   const [searchTerm, setSearchTerm] = useState("");
   const [isMobile, setIsMobile] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const filteredLesson = group
     .filter((g) => {
@@ -44,6 +47,10 @@ const GroupTable: React.FC = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  const toggleModal = () => {
+    setIsModalOpen(true);
+  };
 
   const columns = [
     {
@@ -96,7 +103,7 @@ const GroupTable: React.FC = () => {
 
           {user.permissions.includes("crear") && (
             <Tippy content="Agregar" placement="top">
-              <button className="btn btn-success">
+              <button onClick={() => toggleModal()} className="btn btn-success">
                 <IoAddCircleOutline className="ml-5 h-10 w-10" />
               </button>
             </Tippy>
@@ -115,6 +122,14 @@ const GroupTable: React.FC = () => {
             <Table columns={columns} data={filteredLesson} />
           )}
         </div>
+
+        <AddModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          title="Grupos"
+        >
+          <FormAddGroup onClose={() => setIsModalOpen(false)} />
+        </AddModal>
       </div>
     </>
   );
