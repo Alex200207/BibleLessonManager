@@ -39,11 +39,8 @@ const EditLesson: React.FC = () => {
 
   const handleEditSave = async (updatedData: lesson) => {
     try {
-      // Llamada para editar los datos en el backend
       await editLessonData(updatedData.id, updatedData);
-      // Recargar datos o actualizar el estado global
       reloadData();
-      // Redirigir a la página de lecciones después de guardar
       navigate("/lesson");
     } catch (error) {
       console.error("Error al guardar la lección:", error);
@@ -65,7 +62,7 @@ const EditLesson: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    handleEditSave(editedLesson); // Llamar a la función para guardar
+    handleEditSave(editedLesson);
   };
 
   return (
@@ -177,7 +174,7 @@ const EditLesson: React.FC = () => {
           </button>
           <button
             type="button"
-            onClick={() => navigate("/lessons")}
+            onClick={() => navigate("/lesson")}
             className="flex items-center bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
           >
             <IoMdClose className="h-4 w-4 mr-2" aria-hidden="true" />
