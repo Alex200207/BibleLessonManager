@@ -1,15 +1,24 @@
+import React, { useState } from "react";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css"; // Estilos predeterminados de Quill
+
 interface FormAddGroupProps {
   onClose: () => void;
 }
 
 const FormAddGroup: React.FC<FormAddGroupProps> = ({ onClose }) => {
+  const [description, setDescription] = useState("");
+
+  const handleDescriptionChange = (value: string) => {
+    setDescription(value);
+  };
+
   return (
-    <form className="max-w-2xl mx-auto bg-white rounded-lg  dark:bg-gray-800">
+    <form className="max-w-2xl mx-auto  bg-white rounded-lg  dark:bg-gray-800">
       <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
         Agregar Grupo
       </h2>
 
-      {/* Nombre */}
       <div className="mb-4">
         <label
           htmlFor="name"
@@ -27,7 +36,7 @@ const FormAddGroup: React.FC<FormAddGroupProps> = ({ onClose }) => {
         />
       </div>
 
-      {/* Descripción */}
+      {/* Descripción con React-Quill */}
       <div className="mb-4">
         <label
           htmlFor="description"
@@ -35,57 +44,48 @@ const FormAddGroup: React.FC<FormAddGroupProps> = ({ onClose }) => {
         >
           Descripción
         </label>
-        <textarea
-          id="description"
-          name="description"
-          rows={3}
-          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
-          placeholder="Agregue una descripción del grupo"
-          required
-        ></textarea>
+        <ReactQuill
+          value={description}
+          onChange={handleDescriptionChange}
+          theme="snow" // Estilo predeterminado
+          className="bg-white dark:bg-gray-700 dark:text-gray-100"
+        />
       </div>
 
-      {/* Maestro */}
       <div className="mb-4">
         <label
-          htmlFor="teacher"
+          htmlFor="name"
           className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
         >
           Maestro
         </label>
         <select
-          id="teacher"
-          name="teacher"
+          name="teacher_id"
           className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
-          required
         >
-          <option value="">Seleccione un maestro</option>
-          <option value="maestro1">Maestro 1</option>
-          <option value="maestro2">Maestro 2</option>
+          <option value={0} disabled>
+            Seleccionar Maestro
+          </option>
         </select>
       </div>
 
-      {/* Lección */}
       <div className="mb-4">
         <label
-          htmlFor="lesson"
+          htmlFor="name"
           className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
         >
-          Lección
+          Leccion
         </label>
         <select
-          id="lesson"
-          name="lesson"
+          name="teacher_id"
           className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
-          required
         >
-          <option value="">Seleccione una lección</option>
-          <option value="leccion1">Lección 1</option>
-          <option value="leccion2">Lección 2</option>
+          <option value={0} disabled>
+            Seleccionar Leccion
+          </option>
         </select>
       </div>
 
-      {/* Botones */}
       <div className="flex justify-end space-x-4 mt-6">
         <button
           type="button"
