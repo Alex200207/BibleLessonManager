@@ -3,6 +3,7 @@ import { group, lesson, users } from "../../../Types";
 import { IoCloseOutline } from "react-icons/io5";
 import moment from "moment";
 import { useUser } from "../../../hooks/useUser";
+import DOMPurify from "dompurify";
 
 interface LessonDetailModalProps {
   isOpen: boolean;
@@ -18,86 +19,91 @@ const LessonDetailModal: React.FC<LessonDetailModalProps> = ({
   lesson,
   group,
 }) => {
-  const { userList} = useUser();
+  const { userList } = useUser();
   if (!isOpen || !lesson) return null;
 
   const findGroupName = (groupId: number) => {
     const groupData = group.find((g) => g.id === groupId);
-    return groupData ? groupData.nombre : "sin grupo";
+    return groupData ? groupData.nombre : "Sin grupo";
   };
 
-  const findTeacherForGroup= (teacherId: number): string => {
-    // Encuentra el grupo correspondiente al estudiante
-    const groupData = group.find((g) => g.id === teacherId); // Asegúrate que 'id' sea la propiedad correcta del grupo
+  const findTeacherForGroup = (teacherId: number): string => {
+    const groupData = group.find((g) => g.id === teacherId);
     if (groupData) {
-      // Busca el maestro asignado al grupo
-      const teacher = userList.find((user) => user.id === groupData.maestro_id); // Asegúrate que 'maestro_id' sea la propiedad correcta
-      return teacher ? teacher.name : "Sin maestro"; // Devuelve el nombre del maestro si existe
+      const teacher = userList.find((user) => user.id === groupData.maestro_id);
+      return teacher ? teacher.name : "Sin maestro";
     }
-    // Si no se encuentra el grupo, devuelve un mensaje predeterminado
     return "Sin maestro";
   };
-  
+
+  const sanitizedDescription = DOMPurify.sanitize(lesson.descripcion);
 
   return (
     <div
-      className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-lg shadow-xl w-11/12 md:w-1/3 p-6"
+        className="bg-slate-100 w-full h-full rounded-none shadow-xl p-6 overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-          Detalles del Estudiante
-        </h2>
-        <div className="space-y-3">
-          <p className="text-gray-700">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-3xl font-semibold text-gray-800">
+            Detalles de la Lección
+          </h2>
+          <button
+            className="text-gray-500 hover:text-red-500 transition duration-200"
+            onClick={onClose}
+          >
+            <IoCloseOutline className="h-8 w-8" />
+          </button>
+        </div>
+        <hr className="mb-4" />
+        <div className="space-y-4">
+          <div className="text-gray-700">
             <strong>Tema:</strong> {lesson.tema}
-          </p>
-          <hr />
-          <p className="text-gray-700">
-            <strong>Descripción:</strong> {lesson.descripcion}
-          </p>
-          <hr />
-          <p className="text-gray-700">
+          </div>
+          <div>
+            <strong>Descripción:</strong>
+            <div
+              className="text-gray-700 mt-2 p-4 bg-gray-50 rounded-lg border border-gray-300"
+              dangerouslySetInnerHTML={{ __html: sanitizedDescription }}
+            />
+          </div>
+          <div className="text-gray-700">
             <strong>Maestr@:</strong> {findTeacherForGroup(lesson.id_grupo)}
-          </p>
-          <hr />
-          <p className="text-gray-700">
+          </div>
+          <div className="text-gray-700">
             <strong>Grupo:</strong> {findGroupName(lesson.id_grupo)}
-          </p>
-          <hr />
-          <p className="text-gray-700">
+          </div>
+          <div className="text-gray-700">
             <strong>Texto:</strong> {lesson.pasaje_biblico}
-          </p>
-          <hr />
-          <p className="text-gray-700">
+          </div>
+          <div className="text-gray-700">
             <strong>Estado:</strong>{" "}
             {lesson.estado === 1
               ? "Activo"
               : lesson.estado === 2
               ? "Finalizado"
               : "Desconocido"}
-          </p>
-
-          <hr />
-          <p className="text-gray-700">
-            <strong>Inicio:</strong>{" "}
-            {moment(lesson.fecha_inicio).locale("es").format("LL")}
-          </p>
-          <hr />
-          <p className="text-gray-700">
-            <strong>Fin:</strong>{" "}
-            {moment(lesson.fecha_fin).locale("es").format("LL")}
-          </p>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="text-gray-700">
+              <strong>Inicio:</strong>{" "}
+              {moment(lesson.fecha_inicio).locale("es").format("LL")}
+            </div>
+            <div className="text-gray-700">
+              <strong>Fin:</strong>{" "}
+              {moment(lesson.fecha_fin).locale("es").format("LL")}
+            </div>
+          </div>
         </div>
         <div className="mt-6 flex justify-end">
           <button
-            className="border border-red-500 text-red-500 py-2 px-4 rounded-lg shadow hover: transition duration-200"
+            className="px-6 py-3 bg-red-500 text-white rounded-lg shadow hover:bg-red-600 transition duration-200"
             onClick={onClose}
           >
-            <IoCloseOutline className="h-6 w-6" />
+            Cerrar
           </button>
         </div>
       </div>

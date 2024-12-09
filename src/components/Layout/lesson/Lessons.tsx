@@ -13,7 +13,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import LessonDetailModal from "./LessonDetailModal";
 import { lesson } from "../../../Types";
 import { GrView } from "react-icons/gr";
-import EditLesson from "./EditLesson";
+import { Link } from "react-router-dom";
 
 interface Row {
   id: number;
@@ -29,7 +29,7 @@ interface Row {
 }
 
 const Lesson: React.FC = () => {
-  const { lessons, reloadData, deletedLesson, editLessonData } = useLesson();
+  const { lessons, reloadData, deletedLesson } = useLesson();
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { group } = useStudent();
@@ -37,39 +37,36 @@ const Lesson: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [selectedLesson, setSelectedLesson] = useState<lesson | null>(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const filteredLesson = lessons
-  .filter((lesson) => {
-    // If the user is an admin, show all lessons
-    if (user.role === "admin") {
-      return true;
-    }
-    
-    // Otherwise, only show lessons assigned to the user's group
-    if (group && group.length > 0) {
-      // Filter based on the user's group
-      return lesson.id_grupo === group[0].id; // Assuming group[0] is the authenticated user's group
-    }
+    .filter((lesson) => {
+      // If the user is an admin, show all lessons
+      if (user.role === "admin") {
+        return true;
+      }
 
-    // If no group or no lesson found, return false
-    return false;
-  })
-  .filter((lesson) => {
-    // Perform search filtering based on the input search term
-    return (
-      lesson.tema.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      lesson.descripcion.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      lesson.pasaje_biblico.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  });
+      // Otherwise, only show lessons assigned to the user's group
+      if (group && group.length > 0) {
+        // Filter based on the user's group
+        return lesson.id_grupo === group[0].id; // Assuming group[0] is the authenticated user's group
+      }
 
+      // If no group or no lesson found, return false
+      return false;
+    })
+    .filter((lesson) => {
+      // Perform search filtering based on the input search term
+      return (
+        lesson.tema.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        lesson.descripcion.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        lesson.pasaje_biblico.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    });
 
   const dateFormater = (date: Date) => {
     const d = new Date(date);
     return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
   };
-
 
   const findTeacherForStudent = (teacherId: number): string => {
     // Encuentra el grupo correspondiente al estudiante
@@ -82,11 +79,6 @@ const Lesson: React.FC = () => {
     // Si no se encuentra el grupo, devuelve un mensaje predeterminado
     return "Sin maestro";
   };
-  
-
-  
-
-  
 
   const findGroupName = (groupId: number) => {
     const groupData = group.find((g) => g.id === groupId);
@@ -115,21 +107,7 @@ const Lesson: React.FC = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const openEditModal = (lesson: lesson) => {
-    setSelectedLesson(lesson);
-    setIsEditModalOpen(true);
-  };
 
-  const closeEditModal = () => {
-    setIsEditModalOpen(false);
-    setSelectedLesson(null);
-  };
-
-  const handleEditSave = async (updatedData: lesson) => {
-    await editLessonData(updatedData.id, updatedData);
-    reloadData();
-    closeEditModal();
-  };
 
   const columns = [
     {
@@ -201,9 +179,11 @@ const Lesson: React.FC = () => {
             </button>
 
             {user.permissions.includes("editar") && (
-              <button onClick={() => openEditModal(row)}>
-                <MdOutlineEdit className="h-6 w-6" />
-              </button>
+              <Link to={`/editLesson`} state={{ lesson: row }}>
+                <button>
+                  <MdOutlineEdit className="h-6 w-6" />
+                </button>
+              </Link>
             )}
             {user.permissions.includes("eliminar") && (
               <button onClick={() => handleDelete(row.id)}>
@@ -229,13 +209,14 @@ const Lesson: React.FC = () => {
             className="w-full max-w-xs h-12 px-4 border rounded-full shadow-md dark:bg-zinc-900 dark:text-gray-200"
           />
 
-          {Array.isArray(user.permissions) && user.permissions.includes("crear") && (
-            <Tippy content="Agregar" placement="top">
-              <button onClick={toggleModal} className="btn btn-success">
-                <IoAddCircleOutline className="ml-5 h-10 w-10" />
-              </button>
-            </Tippy>
-          )}
+          {Array.isArray(user.permissions) &&
+            user.permissions.includes("crear") && (
+              <Tippy content="Agregar" placement="top">
+                <button onClick={toggleModal} className="btn btn-success">
+                  <IoAddCircleOutline className="ml-5 h-10 w-10" />
+                </button>
+              </Tippy>
+            )}
         </div>
 
         {/* Mostrar Skeleton mientras carga */}
@@ -261,12 +242,6 @@ const Lesson: React.FC = () => {
         lesson={selectedLesson}
         group={group}
         teacher={userList}
-      />
-      <EditLesson
-        isOpen={isEditModalOpen}
-        onClose={closeEditModal}
-        lesson={selectedLesson}
-        onSave={handleEditSave}
       />
     </>
   );

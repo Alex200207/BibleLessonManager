@@ -4,6 +4,9 @@ import { CiSaveDown2 } from "react-icons/ci";
 import { IoMdClose } from "react-icons/io";
 import { useUser } from "../../../hooks/useUser";
 import { useLessonModal } from "../../../hooks/useAddLesson";
+import "react-quill/dist/quill.snow.css"; // Estilos predeterminados de Quill
+import ReactQuill from "react-quill";
+
 
 interface ModalProps {
   isOpen: boolean;
@@ -63,6 +66,12 @@ const AddLessonModal: React.FC<ModalProps> = ({
     handleInputChange(e); // Se asegura de que el estado también se actualice con el grupo seleccionado
   };
 
+  const handleDescriptionChange = (value: string) => {
+    handleInputChange({
+      target: { name: "descripcion", value },
+    } as React.ChangeEvent<HTMLInputElement>);
+  };
+
   const formatDate = (
     input: number | Date | string | null | undefined
   ): string => {
@@ -107,17 +116,16 @@ const AddLessonModal: React.FC<ModalProps> = ({
               className="border border-gray-300 rounded-md p-1.5 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs dark:bg-slate-600 dark:border-slate-500 dark:text-slate-100"
             />
           </div>
-          <div>
+          <div >
             <label className="block text-xs font-medium text-gray-700 dark:text-slate-300">
               Descripción
             </label>
-            <textarea
-              name="descripcion"
+            <ReactQuill
+              theme="snow"
               placeholder="Agrega información de la lección"
               value={newLesson.descripcion}
-              onChange={handleInputChange}
+              onChange={handleDescriptionChange}
               className="border border-gray-300 rounded-md p-1.5 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs dark:bg-slate-600 dark:border-slate-500 dark:text-slate-100"
-              rows={2}
             />
           </div>
           <div>

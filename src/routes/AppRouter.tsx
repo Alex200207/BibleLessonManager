@@ -7,14 +7,17 @@ import Lesson from "../components/Layout/lesson/Lessons";
 import About from "../pages/About";
 import RolesPage from "../pages/RolesPage";
 import RoleForm from "../components/Layout/Roles/RoleForm";
-import GroupTable from '../components/Layout/group/GroupTable'
-import Home from '../components/Layout/home/Home'
+import GroupTable from "../components/Layout/group/GroupTable";
+import Home from "../components/Layout/home/Home";
 import UserTable from "../components/Layout/users/UserTable";
 import { useAuth } from "../utils/AuthProvider";
 import Profile from "../components/Layout/users/Profile";
+import EditLesson from "../components/Layout/lesson/EditLesson";
 
-const AppRouter = () => {
-  const { role } = useAuth();  // Obtenemos el rol del usuario
+
+
+const AppRouter: React.FC = () => {
+  const { role } = useAuth(); // Obtenemos el rol del usuario
 
   return (
     <Routes>
@@ -27,15 +30,19 @@ const AppRouter = () => {
         <Route path="/home" element={<Home />} />
         <Route path="/kid" element={<StudentTable />} />
         <Route path="/lesson" element={<Lesson />} />
+        <Route
+          path="/editLesson"
+          element={<EditLesson  />}
+        />
         <Route path="/group" element={<GroupTable />} />
-        <Route path="/profile" element={<Profile/>}></Route>
-        
+        <Route path="/profile" element={<Profile />}></Route>
+
         {/* Renderizar solo si el rol es admin */}
-        {role === 'admin' && (
+        {role === "admin" && (
           <>
-            <Route path='/role' element={<RolesPage />} />
-            <Route path='/addRole' element={<RoleForm onSave={() => {}} />} />
-            <Route path='/users' element={<UserTable />} />
+            <Route path="/role" element={<RolesPage />} />
+            <Route path="/addRole" element={<RoleForm onSave={() => {}} />} />
+            <Route path="/users" element={<UserTable />} />
           </>
         )}
       </Route>

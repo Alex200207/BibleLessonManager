@@ -3,25 +3,23 @@ import { CiSaveDown2 } from "react-icons/ci";
 import { IoMdClose } from "react-icons/io";
 import { useStudent } from "../../../hooks/useStudent";
 import { lesson } from "../../../Types";
-import momet from "moment";
+import moment from "moment";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useLesson } from "../../../hooks/useLesson";
+import { IoIosArrowRoundBack } from "react-icons/io";
 
-interface EditModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  lesson: lesson | null;
-  onSave: (updatedData: lesson) => void;
-}
-
-const EditLesson: React.FC<EditModalProps> = ({
-  isOpen,
-  onClose,
-  lesson,
-  onSave,
-}) => {
+const EditLesson: React.FC = () => {
   const { group } = useStudent();
+  const { editLessonData, reloadData } = useLesson();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const lessonData = location.state?.lesson; // Obtener la lección pasada desde Link
 
   const [editedLesson, setEditedLesson] = useState<lesson>(
-    lesson || {
+    lessonData || {
       id: 0,
       tema: "",
       descripcion: "",
@@ -34,10 +32,23 @@ const EditLesson: React.FC<EditModalProps> = ({
   );
 
   useEffect(() => {
-    if (lesson) {
-      setEditedLesson(lesson);
+    if (lessonData) {
+      setEditedLesson(lessonData);
     }
-  }, [lesson]);
+  }, [lessonData]);
+
+  const handleEditSave = async (updatedData: lesson) => {
+    try {
+      // Llamada para editar los datos en el backend
+      await editLessonData(updatedData.id, updatedData);
+      // Recargar datos o actualizar el estado global
+      reloadData();
+      // Redirigir a la página de lecciones después de guardar
+      navigate("/lesson");
+    } catch (error) {
+      console.error("Error al guardar la lección:", error);
+    }
+  };
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -48,127 +59,132 @@ const EditLesson: React.FC<EditModalProps> = ({
     setEditedLesson((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSave(editedLesson);
-    onClose();
+  const handleDescriptionChange = (value: string) => {
+    setEditedLesson((prev) => ({ ...prev, descripcion: value }));
   };
 
-  if (!isOpen) return null;
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    handleEditSave(editedLesson); // Llamar a la función para guardar
+  };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center custom-z bg-black bg-opacity-50">
-      <div className="bg-white rounded-lg shadow-lg p-3 w-11/12 md:w-2/3 lg:w-1/2">
-        <h2 className="text-sm font-semibold text-gray-800">Editar Lección</h2>
-        <form
-          onSubmit={handleSubmit}
-          className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3"
+    <div className="container mx-auto p-4">
+      <div className="flex justify-between  mb-4">
+        <h2 className="text-lg font-semibold text-gray-800">Editar Lección</h2>
+        <label
+          className="text-blue-500 cursor-pointer"
+          onClick={() => navigate("/lesson")}
         >
-          <div>
-            <label className="block text-xs font-medium text-gray-700">
-              Tema
-            </label>
-            <input
-              type="text"
-              name="tema"
-              placeholder="Tema de la lección"
-              value={editedLesson.tema}
-              onChange={handleChange}
-              className="border border-gray-300 rounded-md p-1.5 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs"
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-medium text-gray-700">
-              Grupo
-            </label>
-            <select
-              name="id_grupo"
-              value={editedLesson.id_grupo}
-              onChange={handleChange}
-              className="border border-gray-300 rounded-md p-1.5 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs"
-            >
-              <option value="">Seleccione un grupo</option>
-              {group.map((g) => (
-                <option key={g.id} value={g.id}>
-                  {g.nombre}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label className="block text-xs font-medium text-gray-700">
-              Descripción
-            </label>
-            <textarea
-              name="descripcion"
-              placeholder="Agrega información de la lección"
-              value={editedLesson.descripcion}
-              onChange={handleChange}
-              className="border border-gray-300 rounded-md p-1.5 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs"
-              rows={2}
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-medium text-gray-700">
-              Pasaje
-            </label>
-            <input
-              type="text"
-              name="pasaje_biblico"
-              placeholder="Texto de la lección"
-              value={editedLesson.pasaje_biblico}
-              onChange={handleChange}
-              className="border border-gray-300 rounded-md p-1.5 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs"
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-medium text-gray-700">
-              Fecha de Inicio
-            </label>
-            <input
-              type="date"
-              name="fecha_inicio"
-              value={momet(editedLesson.fecha_inicio).format("YYYY-MM-DD")}
-              onChange={handleChange}
-              className="border border-gray-300 rounded-md p-1.5 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs"
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-medium text-gray-700">
-              Fecha de Fin
-            </label>
-            <input
-              type="date"
-              name="fecha_fin"
-              value={momet(editedLesson.fecha_fin).format("YYYY-MM-DD")}
-              onChange={handleChange}
-              className="border border-gray-300 rounded-md p-1.5 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs"
-            />
-          </div>
-
-          <div className="flex justify-between col-span-1 md:col-span-2 mt-4">
-            <button
-              type="submit"
-              className="flex items-center border-2 border-blue-500 text-blue-500 px-3 py-1 rounded-md transition hover:bg-blue-500 hover:text-white text-xs"
-            >
-              <CiSaveDown2 className="h-4 w-4 mr-2" aria-hidden="true" />
-              Guardar
-            </button>
-            <button
-              type="button"
-              onClick={onClose}
-              className="flex items-center border-2 border-red-500 text-red-500 px-3 py-1 rounded-md transition hover:bg-red-500 hover:text-white text-xs"
-            >
-              <IoMdClose className="h-4 w-4 mr-2" aria-hidden="true" />
-              Cerrar
-            </button>
-          </div>
-        </form>
+          <IoIosArrowRoundBack className="w-10 h-10" />
+        </label>
       </div>
+
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="space-y-2">
+          <label className="block text-xs font-medium text-gray-700">
+            Tema
+          </label>
+          <input
+            type="text"
+            name="tema"
+            placeholder="Tema de la lección"
+            value={editedLesson.tema}
+            onChange={handleChange}
+            className="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs"
+          />
+        </div>
+
+        <div className="space-y-2">
+          <label className="block text-xs font-medium text-gray-700">
+            Grupo
+          </label>
+          <select
+            name="id_grupo"
+            value={editedLesson.id_grupo}
+            onChange={handleChange}
+            className="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs"
+          >
+            <option value="">Seleccione un grupo</option>
+            {group.map((g) => (
+              <option key={g.id} value={g.id}>
+                {g.nombre}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="space-y-2">
+          <label className="block text-xs font-medium text-gray-700">
+            Descripción
+          </label>
+          <div className="overflow-auto">
+            <ReactQuill
+              value={editedLesson.descripcion}
+              onChange={handleDescriptionChange}
+              className="h-[300px] min-h-[300px] border-none rounded-md resize-y"
+            />
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <label className="block text-xs font-medium text-gray-700">
+            Pasaje
+          </label>
+          <input
+            type="text"
+            name="pasaje_biblico"
+            placeholder="Texto de la lección"
+            value={editedLesson.pasaje_biblico}
+            onChange={handleChange}
+            className="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs"
+          />
+        </div>
+
+        <div className="space-y-2">
+          <label className="block text-xs font-medium text-gray-700">
+            Fecha de Inicio
+          </label>
+          <input
+            type="date"
+            name="fecha_inicio"
+            value={moment(editedLesson.fecha_inicio).format("YYYY-MM-DD")}
+            onChange={handleChange}
+            className="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs"
+          />
+        </div>
+
+        <div className="space-y-2">
+          <label className="block text-xs font-medium text-gray-700">
+            Fecha de Fin
+          </label>
+          <input
+            type="date"
+            name="fecha_fin"
+            value={moment(editedLesson.fecha_fin).format("YYYY-MM-DD")}
+            onChange={handleChange}
+            className="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs"
+          />
+        </div>
+
+        <div className="flex justify-between mt-6">
+          <button
+            type="submit"
+            className="flex items-center bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+          >
+            <CiSaveDown2 className="h-4 w-4 mr-2" aria-hidden="true" />
+            Guardar
+          </button>
+          <button
+            type="button"
+            onClick={() => navigate("/lessons")}
+            className="flex items-center bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+          >
+            <IoMdClose className="h-4 w-4 mr-2" aria-hidden="true" />
+            Cancelar
+          </button>
+        </div>
+      </form>
     </div>
   );
 };
