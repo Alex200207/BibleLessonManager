@@ -11,6 +11,7 @@ const FormAddGroup: React.FC<FormAddGroupProps> = ({ onClose }) => {
 
   const handleDescriptionChange = (value: string) => {
     setDescription(value);
+    
   };
 
   return (
@@ -46,13 +47,14 @@ const FormAddGroup: React.FC<FormAddGroupProps> = ({ onClose }) => {
         </label>
         <ReactQuill
           value={description}
+          placeholder="Agrega información del grupo"
           onChange={handleDescriptionChange}
-          theme="snow" // Estilo predeterminado
-          className="bg-white dark:bg-gray-700 dark:text-gray-100"
+          theme="snow" 
+          className="bg-white  dark:bg-gray-700 dark:text-gray-100  "
         />
       </div>
 
-      <div className="mb-4">
+      <div className="mb-4 ">
         <label
           htmlFor="name"
           className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
