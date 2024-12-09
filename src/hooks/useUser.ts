@@ -84,16 +84,24 @@ const useUser = () => {
   const deleteUsersData = async (id: users["id"]) => {
     const result = await Swal.fire({
       title: "¿Estás seguro?",
-      text: "¡No podrás recuperar este Usuario después de eliminarlo!",
+      text: "Para eliminar este Usuario, escribe 'confirmar'.",
       icon: "warning",
+      input: "text",
+      inputPlaceholder: "Escribe 'confirmar' aquí",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Sí, eliminarlo",
       cancelButtonText: "Cancelar",
+      inputValidator: (value) => {
+        if (value.toLowerCase() !== "confirmar") {
+          return "Debes escribir 'confirmar' para proceder.";
+        }
+        return null;
+      },
     });
 
-    if (result.isConfirmed) {
+    if (result.isConfirmed && result.value?.toLowerCase() === "confirmar") {
       try {
         await deleteUser(id);
         Swal.fire("Eliminado!", "El Usuarios ha sido eliminado.", "success");
