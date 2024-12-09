@@ -15,7 +15,7 @@ const FormAddGroup: React.FC<FormAddGroupProps> = ({ onClose }) => {
   };
 
   return (
-    <form className="max-w-2xl mx-auto  bg-white rounded-lg  dark:bg-gray-800">
+    <form className="max-w-2xl mx-auto  bg-white rounded-lg  dark:bg-gray-800 md:w-full">
       <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
         Agregar Grupo
       </h2>
@@ -50,7 +50,7 @@ const FormAddGroup: React.FC<FormAddGroupProps> = ({ onClose }) => {
           placeholder="Agrega información del grupo"
           onChange={handleDescriptionChange}
           theme="snow" 
-          className="bg-white  dark:bg-gray-700 dark:text-gray-100  "
+          className="bg-white  dark:bg-gray-700 dark:text-gray-100 h-max-32  "
         />
       </div>
 
