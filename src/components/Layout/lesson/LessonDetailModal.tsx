@@ -37,6 +37,16 @@ const LessonDetailModal: React.FC<LessonDetailModalProps> = ({
   };
 
   const sanitizedDescription = DOMPurify.sanitize(lesson.descripcion);
+  const descriptionWithStyles = sanitizedDescription
+    .replace(/<h1>/g, '<h1 class="text-2xl text-gray-800 dark:text-slate-100">')
+    .replace(/<h2>/g, '<h2 class="text-xl text-gray-800 dark:text-slate-100">')
+    .replace(/<h3>/g, '<h3 class="text-lg text-gray-800 dark:text-slate-100">')
+    .replace(/<h4>/g, '<h4 class="text-md text-gray-800 dark:text-slate-100">')
+    .replace(/<h5>/g, '<h5 class="text-sm text-gray-800 dark:text-slate-100">')
+    .replace(/<h6>/g, '<h6 class="text-xs text-gray-800 dark:text-slate-100">')
+    .replace(/<ul>/g, '<ul class="list-disc pl-6 text-gray-700">')
+    .replace(/<ol>/g, '<ol class="list-decimal pl-6 text-gray-700">')
+    .replace(/<li>/g, '<li class="text-gray-700">');
 
   return (
     <div
@@ -67,7 +77,7 @@ const LessonDetailModal: React.FC<LessonDetailModalProps> = ({
             <strong>Descripción:</strong>
             <div
               className="text-gray-700 mt-2 p-4 bg-gray-50 rounded-lg border border-gray-300"
-              dangerouslySetInnerHTML={{ __html: sanitizedDescription }}
+              dangerouslySetInnerHTML={{ __html: descriptionWithStyles }}
               style={{ minHeight: "150px" }} // Agregado para que tenga un mínimo de altura
             />
           </div>
