@@ -68,6 +68,7 @@ const LessonDetailModal: React.FC<LessonDetailModalProps> = ({
             <div
               className="text-gray-700 mt-2 p-4 bg-gray-50 rounded-lg border border-gray-300"
               dangerouslySetInnerHTML={{ __html: sanitizedDescription }}
+              style={{ minHeight: "150px" }} // Agregado para que tenga un mínimo de altura
             />
           </div>
           <div className="text-gray-700">

@@ -119,7 +119,7 @@ const EditLesson: React.FC = () => {
             <ReactQuill
               value={editedLesson.descripcion}
               onChange={handleDescriptionChange}
-              className="h-[300px] min-h-[300px] border-none rounded-md resize-y"
+              className="border border-gray-300 rounded-md p-3 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs dark:bg-slate-600 dark:border-slate-500 dark:text-slate-100"
             />
           </div>
         </div>
