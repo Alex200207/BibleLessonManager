@@ -5,7 +5,6 @@ import Table from "../Table";
 import { useLesson } from "../../../hooks/useLesson";
 import { useStudent } from "../../../hooks/useStudent";
 import { useUser } from "../../../hooks/useUser";
-import AddLessonModal from "./AddLessonModal";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 import Skeleton from "react-loading-skeleton";
@@ -31,7 +30,6 @@ interface Row {
 const Lesson: React.FC = () => {
   const { lessons, reloadData, deletedLesson } = useLesson();
   const [searchTerm, setSearchTerm] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const { group } = useStudent();
   const { userList, user } = useUser();
   const [isMobile, setIsMobile] = useState(false);
@@ -85,10 +83,7 @@ const Lesson: React.FC = () => {
     return groupData ? groupData.nombre : "sin grupo";
   };
 
-  const toggleModal = () => {
-    setIsModalOpen(!isModalOpen);
-  };
-
+ 
   const handleDelete = async (id: number) => {
     await deletedLesson(id);
     reloadData();
@@ -206,9 +201,11 @@ const Lesson: React.FC = () => {
           {Array.isArray(user.permissions) &&
             user.permissions.includes("crear") && (
               <Tippy content="Agregar" placement="top">
-                <button onClick={toggleModal} className="btn btn-success">
-                  <IoAddCircleOutline className="ml-5 h-10 w-10" />
-                </button>
+                <Link to="/addLesson">
+                  <button className="btn btn-success">
+                    <IoAddCircleOutline className="ml-5 h-10 w-10" />
+                  </button>
+                </Link>
               </Tippy>
             )}
         </div>
@@ -225,11 +222,6 @@ const Lesson: React.FC = () => {
         )}
       </div>
 
-      <AddLessonModal
-        isOpen={isModalOpen}
-        onClose={toggleModal}
-        reloadData={reloadData}
-      />
       <LessonDetailModal
         isOpen={isDetailModalOpen}
         onClose={() => setIsDetailModalOpen(false)}

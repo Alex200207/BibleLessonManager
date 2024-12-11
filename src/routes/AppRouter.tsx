@@ -13,6 +13,7 @@ import UserTable from "../components/Layout/users/UserTable";
 import { useAuth } from "../utils/AuthProvider";
 import Profile from "../components/Layout/users/Profile";
 import EditLesson from "../components/Layout/lesson/EditLesson";
+import AddLessonModal from "../components/Layout/lesson/AddLessonModal";
 
 
 
@@ -34,6 +35,7 @@ const AppRouter: React.FC = () => {
           path="/editLesson"
           element={<EditLesson  />}
         />
+        <Route path="/addLesson" element={<AddLessonModal/>} />
         <Route path="/group" element={<GroupTable />} />
         <Route path="/profile" element={<Profile />}></Route>
 

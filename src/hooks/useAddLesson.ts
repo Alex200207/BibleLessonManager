@@ -3,6 +3,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { lesson } from "../Types";
 import { useLesson } from "./useLesson";
+import { useNavigate } from "react-router-dom";
 
 const MySwal = withReactContent(Swal);
 
@@ -19,14 +20,17 @@ export const useLessonModal = () => {
     fecha_fin: undefined,
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const { name, value } = e.target;
-  
+
     if (name === "fecha_inicio" || name === "fecha_fin") {
-  
       setNewLesson((prevLesson) => ({
         ...prevLesson,
-        [name]: value ? new Date(value) : undefined, 
+        [name]: value ? new Date(value) : undefined,
       }));
     } else {
       setNewLesson((prevLesson) => ({
@@ -35,11 +39,10 @@ export const useLessonModal = () => {
       }));
     }
   };
-  
-  
+  const navigate = useNavigate();
 
   const handleSubmit = async (onClose: () => void) => {
-    onClose();
+    
     const result = await MySwal.fire({
       title: "¿Estás seguro?",
       text: "¿Quieres agregar esta lección?",
@@ -73,6 +76,7 @@ export const useLessonModal = () => {
 
         reloadData();
         onClose();
+        navigate("/lesson");
       } catch (error) {
         await MySwal.fire({
           title: "Error",
