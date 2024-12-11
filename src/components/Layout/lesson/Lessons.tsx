@@ -83,7 +83,6 @@ const Lesson: React.FC = () => {
     return groupData ? groupData.nombre : "sin grupo";
   };
 
- 
   const handleDelete = async (id: number) => {
     await deletedLesson(id);
     reloadData();
@@ -154,11 +153,9 @@ const Lesson: React.FC = () => {
 
     {
       name: "Acciones",
-      cell: (row: Row) =>
-        user.permissions.some((perm) =>
-          ["editar", "eliminar"].includes(perm)
-        ) ? (
-          <div className="flex space-x-2 justify-between">
+      cell: (row: Row) => (
+        <div className="flex space-x-2 justify-between">
+          {user.permissions.includes("ver") && (
             <button
               onClick={() => openDetailModal(row)}
               data-tip="Ver detalles"
@@ -166,23 +163,22 @@ const Lesson: React.FC = () => {
             >
               <GrView className="h-6 w-6" />
             </button>
+          )}
 
-            {user.permissions.includes("editar") && (
-              <Link to={`/editLesson`} state={{ lesson: row }}>
-                <button>
-                  <MdOutlineEdit className="h-6 w-6" />
-                </button>
-              </Link>
-            )}
-            {user.permissions.includes("eliminar") && (
-              <button onClick={() => handleDelete(row.id)}>
-                <MdDeleteOutline className="h-6 w-6 text-red-600" />
+          {user.permissions.includes("editar") && (
+            <Link to={`/editLesson`} state={{ lesson: row }}>
+              <button>
+                <MdOutlineEdit className="h-6 w-6" />
               </button>
-            )}
-          </div>
-        ) : (
-          <span>Sin Acceso</span>
-        ),
+            </Link>
+          )}
+          {user.permissions.includes("eliminar") && (
+            <button onClick={() => handleDelete(row.id)}>
+              <MdDeleteOutline className="h-6 w-6 text-red-600" />
+            </button>
+          )}
+        </div>
+      ),
       width: "100px",
     },
   ];
