@@ -82,6 +82,17 @@ export const useGroup = () => {
     }
   };
 
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setNewGroup((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+
   const reloadData = () => {
     setReload((prev) => !prev);
   };
@@ -90,5 +101,8 @@ export const useGroup = () => {
     group,
     reloadData,
     handleSubmit,
+    newGroup,
+    setNewGroup,
+    handleInputChange,
   };
 };

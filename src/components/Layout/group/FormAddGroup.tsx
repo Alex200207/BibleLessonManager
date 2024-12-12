@@ -1,21 +1,36 @@
-import React, { useState } from "react";
 import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css"; // Estilos predeterminados de Quill
+import "react-quill/dist/quill.snow.css";
+import { useGroup } from "../../../hooks/useGroup";
+import { useUser } from "../../../hooks/useUser";
+import { useLesson } from "../../../hooks/useLesson";
 
 interface FormAddGroupProps {
   onClose: () => void;
 }
 
 const FormAddGroup: React.FC<FormAddGroupProps> = ({ onClose }) => {
-  const [description, setDescription] = useState("");
+  const { newGroup, setNewGroup, handleSubmit, reloadData, handleInputChange } =
+    useGroup();
+  const { userList } = useUser();
+  const { lessons } = useLesson();
 
   const handleDescriptionChange = (value: string) => {
-    setDescription(value);
-    
+    handleInputChange({
+      target: { name: "descripcion", value },
+    } as React.ChangeEvent<HTMLInputElement>);
   };
-
   return (
-    <form className="max-w-2xl mx-auto  bg-white rounded-lg  dark:bg-gray-800 md:w-full">
+    <form
+      className="max-w-2xl mx-auto  bg-white rounded-lg  dark:bg-gray-800 md:w-full"
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleSubmit(() => {
+          onClose();
+
+          reloadData();
+        });
+      }}
+    >
       <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
         Agregar Grupo
       </h2>
@@ -31,6 +46,13 @@ const FormAddGroup: React.FC<FormAddGroupProps> = ({ onClose }) => {
           type="text"
           id="name"
           name="name"
+          value={newGroup.nombre}
+          onChange={(e) =>
+            setNewGroup((prev) => ({
+              ...prev,
+              nombre: e.target.value,
+            }))
+          }
           className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
           placeholder="Ingrese el nombre del grupo"
           required
@@ -46,10 +68,10 @@ const FormAddGroup: React.FC<FormAddGroupProps> = ({ onClose }) => {
           Descripción
         </label>
         <ReactQuill
-          value={description}
+          value={newGroup.descripcion}
           placeholder="Agrega información del grupo"
           onChange={handleDescriptionChange}
-          theme="snow" 
+          theme="snow"
           className="bg-white  dark:bg-gray-700 dark:text-gray-100 h-max-32  "
         />
       </div>
@@ -62,12 +84,21 @@ const FormAddGroup: React.FC<FormAddGroupProps> = ({ onClose }) => {
           Maestro
         </label>
         <select
-          name="teacher_id"
+          name="maestro_id" // Cambiar de "teacher_id" a "maestro_id"
+          value={newGroup.maestro_id}
+          onChange={(e) =>
+            handleInputChange({
+              target: { name: e.target.name, value: e.target.value },
+            } as React.ChangeEvent<HTMLInputElement>)
+          }
           className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
         >
-          <option value={0} disabled>
-            Seleccionar Maestro
-          </option>
+          <option value="">Seleccione un Maestro</option>
+          {userList.map((g) => (
+            <option key={g.id} value={g.id}>
+              {g.name}
+            </option>
+          ))}
         </select>
       </div>
 
@@ -76,15 +107,24 @@ const FormAddGroup: React.FC<FormAddGroupProps> = ({ onClose }) => {
           htmlFor="name"
           className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
         >
-          Leccion
+          Lección
         </label>
         <select
-          name="teacher_id"
+          name="leccion_id" // Cambiar de "teacher_id" a "leccion_id"
+          value={newGroup.leccion_id}
+          onChange={(e) =>
+            handleInputChange({
+              target: { name: e.target.name, value: e.target.value },
+            } as React.ChangeEvent<HTMLInputElement>)
+          }
           className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
         >
-          <option value={0} disabled>
-            Seleccionar Leccion
-          </option>
+          <option value="">Seleccione una lección</option>
+          {lessons.map((l) => (
+            <option key={l.id} value={l.id}>
+              {l.tema}
+            </option>
+          ))}
         </select>
       </div>
 
