@@ -1,4 +1,3 @@
-import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useGroup } from "../../../hooks/useGroup";
 import { useUser } from "../../../hooks/useUser";
@@ -14,11 +13,6 @@ const FormAddGroup: React.FC<FormAddGroupProps> = ({ onClose, reloadData }) => {
   const { userList } = useUser();
   const { lessons } = useLesson();
 
-  const handleDescriptionChange = (value: string) => {
-    handleInputChange({
-      target: { name: "descripcion", value },
-    } as React.ChangeEvent<HTMLInputElement>);
-  };
   return (
     <form
       className="max-w-2xl mx-auto  bg-white rounded-lg  dark:bg-gray-800 md:w-full"
@@ -66,12 +60,20 @@ const FormAddGroup: React.FC<FormAddGroupProps> = ({ onClose, reloadData }) => {
         >
           Descripción
         </label>
-        <ReactQuill
+
+        <textarea
+          id="description"
+          name="description"
           value={newGroup.descripcion}
-          placeholder="Agrega información del grupo"
-          onChange={handleDescriptionChange}
-          theme="snow"
-          className="bg-white  dark:bg-gray-700 dark:text-gray-100 h-max-32  "
+          onChange={(e) =>
+            setNewGroup((prev) => ({
+              ...prev,
+              descripcion: e.target.value,
+            }))
+          }
+          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+          placeholder="Ingrese la descripción del grupo"
+          required
         />
       </div>
 
