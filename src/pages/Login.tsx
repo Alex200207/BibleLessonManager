@@ -35,7 +35,7 @@ const Login = () => {
           }}
         >
 
-          
+
           <div className="absolute top-10 left-10 w-16 h-16 bg-white rounded-full opacity-20 z-0"></div>
           <div className="absolute top-32 right-16 w-8 h-8 bg-yellow-400 rounded-full opacity-80 z-0"></div>
           <div className="absolute bottom-20 left-1/4 w-4 h-4 bg-white rounded-full opacity-50 z-0"></div>
@@ -44,7 +44,7 @@ const Login = () => {
           <div className="flex-grow flex items-center justify-center z-0">
 
 
-            <div className="w-full max-w-md p-4 space-y-4 bg-white shadow-md rounded-lg mx-2 mt-16 md:mt-8">
+            <div className="w-full max-w-md p-4 space-y-4 bg-slate-50 shadow-md rounded-lg mx-2 mt-16 md:mt-8">
               <h4
                 className="text-2xl font-bold text-center text-gray-700"
                 style={{ fontFamily: "Roboto, sans-serif" }}

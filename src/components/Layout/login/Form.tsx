@@ -54,7 +54,6 @@ const Form = ({
         />
       </div>
 
-      {/* Checkbox y enlace de recuperación de cuenta */}
       <div className="flex items-center justify-between">
         <label className="inline-flex items-center">
           <input type="checkbox" className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" />
@@ -69,7 +68,7 @@ const Form = ({
       <div>
         <button
           type="submit"
-          className="w-full px-4 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          className="w-full px-4 py-2 text-white bg-slate-800 rounded-lg hover:bg-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           disabled={loading}
         >
           {loading ? (
