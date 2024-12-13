@@ -37,10 +37,10 @@ const Login = () => {
 
 
           <div className="absolute top-10 left-10 w-16 h-16 bg-white rounded-full opacity-20 z-0"></div>
-          <div className="absolute top-32 right-16 w-8 h-8 bg-yellow-400 rounded-full opacity-80 z-0"></div>
+          <div className="absolute top-32 right-16 w-8 h-8 bg-white rounded-full opacity-80 z-0"></div>
           <div className="absolute bottom-20 left-1/4 w-4 h-4 bg-white rounded-full opacity-50 z-0"></div>
           <div className="absolute bottom-10 right-10 w-12 h-12 border-2 border-white rounded-full z-0"></div>
-          <div className="absolute top-1/3 left-1/3 w-6 h-6 bg-yellow-400 rounded-full opacity-70 z-0"></div>
+          <div className="absolute top-1/3 left-1/3 w-6 h-6 bg-slate-200 rounded-full opacity-70 z-0"></div>
           <div className="flex-grow flex items-center justify-center z-0">
 
 
