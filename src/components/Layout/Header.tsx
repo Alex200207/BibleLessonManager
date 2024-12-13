@@ -2,8 +2,10 @@ import { RiMenu2Fill } from "react-icons/ri";
 import DropdownUser from "./students/DropdownUser";
 import NotificationsDropdown from "./NotificationsDropdown";
 
+
 interface HeaderProps {
   toggleAside: () => void;
+  isOpened: boolean;
 }
 
 const notifications = [
@@ -25,7 +27,7 @@ const notifications = [
   },
 ];
 
-function Header({ toggleAside }: HeaderProps) {
+function Header({ toggleAside, isOpened }: HeaderProps) {
   return (
     <header className="fixed top-0 left-0 w-full z-20 bg-slate-200 dark:bg-slate-950 text-gray-800 dark:text-gray-200 shadow-md">
       <nav
@@ -33,8 +35,11 @@ function Header({ toggleAside }: HeaderProps) {
         aria-label="Global"
       >
         <button onClick={toggleAside} className="h-8 w-auto">
-          <RiMenu2Fill className="w-6 h-6 " 
-           />
+          <RiMenu2Fill
+            className={`w-6 h-6 transition-transform ${
+              isOpened ? "rotate-90" : ""
+            }`}
+          />
         </button>
 
         <div className="flex-1 flex justify-center lg:justify-start">

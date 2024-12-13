@@ -15,8 +15,8 @@ const Dashboard: FC<DashboardProps> = ({ children }) => {
 
   return (
     <>
-      <Header toggleAside={toggleAside} />
-
+      <Header toggleAside={toggleAside} isOpened={isOpened}/>
+ 
       <div className="flex transition-all duration-300 ">
         <Aside
           isOpened={isOpened}
