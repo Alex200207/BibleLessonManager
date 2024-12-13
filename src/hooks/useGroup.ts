@@ -93,18 +93,23 @@ export const useGroup = () => {
   };
 
   const deleteGroupData = async (id: group["id"]) => {
-    const result = await Swal.fire({
-      title: "¿Estás seguro?",
-      text: "¡No podrás recuperar este grupo después de eliminarlo!",
-      icon: "warning",
+    const { value: confirmText } = await Swal.fire({
+      title: "Confirmar eliminación",
+      input: "text",
+      inputLabel: "Por favor, escribe 'CONFIRMAR' para eliminar",
+      inputPlaceholder: "CONFIRMAR",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Sí, eliminarlo",
+      confirmButtonText: "Eliminar",
       cancelButtonText: "Cancelar",
+      inputValidator: (value) => {
+        if (value !== "CONFIRMAR") {
+          return "Debes escribir 'CONFIRMAR' para eliminar";
+        }
+        return null;
+      },
     });
 
-    if (result.isConfirmed) {
+    if (confirmText === "CONFIRMAR") {
       try {
         await deleteGroup(id);
         Swal.fire("Eliminado!", "El grupo ha sido eliminado.", "success");
