@@ -36,27 +36,36 @@ export const useLesson = () => {
   const deletedLesson = async (id: lesson["id"]) => {
     const result = await Swal.fire({
       title: "¿Estás seguro?",
-      text: "¡Se eliminara esta Leccion!",
+      text: "¡Se eliminará esta Lección!",
       icon: "warning",
+      input: 'text',
+      inputPlaceholder: 'Escribe "CONFIRMAR" para eliminar',
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Sí, eliminarlo",
       cancelButtonText: "Cancelar",
+      preConfirm: (inputValue) => {
+        if (inputValue !== 'CONFIRMAR') {
+          Swal.showValidationMessage('Debes escribir "CONFIRMAR" para eliminar');
+          return false;
+        }
+        return true;
+      }
     });
 
     if (result.isConfirmed) {
       try {
         await deleteLesson(id);
-        Swal.fire("Eliminado!", "El estudiante ha sido eliminado.", "success");
-        const studentsData = await getLesson();
-        setLessons(studentsData);
+        Swal.fire("Eliminado!", "La lección ha sido eliminada.", "success");
+        const lessonData = await getLesson();
+        setLessons(lessonData);
       } catch (error) {
-        Swal.fire("Error!", "No se pudo eliminar el estudiante.", "error");
-        console.error("Error al eliminar el estudiante:", error);
+        Swal.fire("Error!", "No se pudo eliminar la lección.", "error");
+        console.error("Error al eliminar la lección:", error);
       }
     } else {
-      Swal.fire("Cancelado", "El estudiante no ha sido eliminado", "info");
+      Swal.fire("Cancelado", "La lección no ha sido eliminada", "info");
     }
   };
   const editLessonData = async (id: lesson["id"], updatedLesson: lesson) => {
