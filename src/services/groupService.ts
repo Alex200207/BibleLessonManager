@@ -21,4 +21,18 @@ const addGroup = async (newGroup: group) => {
   }
 };
 
-export { addGroup };
+const deleteGroup = async (id: group["id"]) => {
+  try {
+    const response = await axios.delete(`${API_URL}/group/${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    return response.data;
+  } catch (err) {
+    throw `error al eliminar ${err} `;
+  }
+};
+
+export { addGroup, deleteGroup };

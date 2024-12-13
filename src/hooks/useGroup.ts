@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { getGroup } from "../services/studentService";
-import { addGroup } from "../services/groupService";
+import { addGroup, deleteGroup } from "../services/groupService";
 import { group } from "../Types";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -24,8 +24,8 @@ export const useGroup = () => {
 
   const fetchData = async () => {
     try {
-      const studentsData = await getGroup();
-      setGroup(studentsData);
+      const groupData = await getGroup();
+      setGroup(groupData);
     } catch (error) {
       console.error("Error al obtener los datos:", error);
     }
@@ -92,6 +92,32 @@ export const useGroup = () => {
     }));
   };
 
+  const deleteGroupData = async (id: group["id"]) => {
+    const result = await Swal.fire({
+      title: "¿Estás seguro?",
+      text: "¡No podrás recuperar este grupo después de eliminarlo!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, eliminarlo",
+      cancelButtonText: "Cancelar",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await deleteGroup(id);
+        Swal.fire("Eliminado!", "El grupo ha sido eliminado.", "success");
+        const groupData = await getGroup();
+        setGroup(groupData);
+      } catch (error) {
+        Swal.fire("Error!", "No se pudo eliminar el grupo.", "error");
+        console.error("Error al eliminar el grupo:", error);
+      }
+    } else {
+      Swal.fire("Cancelado", "El grupo no ha sido eliminado", "info");
+    }
+  };
 
   const reloadData = () => {
     setReload((prev) => !prev);
@@ -104,5 +130,6 @@ export const useGroup = () => {
     newGroup,
     setNewGroup,
     handleInputChange,
+    deleteGroupData,
   };
 };

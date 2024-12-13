@@ -19,7 +19,7 @@ interface Row {
 }
 
 const GroupTable: React.FC = () => {
-  const { group, reloadData } = useGroup();
+  const { group, reloadData, deleteGroupData } = useGroup();
   const { user } = useUser();
   const [searchTerm, setSearchTerm] = useState("");
   const [isMobile, setIsMobile] = useState(false);
@@ -52,6 +52,11 @@ const GroupTable: React.FC = () => {
     setIsModalOpen(true);
   };
 
+  const handleDelete = async (id: number) => {
+    await deleteGroupData(id);
+    reloadData();
+  };
+
   const columns = [
     {
       name: "Nombre",
@@ -68,21 +73,20 @@ const GroupTable: React.FC = () => {
 
     {
       name: "Acciones",
-      cell: () => (
+      cell: (row: Row) => (
         <div className="flex space-x-2 justify-between ">
-          {user.permissions.some((perm) =>
-            ["editar", "eliminar"].includes(perm)
-          ) ? (
+          {user.permissions.includes("editar") && (
             <>
               <button>
                 <MdOutlineEdit className="h-6 w-6" />
               </button>
-              <button>
-                <MdDeleteOutline className="h-6 w-6 text-red-600" />
-              </button>
             </>
-          ) : (
-            <div>Sin Acceso</div>
+          )}
+
+          {user.permissions.includes("eliminar") && (
+            <button onClick={() => handleDelete(row.id)}>
+              <MdDeleteOutline className="h-6 w-6 text-red-600" />
+            </button>
           )}
         </div>
       ),
@@ -128,7 +132,10 @@ const GroupTable: React.FC = () => {
           onClose={() => setIsModalOpen(false)}
           title="Grupos"
         >
-          <FormAddGroup onClose={() => setIsModalOpen(false)} reloadData={reloadData} />
+          <FormAddGroup
+            onClose={() => setIsModalOpen(false)}
+            reloadData={reloadData}
+          />
         </AddModal>
       </div>
     </>
