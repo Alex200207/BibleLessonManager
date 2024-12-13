@@ -6,11 +6,11 @@ import { useLesson } from "../../../hooks/useLesson";
 
 interface FormAddGroupProps {
   onClose: () => void;
+  reloadData: () => void;
 }
 
-const FormAddGroup: React.FC<FormAddGroupProps> = ({ onClose }) => {
-  const { newGroup, setNewGroup, handleSubmit, reloadData, handleInputChange } =
-    useGroup();
+const FormAddGroup: React.FC<FormAddGroupProps> = ({ onClose, reloadData }) => {
+  const { newGroup, setNewGroup, handleSubmit, handleInputChange } = useGroup();
   const { userList } = useUser();
   const { lessons } = useLesson();
 
@@ -26,7 +26,6 @@ const FormAddGroup: React.FC<FormAddGroupProps> = ({ onClose }) => {
         e.preventDefault();
         handleSubmit(() => {
           onClose();
-
           reloadData();
         });
       }}

@@ -19,7 +19,7 @@ interface Row {
 }
 
 const GroupTable: React.FC = () => {
-  const { group } = useGroup();
+  const { group, reloadData } = useGroup();
   const { user } = useUser();
   const [searchTerm, setSearchTerm] = useState("");
   const [isMobile, setIsMobile] = useState(false);
@@ -128,7 +128,7 @@ const GroupTable: React.FC = () => {
           onClose={() => setIsModalOpen(false)}
           title="Grupos"
         >
-          <FormAddGroup onClose={() => setIsModalOpen(false)} />
+          <FormAddGroup onClose={() => setIsModalOpen(false)} reloadData={reloadData} />
         </AddModal>
       </div>
     </>
