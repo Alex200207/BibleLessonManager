@@ -68,7 +68,7 @@ const Form = ({
       <div>
         <button
           type="submit"
-          className="w-full px-4 py-2 text-white bg-slate-800 rounded-lg hover:bg-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          className="w-full px-4 py-2 text-white bg-blue-700 rounded-lg hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           disabled={loading}
         >
           {loading ? (

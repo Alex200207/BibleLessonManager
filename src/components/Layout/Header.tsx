@@ -33,7 +33,8 @@ function Header({ toggleAside }: HeaderProps) {
         aria-label="Global"
       >
         <button onClick={toggleAside} className="h-8 w-auto">
-          <RiMenu2Fill className="w-6 h-6" />
+          <RiMenu2Fill className="w-6 h-6 " 
+           />
         </button>
 
         <div className="flex-1 flex justify-center lg:justify-start">
