@@ -30,7 +30,9 @@ const Header = () => {
 
             <button
               onClick={toggleMenu}
-              className="lg:hidden flex items-center text-slate-100 focus:outline-none"
+              className={`lg:hidden flex items-center text-slate-100 focus:outline-none transition-transform duration-300 ${
+                isMenuOpen ? "transform rotate-90" : ""
+              }`}
             >
               <GiHamburgerMenu className="w-6 h-6" />
             </button>
@@ -65,7 +67,7 @@ const Header = () => {
         }`}
       >
         <div className="flex justify-between items-center p-4 border-b border-gray-300">
-          <h2 className="text-lg font-semibold">Menú</h2>
+          <h2 className="text-xl font-bold text-gray-800">Menú</h2>
           <button
             onClick={toggleMenu}
             className="text-gray-600 hover:text-gray-900"
@@ -76,25 +78,25 @@ const Header = () => {
         <div className="flex flex-col p-4">
           <Link
             to="/about"
-            className="text-black px-4 py-2 hover:bg-gray-200 rounded-md transition-all duration-300 ease-in-out"
+            className="text-black px-4 py-2 hover:bg-gray-200 rounded-md transition-all duration-300 ease-in-out font-semibold"
             onClick={() => setIsMenuOpen(false)}
           >
             Acerca de
           </Link>
           <hr />
-            <div className="mt-4">
-              <h3 className="text-lg font-semibold mb-2">Redes sociales</h3>
-              <a
+          <div className="mt-4">
+            <h3 className="text-lg font-semibold mb-2">Redes sociales</h3>
+            <a
               className="text-black px-4 py-2 hover:bg-gray-200 rounded-md transition-all duration-300 ease-in-out flex items-center relative"
               href="https://www.facebook.com/profile.php?id=100092870447281&mibextid=LQQJ4d"
               target="_blank"
               rel="noopener noreferrer"
-              >
+            >
               <FaFacebook className="mr-2 w-5 h-5" />
               <span>Facebook</span>
               <span className="absolute bottom-0 left-0 w-full h-0.5 bg-black transform scale-x-0 transition-transform duration-300 ease-in-out hover:scale-x-100"></span>
-              </a>
-            </div>
+            </a>
+          </div>
         </div>
       </aside>
     </>
