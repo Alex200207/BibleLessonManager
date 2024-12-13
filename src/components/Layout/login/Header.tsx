@@ -14,7 +14,7 @@ const Header = () => {
 
   return (
     <>
-      <header className="backdrop-blur-md  border-white/10 py-4  fixed w-full top-0 z-50 transition-all duration-500 ease-in-out">
+      <header className="bg-[#030a27] bg-opacity-30 border-white/10 py-4 fixed w-full top-0 z-50 transition-all duration-500 ease-in-out">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
@@ -30,7 +30,7 @@ const Header = () => {
 
             <button
               onClick={toggleMenu}
-              className="lg:hidden flex items-center text-black focus:outline-none"
+              className="lg:hidden flex items-center text-slate-100 focus:outline-none"
             >
               <GiHamburgerMenu className="w-6 h-6" />
             </button>

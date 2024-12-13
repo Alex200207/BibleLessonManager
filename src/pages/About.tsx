@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { Code, Rocket,  Github } from 'lucide-react';
-import img from '../assets/image/@AlexApp.png';
+
 
 function About() {
   const sectionsRef = useRef<(HTMLDivElement | null)[]>([]);
@@ -31,7 +31,7 @@ function About() {
         <div 
           className="absolute inset-0 z-0"
           style={{
-            backgroundImage: `url(${img})`,
+            background: "linear-gradient(to bottom, #0a0f40, #2569a9)",
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             transform: 'translateZ(-1px) scale(2)',
