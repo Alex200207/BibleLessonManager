@@ -15,10 +15,11 @@ const AddLessonModal: React.FC = () => {
 
   const { reloadData } = useLesson();
   const { group } = useStudent();
-  const { user, userList } = useUser();
+  const { user } = useUser();
   const navigate = useNavigate();
 
   const [selectedTeacher, setSelectedTeacher] = useState<string | null>(null);
+  const { userList } = useUser();
 
   useEffect(() => {
     // Crea una copia local de newLesson para evitar modificaciones directas
@@ -39,10 +40,6 @@ const AddLessonModal: React.FC = () => {
     }
 
     // Asigna el grupo si el usuario no es admin
-    if (user.role !== "admin") {
-      updatedLesson.id_grupo =
-        group.find((g) => g.maestro_id === user.id)?.id || 0;
-    }
 
     // Actualiza el estado si realmente hay un cambio
     if (JSON.stringify(updatedLesson) !== JSON.stringify(newLesson)) {
@@ -143,40 +140,6 @@ const AddLessonModal: React.FC = () => {
           />
         </div>
 
-        {user.role === "admin" && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-slate-300">
-                Grupo
-              </label>
-              <select
-                name="id_grupo"
-                value={newLesson.id_grupo}
-                onChange={handleGroupChange}
-                className="border border-gray-300 rounded-md p-2 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm dark:bg-slate-600 dark:border-slate-500 dark:text-slate-100"
-              >
-                <option value="">Seleccione un grupo</option>
-                {group.map((g) => (
-                  <option key={g.id} value={g.id}>
-                    {g.nombre}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {selectedTeacher && (
-              <div>
-                <label className="inline text-sm font-medium text-gray-700 dark:text-slate-300">
-                  Maestro
-                </label>
-                <p className="text-sm bg-slate-100 border p-2 rounded-sm text-gray-600 dark:bg-slate-700 dark:text-slate-200">
-                  {selectedTeacher}
-                </p>
-              </div>
-            )}
-          </div>
-        )}
-
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-slate-300">
@@ -203,6 +166,39 @@ const AddLessonModal: React.FC = () => {
             />
           </div>
         </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-slate-300">
+            Grupo
+          </label>
+          <select
+            name="grupo_id"
+            value={newLesson.grupo_id ?? ""}
+            onChange={handleGroupChange}
+            className="border border-gray-300 rounded-md p-2 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm dark:bg-slate-600 dark:border-slate-500 dark:text-slate-100"
+          >
+            <option value="">Seleccione un grupo</option>
+            {group.map((g) => (
+              <option key={g.id} value={g.id}>
+                {g.nombre}
+              </option>
+            ))}
+          </select>
+        </div>
+        {user.role === "admin" && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {selectedTeacher && (
+              <div>
+                <label className="inline text-sm font-medium text-gray-700 dark:text-slate-300">
+                  Maestro
+                </label>
+                <p className="text-sm bg-slate-100 border p-2 rounded-sm text-gray-600 dark:bg-slate-700 dark:text-slate-200">
+                  {selectedTeacher}
+                </p>
+              </div>
+            )}
+          </div>
+        )}
 
         <div className="flex justify-between items-center mt-4">
           <button

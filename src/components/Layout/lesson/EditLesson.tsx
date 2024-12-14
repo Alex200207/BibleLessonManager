@@ -9,27 +9,27 @@ import "react-quill/dist/quill.snow.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useLesson } from "../../../hooks/useLesson";
 import { IoIosArrowRoundBack } from "react-icons/io";
+import { useUser } from "../../../hooks/useUser";
 
 const EditLesson: React.FC = () => {
   const { group } = useStudent();
   const { editLessonData, reloadData } = useLesson();
   const navigate = useNavigate();
   const location = useLocation();
+  const { user, userList } = useUser();
+  const [selectedTeacher, setSelectedTeacher] = useState<string | null>(null);
 
   const lessonData = location.state?.lesson; // Obtener la lección pasada desde Link
 
-  const [editedLesson, setEditedLesson] = useState<lesson>(
-    lessonData || {
-      id: 0,
-      tema: "",
-      descripcion: "",
-      pasaje_biblico: "",
-      id_grupo: 0,
-      fecha_inicio: new Date(),
-      fecha_fin: new Date(),
-      estado: 0,
-    }
-  );
+  const [editedLesson, setEditedLesson] = useState<lesson>(lessonData || {
+    id: 0,
+    tema: "",
+    descripcion: "",
+    fecha_inicio: new Date(),
+    fecha_fin: new Date(),
+    estado: 0,
+    grupo_id: 0,
+  });
 
   useEffect(() => {
     if (lessonData) {
@@ -65,9 +65,21 @@ const EditLesson: React.FC = () => {
     handleEditSave(editedLesson);
   };
 
+  const handleGroupChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const groupId = e.target.value;
+    const groupData = group.find((g) => g.id.toString() === groupId);
+    if (groupData) {
+      const teacher = userList.find(
+        (users) => users.id === groupData.maestro_id
+      );
+      setSelectedTeacher(teacher?.name || null);
+    }
+    handleChange(e); // Se asegura de que el estado también se actualice con el grupo seleccionado
+  };
+
   return (
     <div className="container mx-auto p-4">
-      <div className="flex justify-between  mb-4">
+      <div className="flex justify-between mb-4">
         <h2 className="text-lg font-semibold text-gray-800">Editar Lección</h2>
         <label
           className="text-blue-500 cursor-pointer"
@@ -97,9 +109,9 @@ const EditLesson: React.FC = () => {
             Grupo
           </label>
           <select
-            name="id_grupo"
-            value={editedLesson.id_grupo}
-            onChange={handleChange}
+            name="grupo_id"
+            value={editedLesson.grupo_id ?? ""}
+            onChange={handleGroupChange}
             className="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs"
           >
             <option value="">Seleccione un grupo</option>
@@ -110,6 +122,19 @@ const EditLesson: React.FC = () => {
             ))}
           </select>
         </div>
+
+        {user.role === "admin" && selectedTeacher && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="inline text-sm font-medium text-gray-700 dark:text-slate-300">
+                Maestro
+              </label>
+              <p className="text-sm bg-slate-100 border p-2 rounded-sm text-gray-600 dark:bg-slate-700 dark:text-slate-200">
+                {selectedTeacher}
+              </p>
+            </div>
+          </div>
+        )}
 
         <div className="space-y-2">
           <label className="block text-xs font-medium text-gray-700">

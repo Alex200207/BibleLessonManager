@@ -14,8 +14,8 @@ export const useGroup = () => {
     id: 0,
     nombre: "",
     descripcion: "",
-    maestro_id: 0,
-    leccion_id: 0,
+    maestro_id: null,
+ 
   });
 
   useEffect(() => {
@@ -66,8 +66,8 @@ export const useGroup = () => {
           id: 0,
           nombre: "",
           descripcion: "",
-          maestro_id: 0,
-          leccion_id: 0,
+          maestro_id: null,
+
         });
 
         reloadData();

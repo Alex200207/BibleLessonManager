@@ -1,7 +1,6 @@
 import "react-quill/dist/quill.snow.css";
 import { useGroup } from "../../../hooks/useGroup";
 import { useUser } from "../../../hooks/useUser";
-import { useLesson } from "../../../hooks/useLesson";
 
 interface FormAddGroupProps {
   onClose: () => void;
@@ -11,7 +10,6 @@ interface FormAddGroupProps {
 const FormAddGroup: React.FC<FormAddGroupProps> = ({ onClose, reloadData }) => {
   const { newGroup, setNewGroup, handleSubmit, handleInputChange } = useGroup();
   const { userList } = useUser();
-  const { lessons } = useLesson();
 
   return (
     <form
@@ -86,7 +84,7 @@ const FormAddGroup: React.FC<FormAddGroupProps> = ({ onClose, reloadData }) => {
         </label>
         <select
           name="maestro_id" // Cambiar de "teacher_id" a "maestro_id"
-          value={newGroup.maestro_id}
+          value={newGroup.maestro_id ?? ""}
           onChange={(e) =>
             handleInputChange({
               target: { name: e.target.name, value: e.target.value },
@@ -103,31 +101,7 @@ const FormAddGroup: React.FC<FormAddGroupProps> = ({ onClose, reloadData }) => {
         </select>
       </div>
 
-      <div className="mb-4">
-        <label
-          htmlFor="name"
-          className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-        >
-          Lección
-        </label>
-        <select
-          name="leccion_id" // Cambiar de "teacher_id" a "leccion_id"
-          value={newGroup.leccion_id}
-          onChange={(e) =>
-            handleInputChange({
-              target: { name: e.target.name, value: e.target.value },
-            } as React.ChangeEvent<HTMLInputElement>)
-          }
-          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
-        >
-          <option value="">Seleccione una lección</option>
-          {lessons.map((l) => (
-            <option key={l.id} value={l.id}>
-              {l.tema}
-            </option>
-          ))}
-        </select>
-      </div>
+      <div className="mb-4"></div>
 
       <div className="flex justify-end space-x-4 mt-6">
         <button

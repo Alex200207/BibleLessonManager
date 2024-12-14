@@ -21,7 +21,6 @@ interface Row {
   pasaje_biblico: string;
   fecha: Date;
   id_maestra: number;
-  id_grupo: number;
   fecha_inicio: Date;
   fecha_fin: Date;
   estado: number;
@@ -44,9 +43,9 @@ const Lesson: React.FC = () => {
       }
 
       // Otherwise, only show lessons assigned to the user's group
-      if (group && group.length > 0) {
+      if (lessons && lessons.length > 0) {
         // Filter based on the user's group
-        return lesson.id_grupo === group[0].id; // Assuming group[0] is the authenticated user's group
+        return lessons.find((g) => g.id === lesson.id);
       }
 
       // If no group or no lesson found, return false
@@ -117,12 +116,12 @@ const Lesson: React.FC = () => {
     },
     {
       name: "Maestr@",
-      cell: (row: Row) => findTeacherForStudent(row.id_grupo),
+      cell: (row: Row) => findTeacherForStudent(row.id_maestra),
       omit: isMobile,
     },
     {
       name: "Grupo",
-      cell: (row: Row) => findGroupName(row.id_grupo),
+      cell: (row: Row) => findGroupName( row.id_maestra),
       omit: isMobile,
     },
 

@@ -2,13 +2,11 @@ export interface kids {
   id: number;
   nombre: string;
   edad: number;
-  id_maestra?: number;
   genero: string;
   grupo_id: number;
   deleted_at?: Date;
   progreso: number;
   fecha?: Date;
-  
 }
 
 export interface lesson {
@@ -16,10 +14,10 @@ export interface lesson {
   tema: string;
   descripcion: string;
   pasaje_biblico: string;
-  id_grupo: number;
   estado: number;
   fecha_inicio?: Date;
   fecha_fin?: Date;
+  grupo_id?: number | null;
 }
 
 export interface score {
@@ -33,8 +31,7 @@ export interface group {
   nombre: string;
   descripcion: string;
   deleted_at?: Date;
-  maestro_id: number;
-  leccion_id: number;
+  maestro_id: number | null;
 }
 export interface users {
   id: number;
@@ -54,7 +51,6 @@ export interface Role {
   permissions: Permission[];
   updated_at?: Date;
 }
-
 
 export interface Permission {
   id: number;

@@ -82,10 +82,13 @@ const LessonDetailModal: React.FC<LessonDetailModalProps> = ({
             />
           </div>
           <div className="text-gray-700">
-            <strong>Maestr@:</strong> {findTeacherForGroup(lesson.id_grupo)}
+            <strong>Maestr@:</strong>{" "}
+            {lesson.grupo_id
+              ? findTeacherForGroup(lesson.grupo_id)
+              : "Sin maestro"}
           </div>
           <div className="text-gray-700">
-            <strong>Grupo:</strong> {findGroupName(lesson.id_grupo)}
+            <strong>Grupo:</strong> {findGroupName(group[0].id)}
           </div>
           <div className="text-gray-700">
             <strong>Texto:</strong> {lesson.pasaje_biblico}
