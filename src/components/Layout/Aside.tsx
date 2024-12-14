@@ -127,7 +127,7 @@ const Aside = ({ isOpened }: AsideProps) => {
                         ? lessons.length
                         : lessons.filter(
                             (l) =>
-                              l.id_grupo ===
+                              l.grupo_id ===
                               group.find((g) => g.maestro_id === user.id)?.id
                           ).length}
                     </span>

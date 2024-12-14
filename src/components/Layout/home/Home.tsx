@@ -132,7 +132,7 @@ function Home() {
       const leccionesDelGrupo = lessons.filter((lesson) =>
         group.some(
           (g) =>
-            g.id === lesson.id_grupo &&
+            g.id === lesson.grupo_id &&
             (g.maestro_id === user.id )
         )
       );
