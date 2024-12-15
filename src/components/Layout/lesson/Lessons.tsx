@@ -36,29 +36,25 @@ const Lesson: React.FC = () => {
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 
   const filteredLesson = lessons
-    .filter((lesson) => {
-      // If the user is an admin, show all lessons
-      if (user.role === "admin") {
-        return true;
-      }
+  .filter((lesson) => {
+    // Mostrar todas las lecciones si es admin
+    if (user.role === "admin") {
+      return true;
+    }
 
-      // Otherwise, only show lessons assigned to the user's group
-      if (lessons && lessons.length > 0) {
-        // Filter based on the user's group
-        return lessons.find((g) => g.id === lesson.id);
-      }
+    // Si no es admin, mostrar solo lecciones asignadas al maestro autenticado
+    const assignedGroup = group.find((g) => g.maestro_id === user.id); // Busca el grupo del maestro autenticado
+    return assignedGroup ? lesson.grupo_id === assignedGroup.id : false;
+  })
+  .filter((lesson) => {
+    // Filtrar según el término de búsqueda
+    return (
+      lesson.tema.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      lesson.descripcion.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      lesson.pasaje_biblico.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  });
 
-      // If no group or no lesson found, return false
-      return false;
-    })
-    .filter((lesson) => {
-      // Perform search filtering based on the input search term
-      return (
-        lesson.tema.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        lesson.descripcion.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        lesson.pasaje_biblico.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    });
 
   const dateFormater = (date: Date) => {
     const d = new Date(date);
@@ -121,7 +117,7 @@ const Lesson: React.FC = () => {
     },
     {
       name: "Grupo",
-      cell: (row: Row) => findGroupName( row.id_maestra),
+      cell: (row: Row) => findGroupName(row.id_maestra),
       omit: isMobile,
     },
 

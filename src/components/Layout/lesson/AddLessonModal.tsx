@@ -16,6 +16,7 @@ const AddLessonModal: React.FC = () => {
   const { reloadData } = useLesson();
   const { group } = useStudent();
   const { user } = useUser();
+  const { lessons } = useLesson();
   const navigate = useNavigate();
 
   const [selectedTeacher, setSelectedTeacher] = useState<string | null>(null);
@@ -45,16 +46,34 @@ const AddLessonModal: React.FC = () => {
     if (JSON.stringify(updatedLesson) !== JSON.stringify(newLesson)) {
       setNewLesson(updatedLesson);
     }
-  }, [user.role, group, newLesson, setNewLesson, user.id]);
+  }, [user.role, lessons, newLesson, setNewLesson, user.id]);
 
   const handleGroupChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const groupId = e.target.value;
-    const groupData = group.find((g) => g.id.toString() === groupId);
-    if (groupData) {
-      const teacher = userList.find((user) => user.id === groupData.maestro_id);
-      setSelectedTeacher(teacher?.name || null);
+    const lessonId = e.target.value; // Obtiene la lección seleccionada
+
+    // Busca la lección en la lista de lecciones usando el ID
+    const lessonData = lessons.find(
+      (lesson) => lesson.id.toString() === lessonId
+    );
+
+    if (lessonData) {
+      // Busca el grupo asociado a la lección
+      const groupData = lessons.find((g) => g.id === lessonData.grupo_id);
+
+      if (groupData) {
+        // Si el grupo existe, busca al maestro relacionado
+        const teacher = userList.find(
+          (user) =>
+            user.id === group.find((g) => g.id === groupData.id)?.maestro_id
+        );
+
+        // Actualiza el estado con el nombre del maestro (o null si no existe)
+        setSelectedTeacher(teacher?.name || null);
+      }
     }
-    handleInputChange(e); // Se asegura de que el estado también se actualice con el grupo seleccionado
+
+    // Actualiza el estado del formulario con la lección seleccionada
+    handleInputChange(e);
   };
 
   const handleDescriptionChange = (value: string) => {
@@ -167,24 +186,27 @@ const AddLessonModal: React.FC = () => {
           </div>
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-slate-300">
-            Grupo
-          </label>
-          <select
-            name="grupo_id"
-            value={newLesson.grupo_id ?? ""}
-            onChange={handleGroupChange}
-            className="border border-gray-300 rounded-md p-2 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm dark:bg-slate-600 dark:border-slate-500 dark:text-slate-100"
-          >
-            <option value="">Seleccione un grupo</option>
-            {group.map((g) => (
-              <option key={g.id} value={g.id}>
-                {g.nombre}
-              </option>
-            ))}
-          </select>
-        </div>
+        {user.role === "admin" && (
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-slate-300">
+              Grupo
+            </label>
+            <select
+              name="grupo_id"
+              value={newLesson.grupo_id ?? ""}
+              onChange={handleGroupChange}
+              className="border border-gray-300 rounded-md p-2 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm dark:bg-slate-600 dark:border-slate-500 dark:text-slate-100"
+            >
+              <option value="">Seleccione un grupo</option>
+              {group.map((g) => (
+                <option key={g.id} value={g.id}>
+                  {g.nombre}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+
         {user.role === "admin" && (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {selectedTeacher && (

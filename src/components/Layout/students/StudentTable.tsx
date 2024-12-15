@@ -61,9 +61,9 @@ const StudentTable: React.FC = () => {
       }
 
       // Si el usuario no es admin, solo muestra los estudiantes del grupo asignado al usuario
-      if (students && students.length > 0) {
+      if (group && group.length > 0) {
         // Filtra según el grupo asignado al usuario (suponiendo que group[0] es el grupo del usuario autenticado)
-        return students.find((s)=> s.id === student.id) // Asegurándote de que el grupo del estudiante coincida con el del usuario
+        return student.grupo_id === group[0].id // Asegurándote de que el grupo del estudiante coincida con el del usuario
       }
 
       // Si no hay grupo asignado o no se encuentra el estudiante, retorna false
@@ -77,6 +77,8 @@ const StudentTable: React.FC = () => {
         student.genero.toLowerCase().includes(searchTerm.toLowerCase())
       );
     });
+
+
 
   const visibleStudents = showDeleted
     ? filteredStudents.filter((student) => student.deleted_at)
