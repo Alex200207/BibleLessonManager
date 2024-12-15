@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { CiSaveDown2 } from "react-icons/ci";
 import { IoMdClose } from "react-icons/io";
 import { useStudent } from "../../../hooks/useStudent";
-
 import { kids } from "../../../Types";
+import { useUser } from "../../../hooks/useUser";
 
 interface EditModalProps {
   isOpen: boolean;
@@ -19,6 +19,7 @@ const EditModal: React.FC<EditModalProps> = ({
   onSave,
 }) => {
   const { group } = useStudent();
+  const { user } = useUser();
   const [editedStudent, setEditedStudent] = useState<kids>(
     student || {
       id: 0,
@@ -75,24 +76,26 @@ const EditModal: React.FC<EditModalProps> = ({
               className="border border-gray-300 rounded-md p-3 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Grupo
-            </label>
-            <select
-              name="grupo_id"
-              value={editedStudent.grupo_id}
-              onChange={handleChange}
-              className="border border-gray-300 rounded-md p-3 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="">Seleccione un grupo</option>
-              {group.map((g) => (
-                <option key={g.id} value={g.id}>
-                  {g.nombre}
-                </option>
-              ))}
-            </select>
-          </div>
+          {user.role === "admin" && (
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Grupo
+              </label>
+              <select
+                name="grupo_id"
+                value={editedStudent.grupo_id}
+                onChange={handleChange}
+                className="border border-gray-300 rounded-md p-3 w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">Seleccione un grupo</option>
+                {group.map((g) => (
+                  <option key={g.id} value={g.id}>
+                    {g.nombre}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
 
           <div>
             <label className="block text-sm font-medium text-gray-700">

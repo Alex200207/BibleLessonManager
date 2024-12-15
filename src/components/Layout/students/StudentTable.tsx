@@ -60,11 +60,8 @@ const StudentTable: React.FC = () => {
         return true;
       }
 
-      // Si el usuario no es admin, solo muestra los estudiantes del grupo asignado al usuario
-      if (group && group.length > 0) {
-        // Filtra según el grupo asignado al usuario (suponiendo que group[0] es el grupo del usuario autenticado)
-        return student.grupo_id === group[0].id // Asegurándote de que el grupo del estudiante coincida con el del usuario
-      }
+      const assignedGroup = group.find((g) => g.maestro_id === user.id); // Busca el grupo del maestro autenticado
+      return assignedGroup ? student.grupo_id === assignedGroup.id : false;
 
       // Si no hay grupo asignado o no se encuentra el estudiante, retorna false
       return false;
@@ -77,6 +74,8 @@ const StudentTable: React.FC = () => {
         student.genero.toLowerCase().includes(searchTerm.toLowerCase())
       );
     });
+
+
 
 
 

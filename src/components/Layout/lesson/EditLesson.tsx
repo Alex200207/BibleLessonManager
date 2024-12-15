@@ -21,15 +21,17 @@ const EditLesson: React.FC = () => {
 
   const lessonData = location.state?.lesson; // Obtener la lección pasada desde Link
 
-  const [editedLesson, setEditedLesson] = useState<lesson>(lessonData || {
-    id: 0,
-    tema: "",
-    descripcion: "",
-    fecha_inicio: new Date(),
-    fecha_fin: new Date(),
-    estado: 0,
-    grupo_id: 0,
-  });
+  const [editedLesson, setEditedLesson] = useState<lesson>(
+    lessonData || {
+      id: 0,
+      tema: "",
+      descripcion: "",
+      fecha_inicio: new Date(),
+      fecha_fin: new Date(),
+      estado: 0,
+      grupo_id: 0,
+    }
+  );
 
   useEffect(() => {
     if (lessonData) {
@@ -104,24 +106,26 @@ const EditLesson: React.FC = () => {
           />
         </div>
 
-        <div className="space-y-2">
-          <label className="block text-xs font-medium text-gray-700">
-            Grupo
-          </label>
-          <select
-            name="grupo_id"
-            value={editedLesson.grupo_id ?? ""}
-            onChange={handleGroupChange}
-            className="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs"
-          >
-            <option value="">Seleccione un grupo</option>
-            {group.map((g) => (
-              <option key={g.id} value={g.id}>
-                {g.nombre}
-              </option>
-            ))}
-          </select>
-        </div>
+        {user.role === "admin" && (
+          <div className="space-y-2">
+            <label className="block text-xs font-medium text-gray-700">
+              Grupo
+            </label>
+            <select
+              name="grupo_id"
+              value={editedLesson.grupo_id ?? ""}
+              onChange={handleGroupChange}
+              className="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs"
+            >
+              <option value="">Seleccione un grupo</option>
+              {group.map((g) => (
+                <option key={g.id} value={g.id}>
+                  {g.nombre}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
 
         {user.role === "admin" && selectedTeacher && (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
