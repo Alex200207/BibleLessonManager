@@ -23,30 +23,17 @@ const AddLessonModal: React.FC = () => {
   const { userList } = useUser();
 
   useEffect(() => {
-    // Crea una copia local de newLesson para evitar modificaciones directas
-    const updatedLesson = { ...newLesson };
-
-    // Verifica y convierte las fechas si es necesario
-    if (
-      updatedLesson.fecha_inicio &&
-      typeof updatedLesson.fecha_inicio === "string"
-    ) {
-      updatedLesson.fecha_inicio = new Date(updatedLesson.fecha_inicio);
+    if (user.role !== "admin") {
+      const grupoDelMaestro = group.find((g) => g.maestro_id === user.id);
+      if (grupoDelMaestro) {
+        setNewLesson((prevLesson) => ({
+          ...prevLesson,
+          grupo_id: grupoDelMaestro.id, // Asigna automáticamente el grupo
+        }));
+      }
     }
-    if (
-      updatedLesson.fecha_fin &&
-      typeof updatedLesson.fecha_fin === "string"
-    ) {
-      updatedLesson.fecha_fin = new Date(updatedLesson.fecha_fin);
-    }
-
-    // Asigna el grupo si el usuario no es admin
-
-    // Actualiza el estado si realmente hay un cambio
-    if (JSON.stringify(updatedLesson) !== JSON.stringify(newLesson)) {
-      setNewLesson(updatedLesson);
-    }
-  }, [user.role, lessons, newLesson, setNewLesson, user.id]);
+  }, [user.role, group, user.id, setNewLesson]);
+  
 
   const handleGroupChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const lessonId = e.target.value; // Obtiene la lección seleccionada
@@ -58,7 +45,7 @@ const AddLessonModal: React.FC = () => {
 
     if (lessonData) {
       // Busca el grupo asociado a la lección
-      const groupData = lessons.find((g) => g.id === lessonData.grupo_id);
+      const groupData = group.find((g) => g.id === lessonData.grupo_id);
 
       if (groupData) {
         // Si el grupo existe, busca al maestro relacionado
