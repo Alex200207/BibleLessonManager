@@ -93,26 +93,22 @@ const Aside = ({ isOpened }: AsideProps) => {
             {openMenus.planificacion && (
               <ul className="ml-6 space-y-2 mt-2 text-sm">
                 {/* Submenu items */}
-                <li>
-                  <Link
-                    to="/kid"
-                    className="flex items-center p-3 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors duration-200"
-                  >
-                    <PiStudentLight className="h-5 w-5 mr-2 text-gray-600 dark:text-gray-400" />
-                    <span className="flex-1 text-gray-800 dark:text-gray-200">
-                      Estudiantes
-                    </span>
-                    <span className="inline-flex items-center justify-center px-2 text-sm font-medium text-gray-800 bg-gray-200 rounded-full dark:bg-gray-700 dark:text-gray-300">
-                      {userRole === "admin"
-                        ? students.length
-                        : students.filter(
-                            (l) =>
-                              l.grupo_id ===
-                              group.find((g) => g.maestro_id === user.id)?.id
-                          ).length}
-                    </span>
-                  </Link>
-                </li>
+                {userRole === "admin" && (
+                  <li>
+                    <Link
+                      to="/group"
+                      className="flex items-center p-2 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700"
+                    >
+                      <MdGroup className="h-5 w-5 mr-2 text-gray-600 dark:text-gray-400" />
+                      <span className="flex-1 text-gray-800 dark:text-gray-200">
+                        Grupos
+                      </span>
+                      <span className="inline-flex items-center justify-center px-2 text-sm font-medium text-gray-800 bg-gray-200 rounded-full dark:bg-gray-700 dark:text-gray-300">
+                        {group.length}
+                      </span>
+                    </Link>
+                  </li>
+                )}
                 <li>
                   <Link
                     to="/lesson"
@@ -133,22 +129,27 @@ const Aside = ({ isOpened }: AsideProps) => {
                     </span>
                   </Link>
                 </li>
-                {userRole === "admin" && (
-                  <li>
-                    <Link
-                      to="/group"
-                      className="flex items-center p-2 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700"
-                    >
-                      <MdGroup className="h-5 w-5 mr-2 text-gray-600 dark:text-gray-400" />
-                      <span className="flex-1 text-gray-800 dark:text-gray-200">
-                        Grupos
-                      </span>
-                      <span className="inline-flex items-center justify-center px-2 text-sm font-medium text-gray-800 bg-gray-200 rounded-full dark:bg-gray-700 dark:text-gray-300">
-                        {group.length}
-                      </span>
-                    </Link>
-                  </li>
-                )}
+
+                <li>
+                  <Link
+                    to="/kid"
+                    className="flex items-center p-3 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors duration-200"
+                  >
+                    <PiStudentLight className="h-5 w-5 mr-2 text-gray-600 dark:text-gray-400" />
+                    <span className="flex-1 text-gray-800 dark:text-gray-200">
+                      Estudiantes
+                    </span>
+                    <span className="inline-flex items-center justify-center px-2 text-sm font-medium text-gray-800 bg-gray-200 rounded-full dark:bg-gray-700 dark:text-gray-300">
+                      {userRole === "admin"
+                        ? students.length
+                        : students.filter(
+                            (l) =>
+                              l.grupo_id ===
+                              group.find((g) => g.maestro_id === user.id)?.id
+                          ).length}
+                    </span>
+                  </Link>
+                </li>
               </ul>
             )}
           </li>
