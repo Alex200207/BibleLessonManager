@@ -14,6 +14,7 @@ import { useAuth } from "../utils/AuthProvider";
 import Profile from "../components/Layout/users/Profile";
 import EditLesson from "../components/Layout/lesson/EditLesson";
 import AddLessonModal from "../components/Layout/lesson/AddLessonModal";
+import EvaluationCreator from "../components/EvaluationCreator";
 
 
 
@@ -30,6 +31,7 @@ const AppRouter: React.FC = () => {
       <Route element={<PrivateRoutes />}>
         <Route path="/home" element={<Home />} />
         <Route path="/kid" element={<StudentTable />} />
+        <Route path="/evaluate" element={<EvaluationCreator />} />
         <Route path="/lesson" element={<Lesson />} />
         <Route
           path="/editLesson"

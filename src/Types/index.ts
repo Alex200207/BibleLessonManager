@@ -72,3 +72,20 @@ export interface Role {
   updated_at?: Date;
   permissions: Permission[]; // Relación con los permisos
 }
+export interface Cuestionario {
+  id: number;
+  evaluacion_id: number;
+  pregunta: string;
+  respuesta_correcta: string;
+}
+
+export interface Evaluaciones {
+  id: number;
+  maestro_id: number;
+  leccion_id: number;
+  titulo: string;
+  descripcion: string;
+  tipo_evaluacion_id: number;
+  fecha_creacion?: Date;
+  cuestionarios: Cuestionario[]; // Añadir una copia del type Cuestionario
+}

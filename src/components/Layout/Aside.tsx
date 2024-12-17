@@ -133,7 +133,7 @@ const Aside = ({ isOpened }: AsideProps) => {
                 <li>
                   <Link
                     to="/kid"
-                    className="flex items-center p-3 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors duration-200"
+                    className="flex items-center p-2 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors duration-200"
                   >
                     <PiStudentLight className="h-5 w-5 mr-2 text-gray-600 dark:text-gray-400" />
                     <span className="flex-1 text-gray-800 dark:text-gray-200">
@@ -147,6 +147,17 @@ const Aside = ({ isOpened }: AsideProps) => {
                               l.grupo_id ===
                               group.find((g) => g.maestro_id === user.id)?.id
                           ).length}
+                    </span>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/evaluate"
+                    className="flex items-center p-2 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors duration-200"
+                  >
+                    <FaUserShield className="h-5 w-5 mr-2 text-gray-600 dark:text-gray-400" />
+                    <span className="flex-1 text-gray-800 dark:text-gray-200">
+                      Evaluar Estudiantes
                     </span>
                   </Link>
                 </li>
