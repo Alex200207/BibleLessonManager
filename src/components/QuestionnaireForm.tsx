@@ -1,14 +1,10 @@
-import React, { useState } from 'react';
-import { ArrowLeft, Plus, Trash2 } from 'lucide-react';
-import { OpenQuestion } from '../../Types/evaluation';
+import React, { useState } from "react";
+import { Plus, Trash2 } from "lucide-react";
+import { OpenQuestion } from "../Types/evaluation";
 
-type Props = {
-  onBack: () => void;
-};
-
-export default function OpenEndedForm({ onBack }: Props) {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+export default function QuestionnaireForm() {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [questions, setQuestions] = useState<OpenQuestion[]>([]);
 
   const addQuestion = () => {
@@ -16,8 +12,8 @@ export default function OpenEndedForm({ onBack }: Props) {
       ...questions,
       {
         id: crypto.randomUUID(),
-        question: '',
-        expectedLength: 'medium',
+        question: "",
+        expectedLength: "medium",
       },
     ]);
   };
@@ -29,23 +25,18 @@ export default function OpenEndedForm({ onBack }: Props) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50  sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
-        <button
-          onClick={onBack}
-          className="flex items-center text-gray-600 hover:text-gray-900 mb-8"
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-8 bg-white p-8 rounded-lg shadow"
         >
-          <ArrowLeft className="h-5 w-5 mr-2" />
-          Back to types
-        </button>
-
-        <form onSubmit={handleSubmit} className="space-y-8 bg-white p-8 rounded-lg shadow">
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-8">Create Open-Ended Questions</h2>
-            
             <div className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700">Evaluation Title</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Nombre
+                </label>
                 <input
                   type="text"
                   value={title}
@@ -56,13 +47,19 @@ export default function OpenEndedForm({ onBack }: Props) {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700">Description</label>
-                <textarea
+                <label className="block text-sm font-medium text-gray-700">
+                  Leccion
+                </label>
+                <select
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  rows={3}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                />
+                >
+                  <option value="1">Leccion 1</option>
+                  <option value="2">Leccion 2</option>
+                  <option value="3">Leccion 3</option>
+                  <option value="4">Leccion 4</option>
+                </select>
               </div>
             </div>
           </div>
@@ -81,12 +78,19 @@ export default function OpenEndedForm({ onBack }: Props) {
             </div>
 
             {questions.map((question, index) => (
-              <div key={question.id} className="border rounded-lg p-6 space-y-4">
+              <div
+                key={question.id}
+                className="border rounded-lg p-6 space-y-4"
+              >
                 <div className="flex items-center justify-between">
                   <h4 className="text-md font-medium">Question {index + 1}</h4>
                   <button
                     type="button"
-                    onClick={() => setQuestions(questions.filter(q => q.id !== question.id))}
+                    onClick={() =>
+                      setQuestions(
+                        questions.filter((q) => q.id !== question.id)
+                      )
+                    }
                     className="text-red-500 hover:text-red-700"
                   >
                     <Trash2 className="h-5 w-5" />
@@ -115,7 +119,10 @@ export default function OpenEndedForm({ onBack }: Props) {
                       value={question.expectedLength}
                       onChange={(e) => {
                         const newQuestions = [...questions];
-                        newQuestions[index].expectedLength = e.target.value as 'short' | 'medium' | 'long';
+                        newQuestions[index].expectedLength = e.target.value as
+                          | "short"
+                          | "medium"
+                          | "long";
                         setQuestions(newQuestions);
                       }}
                       className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
