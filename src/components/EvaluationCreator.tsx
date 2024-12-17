@@ -9,17 +9,17 @@ export default function EvaluationCreator() {
   const [evaluationType, setEvaluationType] = useState<EvaluationType | null>(null);
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gray-50 p-6 dark:bg-gray-800 dark:text-white">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold text-gray-800 mb-8">Crear Evaluación</h1>
         
         {!evaluationType ? (
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 gap-6 dark:bg-gray-900 dark:text-white">
             <button
               onClick={() => setEvaluationType('questionnaire')}
-              className="flex flex-col items-center p-8 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow border border-gray-200"
+              className="flex flex-col items-center p-8 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow border border-gray-200 "
             >
-              <FileQuestion className="w-12 h-12 text-blue-600 mb-4" />
+              <FileQuestion className="w-12 h-12 text-blue-600 mb-4 " />
               <h2 className="text-xl font-semibold text-gray-800">Cuestionario</h2>
               <p className="text-gray-600 text-center mt-2">
                 Crear preguntas con opciones múltiples o respuestas abiertas

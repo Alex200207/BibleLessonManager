@@ -15,6 +15,7 @@ import { GoHistory } from "react-icons/go";
 import { FiUsers } from "react-icons/fi";
 import { useAuth } from "../../utils/AuthProvider";
 import { useUser } from "../../hooks/useUser";
+import { PiExam } from "react-icons/pi";
 
 interface AsideProps {
   isOpened: boolean;
@@ -155,7 +156,7 @@ const Aside = ({ isOpened }: AsideProps) => {
                     to="/evaluate"
                     className="flex items-center p-2 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors duration-200"
                   >
-                    <FaUserShield className="h-5 w-5 mr-2 text-gray-600 dark:text-gray-400" />
+                    <PiExam className="h-5 w-5 mr-2 text-gray-600 dark:text-gray-400" />
                     <span className="flex-1 text-gray-800 dark:text-gray-200">
                       Evaluar Estudiantes
                     </span>
